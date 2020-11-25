@@ -1,6 +1,6 @@
 [paths]
 source =
-    rabid_armadillo/
+    django_twined/
 
 [run]
 omit =

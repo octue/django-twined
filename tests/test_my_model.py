@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from rabid_armadillo.models import MyModel
+from django_twined.models import MyModel
 
 
 class MyModelTestCase(TestCase):

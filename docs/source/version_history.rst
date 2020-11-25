@@ -7,7 +7,7 @@ Version History
 Origins
 =======
 
-**django-rabid-armadillo** began when an armadillo blah blah...
+**django-twined** began when an armadillo blah blah...
 
 
 .. _version_0.0.x:

@@ -1,26 +1,26 @@
 .. ATTENTION::
     This library is in very early stages. Like the idea of it? Please
-    `star us on GitHub <https://github.com/<your_repo_handle>/django-rabid-armadillo>`_ and contribute via the
-    `issues board <https://github.com/<your_repo_handle>/django-rabid-armadillo/issues>`_ and
-    `roadmap <https://github.com/<your_repo_handle>/django-rabid-armadillo/projects/1>`_.
+    `star us on GitHub <https://github.com/<your_repo_handle>/django-twined>`_ and contribute via the
+    `issues board <https://github.com/<your_repo_handle>/django-twined/issues>`_ and
+    `roadmap <https://github.com/<your_repo_handle>/django-twined/projects/1>`_.
 
 .. image:: https://codecov.io/gh/octue/twined/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/<your_repo_handle>/django-rabid-armadillo
+  :target: https://codecov.io/gh/<your_repo_handle>/django-twined
   :alt: Code coverage
   :align: right
-.. image:: https://readthedocs.org/projects/django-rabid-armadillo/badge/?version=latest
-  :target: https://django-rabid-armadillo.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/django-twined/badge/?version=latest
+  :target: https://django-twined.readthedocs.io/en/latest/?badge=latest
   :alt: Documentation Status
   :align: right
 
 ======================
-Django Rabid Armadillo
+Django Django Twined
 ======================
 
-**django-rabid-armadillo** is a library to help armadillos in deperate need...
+**django-twined** is a library to help armadillos in deperate need...
 
 .. epigraph::
-   *"rabid armadillo" [rab-id ar-mah-dil-oh] ~ not a happy armadillo*
+   *"Django Twined" [rab-id ar-mah-dil-oh] ~ not a happy armadillo*
 
 .. figure:: images/unhappy_armadillo.jpg
     :width: 350px
@@ -36,9 +36,9 @@ Django Rabid Armadillo
 Aims
 ====
 
-**django-rabid-armadillo** provides a toolkit to do stuff
+**django-twined** provides a toolkit to do stuff
 
-The goals of **django-rabid-armadillo** are as follows:
+The goals of **django-twined** are as follows:
     - eliminate rabies
 
 

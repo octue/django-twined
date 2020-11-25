@@ -4,12 +4,12 @@
 License
 =======
 
-<copyright_owner> maintains **django-rabid-armadillo** as an open source project, under the MIT license.
+Octue Ltd maintains **django-twined** as an open source project, under the MIT license.
 
 The boring bit
 ==============
 
-Copyright (c) 2020 <copyright_owner>, All Rights Reserved.
+Copyright (c) 2020 Octue Ltd, All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,5 +33,5 @@ SOFTWARE.
 Third Party Libraries
 =====================
 
-**django-rabid-armadillo** includes or is linked against the following third party libraries:
+**django-twined** includes or is linked against the following third party libraries:
 

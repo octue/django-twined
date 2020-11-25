@@ -1,6 +1,6 @@
 
 from django.db.models import CharField
-from rabid_armadillo.models import MyAbstractModel
+from django_twined.models import MyAbstractModel
 
 
 class Armadillo(MyAbstractModel):

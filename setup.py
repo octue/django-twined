@@ -18,14 +18,14 @@ with open("README.md") as f:
     readme_text = f.read()
 
 setup(
-    name="rabid_armadillo",
+    name="django_twined",
     version="0.0.1",
     description="An app to save the armadillos",
     long_description=readme_text,
     long_description_content_type="text/markdown",
-    author="<your_github_handle>",
+    author="octue",
     author_email="withheld.find@me.at.github.com",
-    url="https://github.com/<your_github_handle>/django-rabid-armadillo",
+    url="https://github.com/octue/django-twined",
     packages=find_packages(exclude=("tests", "docs")),
     license="MIT",
     classifiers=[

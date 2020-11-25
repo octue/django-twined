@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "channels",
-    "rabid_armadillo",
+    "django_twined",
     "tests",
 ]
 
@@ -47,7 +47,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(PROJECT_DIR, "rabid_armadillo", "templates")],
+        "DIRS": [os.path.join(PROJECT_DIR, "django_twined", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
