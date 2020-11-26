@@ -242,7 +242,7 @@ texinfo_documents = [
         u"Django Twined",
         u"Octue Ltd",
         "Django Twined",
-        "Django Twined is a library to help armadillos with their rabies problems.",
+        "Django Twined is a library.",
         "Miscellaneous",
     ),
 ]
