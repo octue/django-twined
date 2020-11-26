@@ -6,33 +6,6 @@ Quick Start
 
 
 .. ATTENTION::
-    LIBRARY IS UNDER CONSTRUCTION! WATCH THIS SPACE!
+    LIBRARY IS UNSTABLE! WATCH THIS SPACE!
 
-.. _create_thing:
-
-Create your first thing
-=======================
-
-Text
-
-.. code-block:: javascript
-
-   {
-	   "title": "stuff",
-	   "description": "stuff"
-   }
-
-Refer to stuff like :ref:`create_thing`.
-
-.. _load_thing:
-
-Load the thing
-==============
-
-**bold** normal:
-
-.. code-block:: py
-
-    from django_twined.models import MyModel
-
-    # you get the picture
+    We suggest at this point you don't try to use this yourself; contact Octue for support and we'll help you out.

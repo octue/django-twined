@@ -22,16 +22,6 @@ You'll need to install it as an app in your django settings:
         'django_twined'
         ...
 
-Then run migrations:
-
-.. code-block:: bash
-
-    python manage.py makemigrations
-
-
-.. _compilation:
-
-Compilation
-============
-
-There is presently no need to compile **django-twined**, as it's written entirely in python. Yay.
+There is presently no need to run ``makemigrations`` because django-twined deliberately doesn't create models
+(enabling it to run without a database). It does provide abstract models for you to use in your wider application
+though.
