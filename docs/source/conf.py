@@ -28,8 +28,6 @@ sys.path.insert(0, os.path.abspath("./_ext"))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-# Breate and exhale are added as recommended by:
-#   https://exhale.readthedocs.io/en/latest/usage.html#usage-quickstart-guide
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.doctest",

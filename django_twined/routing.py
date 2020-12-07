@@ -1,8 +1,10 @@
 from django.urls import path
 
-from .consumers import MyConsumer
+from .consumers import AnalysisConsumer, ServiceConsumer
 
 
 websocket_urlpatterns = [
-    path(r"my-consumer/", MyConsumer.as_asgi()),
+    path(r"service/", ServiceConsumer.as_asgi()),
+    path(r"analyses/", AnalysisConsumer.as_asgi()),
+    path(r"analyses/<uuid:analysis_id>/", AnalysisConsumer.as_asgi()),
 ]
