@@ -1,7 +1,7 @@
 import pytest
 from channels.testing import WebsocketCommunicator
 
-from tests.asgi import application
+from tests.test_server.asgi import application
 
 
 @pytest.mark.asyncio
