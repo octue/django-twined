@@ -3,7 +3,8 @@ import uuid
 import dramatiq
 import pytest
 from channels.testing import WebsocketCommunicator
-from server.app.routing import application
+
+from tests.test_server.routing import application
 
 
 @pytest.fixture

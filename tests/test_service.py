@@ -1,7 +1,7 @@
 import dramatiq
 import pytest
 from channels.testing import WebsocketCommunicator
-from server.reel.consumers import ServiceConsumer
+from django_twined.consumers import ServiceConsumer
 
 
 @pytest.fixture
