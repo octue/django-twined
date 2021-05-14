@@ -39,6 +39,12 @@ setup(
         "Operating System :: OS Independent",
     ],
     include_package_data=True,
-    install_requires=["django>=3.0,<4.0", "channels>=3.0,<4.0", "django-dramatiq>=0.9,<1.0", "octue==0.1.4"],
+    install_requires=[
+        "django>=3.0,<4.0",
+        "channels>=3.0,<4.0",
+        "django-dramatiq>=0.9,<1.0",
+        "octue==0.1.4",
+        "pika>=1.1",
+    ],
     keywords=["django", "armadillos"],
 )

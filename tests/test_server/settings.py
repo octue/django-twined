@@ -66,7 +66,7 @@ TEMPLATES = [
 
 DATABASES = {"default": get_db_conf()}
 
-ROOT_URLCONF = "tests.urls"
+ROOT_URLCONF = "tests.test_server.urls"
 
 STATIC_URL = "static_test/"
 
@@ -78,4 +78,4 @@ USE_TZ = True
 
 SECRET_KEY = "secretkey"
 
-ASGI_APPLICATION = "tests.asgi.application"
+ASGI_APPLICATION = "tests.test_server.asgi.application"
