@@ -37,12 +37,10 @@ MESSAGE_FIELDS = (
 
 
 class ReelMessage:
-    """ Class to manage incoming and outgoing messages
-    """
+    """Class to manage incoming and outgoing messages"""
 
     def __init__(self, src=None, **kwargs):
-        """ Constructor for ServiceMessage
-        """
+        """Constructor for ServiceMessage"""
         if src is not None:
             kwargs = {
                 **json.loads(src),
@@ -70,13 +68,12 @@ class ReelMessage:
         self.__dict__ = dict((k, kwargs.get(k, None)) for k in MESSAGE_FIELDS)
 
     def serialise(self):
-        """ Serialise self to a string
-        """
+        """Serialise self to a string"""
         to_serialise = dict((k, getattr(self, k)) for k in MESSAGE_FIELDS if getattr(self, k) is not None)
         return json.dumps(to_serialise)
 
     def send(self, obj):
-        """ Send this message to an individual channel name
+        """Send this message to an individual channel name
         Also sends a signal allowing 3rd party apps to execute callbacks for certain messages
         """
         serialised = self.serialise()
@@ -85,7 +82,7 @@ class ReelMessage:
         reel_message_sent.send(sender=self.__class__, message=self, to_channel=obj, to_group=None)
 
     def group_send(self, group_name, message_type="reel_message"):
-        """ Send this message to a group over channels
+        """Send this message to a group over channels
         Also sends a signal allowing 3rd party apps to execute callbacks for certain messages
         """
         serialised = self.serialise()

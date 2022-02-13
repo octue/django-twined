@@ -1,15 +1,19 @@
-.. _license:
+# ATTRIBUTION
 
-=======
-License
-=======
+In addition to some modules of our own, `django-twined` is based code drawn in from other projects.
 
-Octue Ltd maintains **django-twined** as an open source project, under the MIT license.
+The nature of OSS is to stand on the shoulders of giants, and we owe them a ton... here are their licenses:
 
-The boring bit
-==============
+## django-rabid-armadillo
 
-Copyright (c) 2020 Octue Ltd, All Rights Reserved.
+The template code.
+
+<details>
+  <summary>Show license</summary>
+
+MIT License
+
+Based on django-app-template, Copyright (c) 2020-2022 Tom Clark
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +33,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-
-Third Party Libraries
-=====================
-
-**django-twined** includes or is linked against the following third party libraries:
+</details>

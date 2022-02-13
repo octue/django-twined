@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class AnalysisLogConsumer(WebsocketConsumer):
-    """ A consumer allowing logs for an analysis to be streamed in plain text directly from a python logger, then
+    """A consumer allowing logs for an analysis to be streamed in plain text directly from a python logger, then
     converted into ReelMessages which get logged to the analysis group.
     """
 
@@ -20,11 +20,9 @@ class AnalysisLogConsumer(WebsocketConsumer):
         return f"analysis-{self.analysis_id}"
 
     def connect(self):
-        """ Accept connection to to enable log forwarding to the analysis group
-        """
+        """Accept connection to to enable log forwarding to the analysis group"""
         self.accept()
 
     def receive(self, text_data=None, bytes_data=None):
-        """ Receive log text, wrap it properly as part of the messaging system and forward it to the analysis group
-        """
+        """Receive log text, wrap it properly as part of the messaging system and forward it to the analysis group"""
         ReelMessage(action="log", value=text_data).group_send(self.analysis_group_name)
