@@ -5,7 +5,7 @@ def get_db_conf():
     """
     Configures database according to the DATABASE_ENGINE environment
     variable. Defaults to SQlite.
-    This method is used to let Travis run against different database backends.
+    This method is used to let tests run against different database backends.
     """
     database_engine = os.environ.get("DATABASE_ENGINE", "sqlite")
     if database_engine == "sqlite":
