@@ -1,5 +1,0 @@
-include LICENSE
-include README.md
-recursive-include django_twined/static *
-recursive-include django_twined/templates *
-recursive-include docs *
