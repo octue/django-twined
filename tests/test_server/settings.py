@@ -79,3 +79,22 @@ USE_TZ = True
 SECRET_KEY = "secretkey"
 
 ASGI_APPLICATION = "tests.test_server.asgi.application"
+
+
+# DJANGO TWINED
+
+TWINED_DATA_STORES = {
+    # "mast-timeseries": {
+    # "model": "myapp.MyDatalakeModel",
+    # "storage": "settings._storages.GoogleCloudWithMetaStorage",
+    # "storage_settings": {
+    #     "bucket_name": "test-my-datalake",
+    #     "credentials": GS_CREDENTIALS,
+    #     "project_id": GS_PROJECT_ID,
+    #     "file_overwrite": True,
+    # },
+    # }
+}
+
+
+TWINED_SERVICES = [{"service_name": "my-service", "topic_id": "a02e5e86-5aea-4cd5-80f0-d48ef1fbfba3"}]
