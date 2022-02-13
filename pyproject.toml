@@ -20,7 +20,7 @@ keywords = ["django", "services", "octue", "twined"]
 packages = [{ include = "django_twined" },]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 django = ">=3.0,<4.0"
 channels = ">=3.0,<4.0"
 octue = "0.10.4"
