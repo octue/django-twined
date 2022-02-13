@@ -1,5 +1,12 @@
 from django.contrib import admin
-from django_twined.models import MyModel
+
+from .models import RegisteredService
 
 
-admin.site.register(MyModel)
+class RegisteredServiceAdmin(admin.ModelAdmin):
+    search_fields = ["id", "name"]
+    list_display = ("id", "name")
+    readonly_fields = ("id", "name")
+
+
+admin.site.register(RegisteredService, RegisteredServiceAdmin)
