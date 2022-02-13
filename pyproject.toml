@@ -40,6 +40,7 @@ sphinx-rtd-theme = "^1.0.0"
 sphinx-tabs = "^3.2.0"
 sphinx-charts = "^0.1.2"
 Sphinx = "^4.4.0"
+django-dramatiq = "^0.10.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
