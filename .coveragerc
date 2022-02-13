@@ -1,9 +1,0 @@
-[paths]
-source =
-    django_twined/
-
-[run]
-omit =
-    env/*
-    */tests/*
-    */migrations/*
