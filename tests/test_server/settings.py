@@ -13,11 +13,11 @@ def get_db_conf():
     elif database_engine == "postgres":
         return {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "travis_ci_test",
-            "USER": "postgres",
-            "PASSWORD": "",
-            "HOST": "127.0.0.1",
-            "PORT": "",
+            "NAME": "postgres_db",
+            "USER": "postgres_user",
+            "PASSWORD": "postgres_password",
+            "HOST": "localhost",
+            "PORT": "5432",
         }
 
 
