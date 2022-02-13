@@ -1,6 +1,6 @@
 import logging
 from django.conf import settings
-from django.contrib.gis.db import models
+from django.db import models
 from django.utils.module_loading import import_string
 
 
