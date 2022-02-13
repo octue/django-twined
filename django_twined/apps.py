@@ -5,7 +5,7 @@ from django.apps import AppConfig
 from django.utils.translation import gettext_lazy as _
 
 
-class TwinedAppConfig(AppConfig):
+class DjangoTwinedAppConfig(AppConfig):
     """Configuration and signal registration for the django_twined app"""
 
     name = "django_twined"
