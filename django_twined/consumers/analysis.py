@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class AnalysisConsumer(WebsocketConsumer):
-    """ A consumer allowing creation and monitoring of analyses
+    """A consumer allowing creation and monitoring of analyses
 
 
     ~~ When in danger or in doubt, run in circles, scream and shout ~~
@@ -29,8 +29,7 @@ class AnalysisConsumer(WebsocketConsumer):
     """
 
     def connect(self):
-        """ Accept connection to the analysis, and forward any prior messages to the client
-        """
+        """Accept connection to the analysis, and forward any prior messages to the client"""
         self.group_id = str(self.scope["url_route"]["kwargs"].get("analysis_id", uuid4()))
 
         # Set the group name
@@ -47,13 +46,11 @@ class AnalysisConsumer(WebsocketConsumer):
             self.send(text_data=message)
 
     def disconnect(self, close_code):
-        """ Accept a disconnection from the analysis gracefully
-        """
+        """Accept a disconnection from the analysis gracefully"""
         async_to_sync(self.channel_layer.group_discard)(self.group_name, self.channel_name)
 
     def receive(self, text_data=None, bytes_data=None):
-        """ Receive service instructions from WebSocket
-        """
+        """Receive service instructions from WebSocket"""
 
         # Get the incoming message data
         try:
@@ -71,7 +68,10 @@ class AnalysisConsumer(WebsocketConsumer):
 
         except Exception as e:
             logger.error(e.args[0])
-            ReelMessage(action=message.action, status="error",).send(self)
+            ReelMessage(
+                action=message.action,
+                status="error",
+            ).send(self)
             return
 
         # # Append changes to the cache for this room, allowing us to flush all changes through to new connection
@@ -91,6 +91,5 @@ class AnalysisConsumer(WebsocketConsumer):
         # await self.channel_layer.group_send(self.room_group_name, data)
 
     def reel_message(self, event):
-        """ Send a message from the analysis to the client, serialising if necessary
-        """
+        """Send a message from the analysis to the client, serialising if necessary"""
         self.send(text_data=event["message"])

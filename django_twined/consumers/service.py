@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class ServiceConsumer(WebsocketConsumer):
-    """ A high-level consumer allowing subscription to service messages, resource messages and the current twine.
+    """A high-level consumer allowing subscription to service messages, resource messages and the current twine.
 
     Resource messages are sent only to a subset of clients (like members of a chat room).
 
@@ -23,15 +23,14 @@ class ServiceConsumer(WebsocketConsumer):
 
     @property
     def service_name(self):
-        """ The service name for this connection
-        """
+        """The service name for this connection"""
         # NB We define this as a property so it's an instance attribute, rather than a class attribute, without
         # having to overload __init__.
         return str(self.scope["url_route"]["kwargs"].get("service_name", None))
 
     @property
     def service_version(self):
-        """ The service version for this connection
+        """The service version for this connection
 
         TODO ACTUALLY GET THIS OUT PROPERLY - Currently uses the default. Figure out a good way of listing the available
          services and versions. Possibly using a service table. Also need to consider the channel layer name which
@@ -44,15 +43,13 @@ class ServiceConsumer(WebsocketConsumer):
 
     @property
     def resource_name(self):
-        """ The resource group name for this connection, if any
-        """
+        """The resource group name for this connection, if any"""
         # NB We define this as a property so it's an instance attribute, rather than a class attribute, without
         # having to overload __init__.
         return str(self.scope["url_route"]["kwargs"].get("resource_name", None))
 
     def connect(self):
-        """ Accept connection to the service, and send twine to the client as acknowledgement
-        """
+        """Accept connection to the service, and send twine to the client as acknowledgement"""
 
         # The service name should be given in the URL somewhere, if not, don't accept the connection
         if self.service_name is None:
@@ -74,8 +71,7 @@ class ServiceConsumer(WebsocketConsumer):
         self._send_twine()
 
     def disconnect(self, code):
-        """ Accept a disconnection from the service and associated groups gracefully
-        """
+        """Accept a disconnection from the service and associated groups gracefully"""
 
         # Disconnect from the service
         async_to_sync(self.channel_layer.group_discard)(self.service_name, self.channel_name)
@@ -85,8 +81,7 @@ class ServiceConsumer(WebsocketConsumer):
             async_to_sync(self.channel_layer.group_discard)(self.resource_name, self.channel_name)
 
     def receive(self, text_data=None, bytes_data=None):
-        """ Receive service instructions from WebSocket
-        """
+        """Receive service instructions from WebSocket"""
 
         # Parse the incoming message data
         try:
@@ -138,8 +133,7 @@ class ServiceConsumer(WebsocketConsumer):
             ).send(self)
 
     def _send_twine(self):
-        """ Refresh the client with everything it needs to know about the twine and the analyses it has going on
-        """
+        """Refresh the client with everything it needs to know about the twine and the analyses it has going on"""
 
         app_path = settings.TWINED_SERVICES[self.service_name][self.service_version]["path"]
         with open(os.path.join(app_path, "twine.json")) as fp:

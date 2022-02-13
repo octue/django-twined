@@ -41,4 +41,3 @@ Backward Incompatible API Changes
 Bug Fixes & Minor Changes
 -------------------------
 #. n/a (Initial Release)
-

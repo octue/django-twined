@@ -1,2 +1,1 @@
-
-default_app_config = 'django_twined.apps.DjangoTwinedAppConfig'
+default_app_config = "django_twined.apps.DjangoTwinedAppConfig"

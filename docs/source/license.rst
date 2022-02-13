@@ -34,4 +34,3 @@ Third Party Libraries
 =====================
 
 **django-twined** includes or is linked against the following third party libraries:
-

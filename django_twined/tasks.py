@@ -14,8 +14,7 @@ INPUT_STRANDS = ("input_values", "input_manifest", "credentials", "children")
 
 @dramatiq.actor
 def asker(service_name, service_version, analysis_id, logger_uri=None, input_values=None, input_manifest=None):
-    """ We probably want to replace all this with GCP Pub/Sub and a set of service accounts
-    """
+    """We probably want to replace all this with GCP Pub/Sub and a set of service accounts"""
 
     # Acknowledge the start of the run
     ask_group_name = f"analysis-{analysis_id}"
@@ -26,7 +25,11 @@ def asker(service_name, service_version, analysis_id, logger_uri=None, input_val
         service_configuration = settings.SERVICES[service_name][service_version]
         app_path = service_configuration.pop("app_path")
         twine_file = os.path.join(app_path, "twine.json")
-        runner = Runner(twine=twine_file, logger_uri=logger_uri, **service_configuration,)
+        runner = Runner(
+            twine=twine_file,
+            logger_uri=logger_uri,
+            **service_configuration,
+        )
         logger.debug(f"Configured Runner for analysis {analysis_id}. Running...")
 
         # Run the app
@@ -57,8 +60,7 @@ def asker(service_name, service_version, analysis_id, logger_uri=None, input_val
 
 
 def ask(analysis_id, message):
-    """ Start the ask process. Returns a ReelMessage that can be sent to confirm the ask has been queued.
-    """
+    """Start the ask process. Returns a ReelMessage that can be sent to confirm the ask has been queued."""
 
     # Get only the twine arguments
     kwargs = dict((k, getattr(message, k, None)) for k in INPUT_STRANDS)
