@@ -1,3 +1,6 @@
+# Disables for testing:
+# pylint: disable=missing-docstring
+
 # import dramatiq
 # import pytest
 # from channels.testing import WebsocketCommunicator

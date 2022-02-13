@@ -1,3 +1,6 @@
+# Disables for testing:
+# pylint: disable=missing-docstring
+
 from django.test import TestCase
 from django_twined.models import MyModel
 
