@@ -1302,7 +1302,7 @@ python-dotenv = "*"
 
 [[package]]
 name = "twisted"
-version = "22.1.0"
+version = "22.2.0"
 description = "An asynchronous networking framework written in Python"
 category = "main"
 optional = false
@@ -1446,8 +1446,8 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9"
-content-hash = "8246f8ef7b5af7f8db565902841ea9c23683dfab16ddf97e2f637d5f9e5e45c4"
+python-versions = "^3.8"
+content-hash = "a1949b06dc6156ca51818ce33cda19f3c1735263d3d48f8788b1c2892293406a"
 
 [metadata.files]
 alabaster = [
@@ -2237,8 +2237,8 @@ twined = [
     {file = "twined-0.1.0.tar.gz", hash = "sha256:5c2d12f8639cbd03b86959991f1ce2f2934a4b616806fd1994cb584256198971"},
 ]
 twisted = [
-    {file = "Twisted-22.1.0-py3-none-any.whl", hash = "sha256:ccd638110d9ccfdc003042aa3e1b6d6af272eaca45d36e083359560549e3e848"},
-    {file = "Twisted-22.1.0.tar.gz", hash = "sha256:b7971ec9805b0f80e1dcb1a3721d7bfad636d5f909de687430ce373979d67b61"},
+    {file = "Twisted-22.2.0-py3-none-any.whl", hash = "sha256:5c63c149eb6b8fe1e32a0215b1cef96fabdba04f705d8efb9174b1ccf5b49d49"},
+    {file = "Twisted-22.2.0.tar.gz", hash = "sha256:57f32b1f6838facb8c004c89467840367ad38e9e535f8252091345dba500b4f2"},
 ]
 twisted-iocpsupport = [
     {file = "twisted-iocpsupport-1.0.2.tar.gz", hash = "sha256:72068b206ee809c9c596b57b5287259ea41ddb4774d86725b19f35bf56aa32a9"},
