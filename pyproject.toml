@@ -23,7 +23,7 @@ packages = [{ include = "django_twined" },]
 python = "^3.8"
 django = ">=3.0,<4.0"
 channels = ">=3.0,<4.0"
-octue = "0.10.4"
+octue = "^0.14.0"
 pika = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
