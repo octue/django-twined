@@ -164,11 +164,13 @@ class AbstractSynchronisedDatastore(models.Model):
 
     @classmethod
     def get_storage(cls):
+        """Return the storage object for this Datastore"""
         mapped_fields = dict((field.attname, field) for field in cls._meta.concrete_fields)
         return mapped_fields[cls.__FILE_FIELD__].storage
 
     @classmethod
     def get_storage_settings(cls):
+        """Return a dict of settings of the storage for this Datastore"""
         mapped_fields = dict((field.attname, field) for field in cls._meta.concrete_fields)
         return mapped_fields[cls.__FILE_FIELD__].store["storage_settings"]
 
@@ -183,6 +185,7 @@ class AbstractSynchronisedDatastore(models.Model):
 
     @property
     def gs_path(self):
+        """Return the qualified pathway of this object on GCS."""
         return f"gs://{self._storage.bucket_name}/{self._location}"
 
     def _todo_expose_on_sdk(self, metadata):
