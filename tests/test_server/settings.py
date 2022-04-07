@@ -80,20 +80,21 @@ SECRET_KEY = "secretkey"
 
 ASGI_APPLICATION = "tests.test_server.asgi.application"
 
+GCP_STORAGE_EXTRA_STORES = {"store_key": {"bucket_name": "test-django-twined"}}
+
 
 # DJANGO TWINED
 
 TWINED_DATA_STORES = {
-    # "mast-timeseries": {
-    # "model": "myapp.MyDatalakeModel",
-    # "storage": "settings._storages.GoogleCloudWithMetaStorage",
-    # "storage_settings": {
-    #     "bucket_name": "test-my-datalake",
-    #     "credentials": GS_CREDENTIALS,
-    #     "project_id": GS_PROJECT_ID,
-    #     "file_overwrite": True,
-    # },
-    # }
+    "django-twined-concrete-store": {
+        "model": "tests.ConcreteSynchronisedDatastore",
+        "storage": "django_gcp.storage.GoogleCloudStorage",
+        "storage_settings": {
+            "bucket_name": "test-django-twined-concrete-store",
+            "project_id": "twined-314619",
+            "file_overwrite": True,
+        },
+    }
 }
 
 

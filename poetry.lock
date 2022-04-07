@@ -259,6 +259,17 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-app-settings"
+version = "0.7.1"
+description = "Application settings helper for Django apps."
+category = "dev"
+optional = false
+python-versions = "~=3.5"
+
+[package.dependencies]
+Django = "*"
+
+[[package]]
 name = "django-dramatiq"
 version = "0.10.0"
 description = "A Django app for Dramatiq."
@@ -272,6 +283,20 @@ dramatiq = ">=0.18.0"
 
 [package.extras]
 dev = ["bumpversion", "flake8", "flake8-quotes", "isort", "pytest", "pytest-cov", "pytest-django", "tox", "twine"]
+
+[[package]]
+name = "django-gcp"
+version = "0.2.0"
+description = "Utilities to run Django on Google Cloud Platform"
+category = "dev"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+Django = ">=3.0,<4.0"
+django-app-settings = ">=0.7.1,<0.8.0"
+google-auth = ">=2.6.0,<3.0.0"
+google-cloud-storage = ">=2.1.0,<3.0.0"
 
 [[package]]
 name = "docutils"
@@ -1416,7 +1441,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "1558674e49692458744d871bc845bec5b0077e3a0c32bcb1864dd2cc03834ca5"
+content-hash = "536a823494b3e81677ad82cad3ad2624a3791311568e3ae0953f60b5eb395a14"
 
 [metadata.files]
 alabaster = [
@@ -1611,9 +1636,16 @@ django = [
     {file = "Django-3.2.12-py3-none-any.whl", hash = "sha256:9b06c289f9ba3a8abea16c9c9505f25107809fb933676f6c891ded270039d965"},
     {file = "Django-3.2.12.tar.gz", hash = "sha256:9772e6935703e59e993960832d66a614cf0233a1c5123bc6224ecc6ad69e41e2"},
 ]
+django-app-settings = [
+    {file = "django-app-settings-0.7.1.tar.gz", hash = "sha256:75c9e951e4fd857f2e1abf46be459891a8fd8e86625adec243b56765d2d9e68e"},
+]
 django-dramatiq = [
     {file = "django_dramatiq-0.10.0-py3-none-any.whl", hash = "sha256:4fa375f96f9aa56f15568c9a7b9229220373a42ef1624af5eabd346d74cf8779"},
     {file = "django_dramatiq-0.10.0.tar.gz", hash = "sha256:aefd415c9212b4001f3006863eb62c0512e9faae8e2b9f36ee8af13ac0e30811"},
+]
+django-gcp = [
+    {file = "django-gcp-0.2.0.tar.gz", hash = "sha256:fd2567bf0de7cb50d1ca3c56cf079e2e32b28d8944cb3404dfb5742edfcefdcd"},
+    {file = "django_gcp-0.2.0-py3-none-any.whl", hash = "sha256:666447d3ed948c1b345d7febdba377dbb18e97f16296a3e45904230fbcc6ba0a"},
 ]
 docutils = [
     {file = "docutils-0.17.1-py2.py3-none-any.whl", hash = "sha256:cf316c8370a737a022b72b56874f6602acf974a37a9fba42ec2876387549fc61"},
