@@ -8,12 +8,12 @@
 Django Twined
 =============
 
-**django-twined** helps run data services based on the :ref:`twined framework<https://twined.readthedocs.io>`_ from your
+**django-twined** helps run data services based on the `twined framework <https://twined.readthedocs.io>`_ from your
 own django server.
 
 If you're a scientist or engineer getting started with creating online data services, here is definitely
-not the right place to start! Check out the documentation for :ref:`twined<https://twined.readthedocs.io>`_ and
-the example :ref:`app templates in the SDK<https://github.com/octue/octue-sdk-python/tree/main/octue/templates>`_.
+NOT the right place to start! Check out the documentation for `twined <https://twined.readthedocs.io>`_ and
+the example `app templates in the SDK <https://github.com/octue/octue-sdk-python/tree/main/octue/templates>`_.
 
 .. epigraph::
    *"Twined" [t-why-nd] ~ encircled, twisted together, interwoven*
@@ -24,8 +24,7 @@ the example :ref:`app templates in the SDK<https://github.com/octue/octue-sdk-py
 Aims
 ====
 
-This is an installable app for django, that provides consumers (for websocket connections to data services)
-and a task manager which runs your apps.
+This is an installable app for django, that allows management of octue-based services from django.
 
 This is great for advanced use cases where:
  - you have specific security/firewalling requirements, or
@@ -35,9 +34,8 @@ This is great for advanced use cases where:
  - you want to run your apps on a cluster, and provide a single entrypoint for external services to connect
 
 **Health warning:** to use this plugin to deploy your twined apps, you'll need to handle all your own data
-storage/orchestration, devops, server management, security and auth.
-
-So for most users we'd recommend using :ref:`octue.com<https://www.octue.com>`_ which does all this for you!
+storage/orchestration, devops, server management, security and auth. `Contact Octue <https://www.octue.com/contact>`_
+if this doesn't sound like your bag - we can help!
 
 
 .. _reason_for_being:
@@ -45,7 +43,13 @@ So for most users we'd recommend using :ref:`octue.com<https://www.octue.com>`_ 
 Raison d'etre
 =============
 
-To help scientists and engineers solve the crisis. :ref:`More here<https://twined.readthedocs.io/en/latest/#raison-d-etre>`.
+To help scientists and engineers solve the crisis. `More here <https://www.octue.com>`_.
+
+
+.. _contents:
+
+Contents
+========
 
 .. toctree::
    :maxdepth: 2
@@ -53,6 +57,7 @@ To help scientists and engineers solve the crisis. :ref:`More here<https://twine
    self
    installation
    quick_start
+   settings
    examples
    license
    version_history
