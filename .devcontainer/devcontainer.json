@@ -12,6 +12,7 @@
     "austin.mode": "Wall time",
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
+    "esbonio.server.enabled": true,
     "esbonio.sphinx.confDir": "${workspaceFolder}/docs/source",
     "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
     "prettier.prettierPath": "/usr/local/prettier",
