@@ -120,6 +120,24 @@ class ServiceUsageEventAdmin(admin.ModelAdmin):
         """Prevent anyone from editing the event stream"""
         return False
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related("question").prefetch_related("service_revision")
+
+    # TODO consider the additional display options
+    #   from jsoneditor.forms import JSONEditor
+    #
+    #   formfield_overrides = {
+    #       JSONField: {"widget": JSONEditor},
+    #   }
+    #
+    #   list_display = ("service_revision__name", "service_revision__tag", "kind", "publish_time", "question")
+    #   list_filter = ("service_revision__name", "service_revision__tag", "kind", "publish_time", "question")
+    #
+    #   @admin.display(ordering="service_revision__name")
+    #   def service_revision__name(self, obj):
+    #       """Retrieve the name of the related service_revision object"""
+    #       return obj.service_revision.name
+
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(ServiceRevision, ServiceRevisionAdmin)
