@@ -1,7 +1,15 @@
 .. _license:
 
-========================
-License and Attributions
-========================
+=======
+License
+=======
 
-See the license `here <https://github.com/octue/django-twined/>`_ and attributions for third party projects `here <https://github.com/octue/django-gcp/blob/main/ATTRIBUTION.md>`_.
+The Boring Bit
+==============
+
+See `the django-twined license <https://github.com/octue/django-twined/blob/main/LICENSE>`_.
+
+Third Party Libraries
+=====================
+
+**django-twined** includes or is linked against code from third party libraries, see `our attributions page <https://github.com/octue/django-twined/blob/main/ATTIBUTIONS.md>`_.
