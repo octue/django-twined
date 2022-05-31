@@ -34,7 +34,11 @@
     //  - Disable invalid-name (C0103) because pylint thinks that eg 'x', 'df', 'np' are invalid due to their lengths
     "python.linting.pylintArgs": [
       "--max-line-length=120",
-      "--disable=missing-module-docstring,invalid-name"
+      "--disable=missing-module-docstring,invalid-name",
+      "--load-plugins",
+      "pylint_django",
+      "--django-settings-module",
+      "tests.settings"
     ],
     "python.linting.pylintEnabled": true,
     "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
