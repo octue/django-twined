@@ -7,7 +7,7 @@ def get_db_conf():
     variable. Defaults to SQlite.
     This method is used to let tests run against different database backends.
     """
-    database_engine = os.environ.get("DATABASE_ENGINE", "sqlite")
+    database_engine = os.environ.get("DATABASE_ENGINE", "postgres")
     if database_engine == "sqlite":
         return {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
     elif database_engine == "postgres":
@@ -23,8 +23,8 @@ def get_db_conf():
 
 DEBUG = True
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = PROJECT_DIR
 
 INSTALLED_APPS = [
     "django.contrib.auth",
@@ -34,8 +34,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "channels",
+    "django_extensions",  # Gives us shell_plus and reset_db for manipulating the test server
+    "modelclone",  # Allows us to duplicate questions
     "django_twined",
-    "tests",
+    "tests.server.example",
 ]
 
 MIDDLEWARE = [
@@ -66,7 +68,7 @@ TEMPLATES = [
 
 DATABASES = {"default": get_db_conf()}
 
-ROOT_URLCONF = "tests.test_server.urls"
+ROOT_URLCONF = "tests.server.urls"
 
 STATIC_URL = "static_test/"
 
@@ -78,16 +80,21 @@ USE_TZ = True
 
 SECRET_KEY = "secretkey"
 
-ASGI_APPLICATION = "tests.test_server.asgi.application"
+ASGI_APPLICATION = "tests.server.asgi.application"
 
-GCP_STORAGE_EXTRA_STORES = {"store_key": {"bucket_name": "test-django-twined"}}
+GCP_STORAGE_EXTRA_STORES = {"django-twined-concrete-store": {"bucket_name": "test-django-twined"}}
 
 
 # DJANGO TWINED
+TWINED_BASE_URL = "https://my-server.com"
+
+TWINED_DEFAULT_NAMESPACE = "test-default-namespace"
+TWINED_DEFAULT_PROJECT_NAME = "test-default-project-name"
+TWINED_DEFAULT_TAG = "test-default-tag"
 
 TWINED_DATA_STORES = {
     "django-twined-concrete-store": {
-        "model": "tests.ConcreteSynchronisedDatastore",
+        "model": "tests.server.example.ConcreteSynchronisedDatastore",
         "storage": "django_gcp.storage.GoogleCloudStorage",
         "storage_settings": {
             "bucket_name": "test-django-twined-concrete-store",
@@ -96,6 +103,3 @@ TWINED_DATA_STORES = {
         },
     }
 }
-
-
-TWINED_SERVICES = [{"service_name": "my-service", "topic_id": "a02e5e86-5aea-4cd5-80f0-d48ef1fbfba3"}]

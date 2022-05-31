@@ -1,14 +1,17 @@
+# Disable (the mixin overrides the abstract methods)
+# pylint: disable=abstract-method
+
 from django.db.models import CharField, DecimalField
 from django_twined.fields import DatafileObjectField
-from django_twined.models import AbstractSynchronisedDatastore
+from django_twined.models import AbstractSynchronisedDatastore, Question, QuestionValuesDatabaseStorageMixin
+
+
+# from model_utils.managers import InheritanceManager
 
 
 class ConcreteSynchronisedDatastore(AbstractSynchronisedDatastore):
     """
-    This is how you test abstract classes in your library without adding concrete models: add the concrete model
-     to your test app. You'll need to make the migrations for the test app:
-       python manage.py makemigrations tests
-
+    A Concrete Synchronised Datastore model for testing
     """
 
     a_string_tag = CharField(help_text="A string tag", null=False, blank=True, max_length=32)
@@ -34,8 +37,29 @@ class ConcreteSynchronisedDatastore(AbstractSynchronisedDatastore):
     class Meta:
         """Metaclass for the test app model"""
 
-        app_label = "tests"
+        app_label = "example"
 
     def __str__(self):
         # Ensures that the abstract class __str__ method is covered in testing
         return f"{super(ConcreteSynchronisedDatastore, self).__str__()} ('{self.a_string_tag}')"
+
+
+class QuestionWithValuesDatabaseStorage(QuestionValuesDatabaseStorageMixin, Question):
+    """
+    A Question subclass with implemented input values for testing
+    """
+
+    # objects = InheritanceManager()
+
+    class Meta:
+        """Metaclass for the test app model"""
+
+        app_label = "example"
+
+    def get_input_manifest(self):
+        """Not testing with manifests for now (better solution required)"""
+        return None
+
+    def get_output_manifest(self):
+        """Not testing with manifests for now (better solution than DB storage required)"""
+        return None
