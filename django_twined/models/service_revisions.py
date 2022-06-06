@@ -1,5 +1,4 @@
 import logging
-import uuid
 from django.conf import settings
 from django.db import models
 from django_gcp.events.utils import get_event_url
@@ -14,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 def get_default_namespace():
     """Return the default namespace for service revisions"""
-    return settings.TWINED_DEFAULT_NAMESPACE
+    return ""
 
 
 def get_default_project_name():
@@ -53,12 +52,6 @@ class AbstractServiceRevision(models.Model):
         help_text="The service revision tag that helps to identify the unique deployment",
     )
 
-    # GCP Pub/Sub backend-specific - will become more flexible over time
-    topic_id = models.UUIDField(
-        default=uuid.uuid4,
-        help_text="DEPRECATED: The UUID of this service, used for pushing questions to the service via pub/sub",
-    )
-
     # GCP provider-specific - will become more flexible over time.
     project_name = models.CharField(
         max_length=80,
@@ -92,12 +85,11 @@ class AbstractServiceRevision(models.Model):
         """
         has_tag = (self.tag is not None) and (len(self.tag) > 0)
         tag = f":{self.tag}" if has_tag else ""
-        return f"{self.namespace}/{self.name}{tag}"
 
-    @property
-    def topic(self):
-        """The pub/sub topic ID used for asking questions of this service"""
-        return f"octue.services.{self.topic_id}"
+        has_namespace = (self.namespace is not None) and (len(self.namespace) > 0)
+        namespace = f"{self.namespace}/" if has_namespace else ""
+
+        return f"{namespace}{self.name}{tag}"
 
     def ask(
         self, question_id, input_values=None, input_manifest=None, push_url=None, asker_name="django-twined", **kwargs
@@ -144,7 +136,7 @@ class AbstractServiceRevision(models.Model):
         asker = Service(backend, name=asker_name)
 
         subscription, _ = asker.ask(
-            service_id=self.topic,
+            service_id=self.sruid,
             question_uuid=question_id,
             input_values=input_values,
             input_manifest=input_manifest,
