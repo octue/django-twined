@@ -85,12 +85,12 @@ class DatastoreQuerySetMixin:
         :param kwargs: Optional additional keyword arguments to the octue.Dataset() constructor, e.g. {'id': '<uuid>'}
         :type kwargs: dict
         :return: The created dataset
-        :rtype: octue.Dataset
+        :rtype: octue.resources.Dataset
         """
         return Dataset(name=name, files=[*queryset.all()], **kwargs)
 
     def compare_store(self, cloud_paths=None):
-        """Compares the contents of the store  the store for files whose presence is not recorded in the database and imports them.
+        """Compares the contents of the store for files whose presence is not recorded in the database and imports them.
 
         Ignores the queryset; this method operates identically irrespective of whether called on a filtered queryset or not.
 

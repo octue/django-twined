@@ -21,7 +21,7 @@ SERVICE_USAGE_EVENT_KINDS_CHOICES = tuple((k, v) for k, v in SERVICE_USAGE_EVENT
 class AbstractEvent(models.Model):
     """Abstract base model for storing events
 
-    This ABC allows creation of multiple different tables for storage of different events.
+    This allows creation of multiple different tables for storage of different events.
 
     """
 
