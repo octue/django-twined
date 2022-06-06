@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 def get_default_namespace():
     """Return the default namespace for service revisions"""
-    return ""
+    return settings.TWINED_DEFAULT_NAMESPACE
 
 
 def get_default_project_name():
@@ -90,6 +90,11 @@ class AbstractServiceRevision(models.Model):
         namespace = f"{self.namespace}/" if has_namespace else ""
 
         return f"{namespace}{self.name}{tag}"
+
+    @property
+    def topic(self):
+        """Return the octue GCP topic address string"""
+        return f"octue.services.{self.namespace}.{self.name}"
 
     def ask(
         self, question_id, input_values=None, input_manifest=None, push_url=None, asker_name="django-twined", **kwargs
