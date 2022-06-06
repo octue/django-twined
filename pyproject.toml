@@ -23,7 +23,7 @@ packages = [{ include = "django_twined" },]
 python = ">=3.8,<3.11"
 django = ">=3.0,<4.0"
 channels = ">=3.0,<4.0"
-octue = "^0.18.1"
+octue = "^0.27.0"
 pika = "^1.2.0"
 django-gcp = "^0.4.0"
 django-jsoneditor = "^0.2.2"
