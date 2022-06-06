@@ -66,7 +66,7 @@ class AbstractSynchronisedDatastore(models.Model):
         if self._location is None:
             raise ValueError("Instance has no file field set, cannot create Datafile")
 
-        return Datafile(self.gs_path, project_name=self._storage.project_id)
+        return Datafile(self.gs_path)
 
     @classmethod
     def from_datafile(cls, datafile, create_if_missing=True, update_db_metadata=True):
@@ -99,14 +99,8 @@ class AbstractSynchronisedDatastore(models.Model):
             instance.update_instance_from_tags(datafile.tags)
             instance.update_instance_from_labels(datafile.labels)
 
-            # TODO see https://github.com/octue/octue-sdk-python/issues/204 - once closed, a better way of doing this will be accessible
-            if datafile.path.startswith("gs://"):
-                path_in_bucket = datafile.path.replace("gs://", "").split("/", 1)[1]
-            else:
-                path_in_bucket = datafile.path.lstrip("/")
-
             # Set the file field .name attribute directly to path (https://stackoverflow.com/a/10906037/3556110)
-            getattr(instance, cls.__FILE_FIELD__).name = path_in_bucket
+            getattr(instance, cls.__FILE_FIELD__).name = datafile.path_in_bucket
 
             if create_if_missing:
                 instance.save()

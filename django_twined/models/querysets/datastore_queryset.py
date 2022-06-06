@@ -120,7 +120,7 @@ class DatastoreQuerySetMixin:
             # TODO This is not scalable. It will become untenable for hundreds of objects,
             # because it fetches metadata individually so generates N requests to the store.
             # Figure out whether we can list_blobs with their metadata in one request.
-            datafile = Datafile(gs_path, project_name=storage.project_id)
+            datafile = Datafile(gs_path)
 
             # Note - datafile.id is a UUID, not the
             # same as blob.id which is a weird form of google path string
