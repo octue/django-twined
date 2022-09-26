@@ -18,3 +18,7 @@ ENV POETRY_HOME=/home/vscode/.poetry
 RUN curl -sSL https://install.python-poetry.org | python -
 ENV PATH "$POETRY_HOME/bin:$PATH"
 RUN poetry config virtualenvs.create false
+
+
+# Install localtunnel
+RUN npm install -g localtunnel
