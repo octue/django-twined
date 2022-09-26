@@ -21,7 +21,7 @@ Settings
      - The GCP project name used by default (if none specified) when creating Service Revisions. This is the project where the default-namespace services reside. Often (but not necessarily), this is the same as the namespace eg ``"mega-corp"``.
    * - ``TWINED_DEFAULT_TAG``
      - str
-     - The tag used by default (if none specified) when creating new Service Sevisions. ``"latest"`` is used if not specified.
+     - The tag used by default (if none specified) when creating new Service Revisions. ``"latest"`` is used if not specified.
    * - ``TWINED_SERVICES``
      - dict
      - DEPRECATED - DO NOT USE. The ``ServiceRevision`` model replaces the outgoing ``RegisteredService`` model, allows update of the parameters specified here, without rebooting django.
