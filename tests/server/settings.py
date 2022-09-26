@@ -84,6 +84,18 @@ ASGI_APPLICATION = "tests.server.asgi.application"
 
 GCP_STORAGE_EXTRA_STORES = {"django-twined-concrete-store": {"bucket_name": "test-django-twined"}}
 
+# MEDIA FILES
+DEFAULT_FILE_STORAGE = "django_gcp.storage.GoogleCloudMediaStorage"
+GCP_STORAGE_MEDIA = {"bucket_name": "example-media-assets"}
+MEDIA_URL = f"https://storage.googleapis.com/{GCP_STORAGE_MEDIA['bucket_name']}/"
+MEDIA_ROOT = "/media/"
+
+# STATIC FILES
+STATICFILES_STORAGE = "django_gcp.storage.GoogleCloudStaticStorage"
+GCP_STORAGE_STATIC = {"bucket_name": "example-static-assets"}
+STATIC_URL = f"https://storage.googleapis.com/{GCP_STORAGE_STATIC['bucket_name']}/"
+STATIC_ROOT = "/static/"
+
 
 # DJANGO TWINED
 TWINED_BASE_URL = "https://my-server.com"

@@ -1,9 +1,7 @@
-import json
 import logging
-from base64 import b64decode
-from dateutil.parser import isoparse
 from django.dispatch import receiver
 from django_gcp.events.signals import event_received
+from django_gcp.events.utils import decode_pubsub_message
 from django_twined.models import QUESTION_ASKED, QUESTION_RESPONSE_UPDATED, ServiceUsageEvent
 
 
@@ -11,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 @receiver(event_received)
-def receive_event(_, event_kind, event_reference, event_payload, event_parameters, **kwargs):
+def receive_event(sender, event_kind, event_reference, event_payload, event_parameters, **kwargs):
     """Handle question updates received from pubsub
     :param event_kind (str): A kind/variety allowing you to determine the handler to use (eg "something-update"). Required.
     :param event_reference (str): A reference value provided by the client allowing events to be sorted/filtered. Required.
@@ -20,11 +18,24 @@ def receive_event(_, event_kind, event_reference, event_payload, event_parameter
     :return: None
     """
 
+    decoded = decode_pubsub_message(event_payload)
+
+    logger.debug(
+        "Storing ServiceUsageEvent from event_kind %s, event_reference %s, from sender %s - PubSub message_id %s, ordering_key %s, publish_time %s, subscription %s",
+        event_kind,
+        event_reference,
+        sender,
+        decoded["message_id"],
+        decoded["ordering_key"],
+        decoded["publish_time"],
+        decoded["subscription"],
+    )
+
     if event_kind in (QUESTION_ASKED, QUESTION_RESPONSE_UPDATED):
         ServiceUsageEvent.objects.create(
-            data=json.loads(b64decode(event_payload["data"])),
+            data=decoded["data"],
             kind=event_kind,
-            publish_time=isoparse(event_payload["publishTime"]),
+            publish_time=decoded["publish_time"],
             question_id=event_reference,
             service_revision_id=event_parameters["srid"],
         )

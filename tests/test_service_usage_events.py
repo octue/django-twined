@@ -1,14 +1,13 @@
 # Disables for testing:
 # pylint: disable=missing-docstring
 
-import uuid
 from datetime import datetime
 from unittest.mock import patch
 from django.test import TestCase
+from django_gcp.events.utils import make_pubsub_message
 from django_twined.models import QUESTION_RESPONSE_UPDATED, ServiceRevision, ServiceUsageEvent
 
 from tests.server.example.models import QuestionWithValuesDatabaseStorage
-from .make_pubsub_message import make_pubsub_message
 
 
 # TODO test the following
@@ -39,17 +38,13 @@ class ServiceUsageEventTestCase(TestCase):
             mock.return_value = ("subscription", "push_url")
 
             sr = ServiceRevision.objects.create(
-                topic_id=uuid.uuid4(),
-                name="gibbon-analyser",
+                project_name="gargantuan-gibbons", namespace="large-gibbons", name="gibbon-analyser", tag="latest"
             )
 
             q = QuestionWithValuesDatabaseStorage.objects.create(service_revision=sr)
             _, push_url = q.ask()
 
             return sr, q, push_url
-
-    def test_event_handler_signal_is_called(self):
-        """"""
 
     def test_event_handler(self):
         """Ensure that a different kind of event is passed on silently"""
@@ -58,12 +53,14 @@ class ServiceUsageEventTestCase(TestCase):
         self.assertTrue(
             push_url.startswith(f"https://my-server.com/gcp/events/{QUESTION_RESPONSE_UPDATED}/{str(q.id)}")
         )
-        self.assertTrue("sruid=test-default-namespace%2Fgibbon-analyser%3Atest-default-tag" in push_url)
+        self.assertTrue("sruid=large-gibbons%2Fgibbon-analyser%3Alatest" in push_url)
         self.assertTrue(f"srid={str(sr.id)}" in push_url)
 
         local_url = push_url.replace("https://my-server.com", "")
 
-        msg = make_pubsub_message(data={"the-event": "payload"}, publish_time=datetime.now())
+        msg_data = {"the-event": "payload"}
+        msg_subscription = "projects/my-project/subscriptions/my-subscription-name"
+        msg = make_pubsub_message(msg_data, msg_subscription, publish_time=datetime.now())
 
         response = self.client.post(
             local_url,

@@ -71,6 +71,16 @@ class AbstractServiceRevision(models.Model):
         ]
 
     @property
+    def has_tag(self):
+        """Return true if the instance has a tag"""
+        return (self.tag is not None) and (len(self.tag) > 0)
+
+    @property
+    def has_namespace(self):
+        """Return true if the instance has a namespace"""
+        return (self.namespace is not None) and (len(self.namespace) > 0)
+
+    @property
     def sruid(self):
         """Return the Service Revision Unique Identifier
 
@@ -83,18 +93,18 @@ class AbstractServiceRevision(models.Model):
         or octue/example-service:0.1.2-r1 enabling both routing to specific
         revisions and things like branches for review
         """
-        has_tag = (self.tag is not None) and (len(self.tag) > 0)
-        tag = f":{self.tag}" if has_tag else ""
+        tag = f":{self.tag}" if self.has_tag else ""
 
-        has_namespace = (self.namespace is not None) and (len(self.namespace) > 0)
-        namespace = f"{self.namespace}/" if has_namespace else ""
+        namespace = f"{self.namespace}/" if self.has_namespace else ""
 
         return f"{namespace}{self.name}{tag}"
 
     @property
     def topic(self):
         """Return the octue GCP topic address string"""
-        return f"octue.services.{self.namespace}.{self.name}"
+        tag = f".{self.tag}" if self.has_tag else ""
+        namespace = f"{self.namespace}." if self.has_namespace else ""
+        return f"octue.services.{namespace}{self.name}{tag}"
 
     def ask(
         self, question_id, input_values=None, input_manifest=None, push_url=None, asker_name="django-twined", **kwargs
