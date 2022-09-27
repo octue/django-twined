@@ -313,7 +313,7 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-gcp"
-version = "0.6.0"
+version = "0.7.1"
 description = "Utilities to run Django on Google Cloud Platform"
 category = "main"
 optional = false
@@ -1744,7 +1744,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "2ee7de4f2d988a532606f2051bf7a955cdc149decea86ec4340d4ee685d1c9a2"
+content-hash = "4cb076249ff4398d61d610843c8e34031533fbb848de4e11b3fe11b49ab08f12"
 
 [metadata.files]
 alabaster = [
@@ -1955,8 +1955,8 @@ django-extensions = [
     {file = "django_extensions-3.1.5-py3-none-any.whl", hash = "sha256:9238b9e016bb0009d621e05cf56ea8ce5cce9b32e91ad2026996a7377ca28069"},
 ]
 django-gcp = [
-    {file = "django-gcp-0.6.0.tar.gz", hash = "sha256:de42f721639398ad6c6774d54eaee484a8e95db013158d5869fd04c103ce36d2"},
-    {file = "django_gcp-0.6.0-py3-none-any.whl", hash = "sha256:5101a341df215bde24fc8e154b25513124de114174a70d77602e9257f79b5625"},
+    {file = "django-gcp-0.7.1.tar.gz", hash = "sha256:6b25123e0e7a83c1aa96cf9e41b7925419f7478b6f242bc74763e03c76131341"},
+    {file = "django_gcp-0.7.1-py3-none-any.whl", hash = "sha256:c254decd5572fe5958617c2b5203d1d961ebe571811af80628208588cf0311f0"},
 ]
 django-jsoneditor = [
     {file = "django-jsoneditor-0.2.2.tar.gz", hash = "sha256:c4d9de033840e0b736ac1c4fcc56298a4a0470402db8aaf35d30567127d8397c"},
