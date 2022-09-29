@@ -900,7 +900,7 @@ python-versions = "*"
 
 [[package]]
 name = "octue"
-version = "0.37.0"
+version = "0.38.1"
 description = "A package providing template applications for data services, and a python SDK to the Octue API."
 category = "main"
 optional = false
@@ -919,7 +919,7 @@ gunicorn = ">=20.1,<21.0"
 packaging = ">=20.4,<22"
 python-dateutil = ">=2.8,<3.0"
 pyyaml = ">=6,<7"
-twined = ">=0.5.0,<0.6.0"
+twined = ">=0.5.1,<0.6.0"
 
 [package.extras]
 dataflow = ["apache-beam (>=2.37,<3.0)", "cachetools (>=3.1.0,<5)", "google-apitools (>=0.5.31,<0.5.32)", "google-auth-httplib2 (>=0.1.0,<0.2.0)", "google-cloud-datastore (>=1.8.0,<2)"]
@@ -1578,7 +1578,7 @@ test = ["coverage", "pycodestyle", "pylint", "pytest"]
 
 [[package]]
 name = "twined"
-version = "0.5.0"
+version = "0.5.1"
 description = "A library to help digital twins and data services talk to one another"
 category = "main"
 optional = false
@@ -1744,7 +1744,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "4cb076249ff4398d61d610843c8e34031533fbb848de4e11b3fe11b49ab08f12"
+content-hash = "0c2742d6c6f83a2128854f75fba6db5181f7af4401c5acd0556c5bb1ccd23a99"
 
 [metadata.files]
 alabaster = [
@@ -2296,8 +2296,8 @@ nodeenv = [
     {file = "nodeenv-1.6.0.tar.gz", hash = "sha256:3ef13ff90291ba2a4a7a4ff9a979b63ffdd00a464dbe04acf0ea6471517a4c2b"},
 ]
 octue = [
-    {file = "octue-0.37.0-py3-none-any.whl", hash = "sha256:dec2294e21e6088136002ea4967ad28b199a0fc3d1ee15f423c3919f95e4cacd"},
-    {file = "octue-0.37.0.tar.gz", hash = "sha256:61472412645497823772b7f7379e379204b7f491b1128eda2aac1494164c4d02"},
+    {file = "octue-0.38.1-py3-none-any.whl", hash = "sha256:af30169a86865a2b5a23f10fd0aa4b09ca07c706fa74f4057335e6fede0bb294"},
+    {file = "octue-0.38.1.tar.gz", hash = "sha256:4f5e5a4b253f31fcab5458f199fa3923a0d04a8f327cd568ad6d4a993fc490de"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
@@ -2595,8 +2595,8 @@ tox-poetry = [
     {file = "tox_poetry-0.4.1-py2.py3-none-any.whl", hash = "sha256:11d9cd4e51d4cd9484b3ba63f2650ab4cfb4096e5f0682ecf561ddfc3c8e8c92"},
 ]
 twined = [
-    {file = "twined-0.5.0-py3-none-any.whl", hash = "sha256:446b753e7dc7e7561822759eb601233edb5d1ca7122a63dc9cf9363145e1ba7d"},
-    {file = "twined-0.5.0.tar.gz", hash = "sha256:f6ef8390142b1d064972f07bcbc51e6357094a9b3f841604a8dc442905cf7d31"},
+    {file = "twined-0.5.1-py3-none-any.whl", hash = "sha256:a3ac293c45339f80d32c756c0c92400f2f00d3d6cc0b44ff4717ed38b3dfab9c"},
+    {file = "twined-0.5.1.tar.gz", hash = "sha256:70ad9734c7371466a0bd3a43c5570ce11361fe4748f70441a89fb1b550e5d856"},
 ]
 twisted = [
     {file = "Twisted-22.8.0-py3-none-any.whl", hash = "sha256:8d4718d1e48dcc28933f8beb48dc71cfe77a125e37ad1eb7a3d0acc49baf6c99"},
