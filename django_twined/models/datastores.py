@@ -108,7 +108,7 @@ class AbstractSynchronisedDatastore(models.Model):
                 path,
                 ignore_stored_metadata=False,
                 tags=self.get_tags_from_instance(),
-                labels=self.get_labels_from_instance,
+                labels=self.get_labels_from_instance(),
             )
 
         if df.id != str(self.id):
