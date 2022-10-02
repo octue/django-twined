@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
         # Loop through the data sources
         for key, store in stores.items():
-            logger.info(f"Synchronizing store -> database for {key}")
+            logger.info("Synchronizing store -> database for %s", key)
 
             # Get model class and the storage instance used for its datafiles
             Model = apps.get_model(*store["model"].split("."))
