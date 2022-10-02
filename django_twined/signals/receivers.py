@@ -18,20 +18,20 @@ def receive_event(sender, event_kind, event_reference, event_payload, event_para
     :return: None
     """
 
-    decoded = decode_pubsub_message(event_payload)
-
-    logger.debug(
-        "Storing ServiceUsageEvent from event_kind %s, event_reference %s, from sender %s - PubSub message_id %s, ordering_key %s, publish_time %s, subscription %s",
-        event_kind,
-        event_reference,
-        sender,
-        decoded["message_id"],
-        decoded["ordering_key"],
-        decoded["publish_time"],
-        decoded["subscription"],
-    )
-
     if event_kind in (QUESTION_ASKED, QUESTION_RESPONSE_UPDATED):
+        decoded = decode_pubsub_message(event_payload)
+
+        logger.debug(
+            "Storing ServiceUsageEvent from event_kind %s, event_reference %s, from sender %s - PubSub message_id %s, ordering_key %s, publish_time %s, subscription %s",
+            event_kind,
+            event_reference,
+            sender,
+            decoded["message_id"],
+            decoded["ordering_key"],
+            decoded["publish_time"],
+            decoded["subscription"],
+        )
+
         ServiceUsageEvent.objects.create(
             data=decoded["data"],
             kind=event_kind,
