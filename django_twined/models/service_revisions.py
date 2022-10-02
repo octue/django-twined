@@ -116,7 +116,7 @@ class AbstractServiceRevision(models.Model):
         :param str question_id: A uuid to refer to the question by
         :param Union[dict, None] input_values: The input values of the question
         :param Union[octue.Manifest, None] input_manifest: The input manifest of the question
-        :param Union[str, None] push_url: Absolute URL to the endpoint where answers and updates should be pushed (by default this is generated using django-gcp, containing useful extra metadata)
+        :param Union[str, None] push_url: Absolute URL to the endpoint where answers and updates should be pushed (by default this is generated using django-gcp, modifying this value will require you to provide a view and full message handling at the endpoint)
         :param str asker_name: A name for this 'root service' that's asking the question.
 
         ```
