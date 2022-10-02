@@ -313,7 +313,7 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-gcp"
-version = "0.7.1"
+version = "0.7.2"
 description = "Utilities to run Django on Google Cloud Platform"
 category = "main"
 optional = false
@@ -900,7 +900,7 @@ python-versions = "*"
 
 [[package]]
 name = "octue"
-version = "0.38.1"
+version = "0.39.0"
 description = "A package providing template applications for data services, and a python SDK to the Octue API."
 category = "main"
 optional = false
@@ -1744,7 +1744,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "0c2742d6c6f83a2128854f75fba6db5181f7af4401c5acd0556c5bb1ccd23a99"
+content-hash = "02030cf533071b3d497fb4850a7533f73bbc5b447da58a005aed0d7a24afac9a"
 
 [metadata.files]
 alabaster = [
@@ -1955,8 +1955,8 @@ django-extensions = [
     {file = "django_extensions-3.1.5-py3-none-any.whl", hash = "sha256:9238b9e016bb0009d621e05cf56ea8ce5cce9b32e91ad2026996a7377ca28069"},
 ]
 django-gcp = [
-    {file = "django-gcp-0.7.1.tar.gz", hash = "sha256:6b25123e0e7a83c1aa96cf9e41b7925419f7478b6f242bc74763e03c76131341"},
-    {file = "django_gcp-0.7.1-py3-none-any.whl", hash = "sha256:c254decd5572fe5958617c2b5203d1d961ebe571811af80628208588cf0311f0"},
+    {file = "django-gcp-0.7.2.tar.gz", hash = "sha256:4c8d62255ba59a28e8904b0fc83a8edf3aebb75c6a8df1a351d7af1d02efb362"},
+    {file = "django_gcp-0.7.2-py3-none-any.whl", hash = "sha256:747f76549df775ac2e18d9553693cd2b27a3853eff892255f3252b371a80d7fa"},
 ]
 django-jsoneditor = [
     {file = "django-jsoneditor-0.2.2.tar.gz", hash = "sha256:c4d9de033840e0b736ac1c4fcc56298a4a0470402db8aaf35d30567127d8397c"},
@@ -2296,8 +2296,8 @@ nodeenv = [
     {file = "nodeenv-1.6.0.tar.gz", hash = "sha256:3ef13ff90291ba2a4a7a4ff9a979b63ffdd00a464dbe04acf0ea6471517a4c2b"},
 ]
 octue = [
-    {file = "octue-0.38.1-py3-none-any.whl", hash = "sha256:af30169a86865a2b5a23f10fd0aa4b09ca07c706fa74f4057335e6fede0bb294"},
-    {file = "octue-0.38.1.tar.gz", hash = "sha256:4f5e5a4b253f31fcab5458f199fa3923a0d04a8f327cd568ad6d4a993fc490de"},
+    {file = "octue-0.39.0-py3-none-any.whl", hash = "sha256:ba42b164a639cfbc1fe6e480ec1bd6cf5c53abd98449928d5ea573c9057825cf"},
+    {file = "octue-0.39.0.tar.gz", hash = "sha256:c4f8a7f00bba5ac7e664e48d7eca5a95ed99299ad17cc1157d6e8df6aa9e494f"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
