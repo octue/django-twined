@@ -3,6 +3,14 @@ from django.dispatch import receiver
 from django_gcp.events.signals import event_received
 from django_gcp.events.utils import decode_pubsub_message
 from django_twined.models import QUESTION_ASKED, QUESTION_RESPONSE_UPDATED, ServiceUsageEvent
+from django_twined.signals.senders import (
+    delivery_acknowledgement_received,
+    heartbeat_received,
+    log_record_received,
+    monitor_message_received,
+    question_asked,
+    result_received,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -32,10 +40,33 @@ def receive_event(sender, event_kind, event_reference, event_payload, event_para
             decoded["subscription"],
         )
 
-        ServiceUsageEvent.objects.create(
+        sue = ServiceUsageEvent.objects.create(
             data=decoded["data"],
             kind=event_kind,
             publish_time=decoded["publish_time"],
             question_id=event_reference,
             service_revision_id=event_parameters["srid"],
         )
+
+        data_type = decoded["data"].get("type", None)
+
+        if data_type == "delivery_acknowledgement":
+            delivery_acknowledgement_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
+
+        elif data_type == "heartbeat":
+            heartbeat_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
+
+        elif data_type == "log_record":
+            log_record_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
+
+        elif data_type == "monitor_message":
+            monitor_message_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
+
+        elif data_type == "result":
+            result_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
+
+        elif event_kind == QUESTION_ASKED:
+            question_asked.send(sender=ServiceUsageEvent, service_usage_event=sue)
+
+        else:
+            logger.warning("Unknown event kind:type for ServiceUsageEvent %s", sue.id)
