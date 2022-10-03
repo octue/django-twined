@@ -27,6 +27,10 @@ class QuestionAdmin(ClonableModelAdmin):
         # question_db_output_values_fieldset,
     )
 
+    def ask_question(self, obj):
+        """Override this to ask a question using an async task queue or other method. This will ask the question directly."""
+        obj.ask()
+
     def _launch_ask_question(self, request, queryset):
         """Handler method to ask multiple question(s)"""
 
@@ -35,7 +39,7 @@ class QuestionAdmin(ClonableModelAdmin):
             if obj.asked is not None:
                 self.message_user(request, f"{obj!r} already asked - you can't re-ask questions")
             else:
-                obj.ask()
+                self.ask_question(obj)
                 ask_count += 1
 
         if ask_count == 1:
@@ -78,7 +82,7 @@ class QuestionAdmin(ClonableModelAdmin):
         """Save the new object then ask the question"""
         response = super().response_add(request, obj, *args, **kwargs)
         if "_save_and_ask" in request.POST:
-            obj.ask()
+            self.ask_question(obj.as_subclass())
             self.message_user(request, "1 question was added and asked")
         return response
 
@@ -86,7 +90,7 @@ class QuestionAdmin(ClonableModelAdmin):
         """Save any edits then ask the question"""
         response = super().response_change(request, obj)
         if "_save_and_ask" in request.POST:
-            obj.as_subclass().ask()
+            self.ask_question(obj.as_subclass())
             self.message_user(request, "1 question was saved and asked")
         return response
 
