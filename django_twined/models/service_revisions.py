@@ -10,6 +10,8 @@ from .service_usage_events import QUESTION_RESPONSE_UPDATED
 
 logger = logging.getLogger(__name__)
 
+QUESTION_ASK_TIMEOUT_SECONDS = 60
+
 
 def get_default_namespace():
     """Return the default namespace for service revisions"""
@@ -100,6 +102,14 @@ class AbstractServiceRevision(models.Model):
         return f"{namespace}{self.name}{tag}"
 
     @property
+    def _partial_topic(self):
+        """TODO replace this once the service id has been properly sorted out on the octue side
+        currently this is used to botch the service_id value so that it comes out with the correct topic name format"""
+        tag = f".{self.tag.replace('.', '-')}" if self.has_tag else ""
+        namespace = f"{self.namespace}." if self.has_namespace else ""
+        return f"{namespace}{self.name}{tag}"
+
+    @property
     def topic(self):
         """Return the octue GCP topic address string"""
         tag = f".{self.tag}" if self.has_tag else ""
@@ -149,13 +159,13 @@ class AbstractServiceRevision(models.Model):
         )
 
         asker = Service(backend, name=asker_name)
-
         subscription, _ = asker.ask(
-            service_id=self.sruid,
+            service_id=self._partial_topic,  # TODO REFACTOR REQUEST Tidy up in newer versions of octue to give to correct topic name
             question_uuid=question_id,
             input_values=input_values,
             input_manifest=input_manifest,
             push_endpoint=push_url,
+            timeout=QUESTION_ASK_TIMEOUT_SECONDS,
             **kwargs,
         )
 
