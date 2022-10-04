@@ -74,7 +74,7 @@ class QuestionAdmin(ClonableModelAdmin):
                 "show_save_and_continue": False,
                 "show_save_and_add_another": False,
                 "show_delete": obj is not None and obj.asked is None,
-                "show_save_and_ask": obj is None and obj.asked is None,
+                "show_save_and_ask": obj is None or obj.asked is None,
             }
         )
         return super().render_change_form(request, context, *args, obj=obj, **kwargs)
