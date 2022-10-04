@@ -1,12 +1,15 @@
 from django.contrib import admin
 from django_twined.models import Question, ServiceRevision, ServiceUsageEvent
-from modelclone import ClonableModelAdmin
 
 from .fieldsets import question_basic_fieldset
 from .mixins import CreatableFieldsMixin
 
 
-class QuestionAdmin(ClonableModelAdmin):
+# from modelclone import ClonableModelAdmin
+
+
+# class QuestionAdmin(ClonableModelAdmin):
+class QuestionAdmin(admin.ModelAdmin):
     """Subclass this QuestionAdmin to get started administering your question subclasses"""
 
     change_form_template = "django_twined/question_changeform.html"
@@ -26,6 +29,7 @@ class QuestionAdmin(ClonableModelAdmin):
         # question_db_input_values_fieldset,
         # question_db_output_values_fieldset,
     )
+    save_as = True
 
     def ask_question(self, obj):
         """Override this to ask a question using an async task queue or other method. This will ask the question directly."""
