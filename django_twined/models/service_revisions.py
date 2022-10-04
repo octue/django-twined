@@ -197,3 +197,17 @@ class AbstractServiceRevision(models.Model):
 
 class ServiceRevision(AbstractServiceRevision):
     """Concrete model to register available service revisions in the system"""
+
+
+def get_default_service_revision(namespace, name):
+    """Get a default service revision to use given a namespace/name combination
+
+    Uses the is_default property of ServiceRevisions to determine which revision should be used in the absence of a specific tag
+
+    :param str namespace: The namespace within which the default resides
+    :param str name: The name for which the default revision will be returned
+    :return Union[ServiceRevision | None]: The default service revision to use, or None if there isn't one
+
+    """
+
+    return ServiceRevision.objects.filter(name=name, namespace=namespace, is_default=True).first()
