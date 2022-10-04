@@ -123,7 +123,7 @@ class AbstractServiceRevision(models.Model):
 
         Asks the question and registers a push subscription, to deliver response events on the
         question topic to an endpoint.
-        :param str question_id: A uuid to refer to the question by
+        :param Union[str, uuid.UUID] question_id: A uuid to refer to the question by
         :param Union[dict, None] input_values: The input values of the question
         :param Union[octue.Manifest, None] input_manifest: The input manifest of the question
         :param Union[str, None] push_url: Absolute URL to the endpoint where answers and updates should be pushed (by default this is generated using django-gcp, modifying this value will require you to provide a view and full message handling at the endpoint)
@@ -161,7 +161,7 @@ class AbstractServiceRevision(models.Model):
         asker = Service(backend, name=asker_name)
         subscription, _ = asker.ask(
             service_id=self._partial_topic,  # TODO REFACTOR REQUEST Tidy up in newer versions of octue to give to correct topic name
-            question_uuid=question_id,
+            question_uuid=str(question_id),
             input_values=input_values,
             input_manifest=input_manifest,
             push_endpoint=push_url,
