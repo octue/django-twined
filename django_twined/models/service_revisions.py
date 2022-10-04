@@ -1,6 +1,6 @@
 import logging
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django_gcp.events.utils import get_event_url
 from octue.cloud.pub_sub.service import Service
 from octue.resources.service_backends import get_backend
@@ -32,6 +32,11 @@ class AbstractServiceRevision(models.Model):
     """Abstract model to register available services in the system"""
 
     id = models.BigAutoField(primary_key=True, editable=False)
+
+    is_default = models.BooleanField(
+        default=False,
+        help_text="Set true to use this tagged revision as the default version for this name and namespace",
+    )
 
     created = models.DateTimeField(
         auto_now_add=True, help_text="When this service revision was created (or, strictly, added to this db)"
@@ -176,6 +181,18 @@ class AbstractServiceRevision(models.Model):
 
     def __repr__(self):
         return f"Service Revision ({self.sruid})"
+
+    def save(self, *args, **kwargs):
+        """Override save method to ensure that there can be only one default service revision"""
+        with transaction.atomic():
+            if self.is_default:
+                previous_default = ServiceRevision.objects.filter(
+                    namespace=self.namespace, name=self.name, is_default=True
+                ).first()
+                if previous_default is not None:
+                    previous_default.is_default = False
+                    previous_default.save()
+            super().save(*args, **kwargs)
 
 
 class ServiceRevision(AbstractServiceRevision):
