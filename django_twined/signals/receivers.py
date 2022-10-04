@@ -69,4 +69,4 @@ def receive_event(sender, event_kind, event_reference, event_payload, event_para
             question_asked.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
         else:
-            logger.warning("Unknown event kind:type for ServiceUsageEvent %s", sue.id)
+            logger.warning("Unknown event kind:type (%s) for ServiceUsageEvent %s", data_type, sue.id)
