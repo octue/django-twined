@@ -67,13 +67,14 @@ class QuestionAdmin(ClonableModelAdmin):
     def render_change_form(self, request, context, *args, obj=None, **kwargs):
         """Override the change form to show question ask options"""
         kwargs["add"] = True  # Work around https://github.com/RealGeeks/django-modelclone/issues/41
+        # Note that during clone, obj is None because there's no instance yet, so handle that...
         context.update(
             {
-                "show_save": obj.asked is None,
+                "show_save": obj is None or obj.asked is None,
                 "show_save_and_continue": False,
                 "show_save_and_add_another": False,
-                "show_delete": obj.asked is None,
-                "show_save_and_ask": obj.asked is None,
+                "show_delete": obj is not None and obj.asked is None,
+                "show_save_and_ask": obj is None or obj.asked is None,
             }
         )
         return super().render_change_form(request, context, *args, obj=obj, **kwargs)
