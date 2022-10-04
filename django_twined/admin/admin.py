@@ -117,7 +117,7 @@ class ServiceUsageEventAdmin(admin.ModelAdmin):
         """Prevent anyone from editing the event stream"""
         return False
 
-    def has_edit_permission(self, *args, **kwargs):
+    def has_change_permission(self, *args, **kwargs):
         """Prevent anyone from editing the event stream"""
         return False
 
