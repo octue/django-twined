@@ -13,7 +13,7 @@ INPUT_STRANDS = ("input_values", "input_manifest", "credentials", "children")
 
 
 @dramatiq.actor
-def asker(service_name, service_version, analysis_id, logger_uri=None, input_values=None, input_manifest=None):
+def asker(service_name, service_version, analysis_id, input_values=None, input_manifest=None):
     """We probably want to replace all this with GCP Pub/Sub and a set of service accounts"""
 
     # Acknowledge the start of the run
@@ -26,15 +26,15 @@ def asker(service_name, service_version, analysis_id, logger_uri=None, input_val
         app_path = service_configuration.pop("app_path")
         twine_file = os.path.join(app_path, "twine.json")
         runner = Runner(
+            app_src=app_path,
             twine=twine_file,
-            logger_uri=logger_uri,
             **service_configuration,
         )
         logger.debug(f"Configured Runner for analysis {analysis_id}. Running...")
 
         # Run the app
         try:
-            analysis = runner.run(app_src=app_path, input_values=input_values, input_manifest=input_manifest)
+            analysis = runner.run(input_values=input_values, input_manifest=input_manifest)
             logger.debug(f"Completed analysis {analysis_id}. Finalising...")
 
             results = analysis.finalise(output_dir=os.path.join("data", "output"))

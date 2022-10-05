@@ -141,3 +141,6 @@ docs/doctrees
 
 # Pytest cache
 .pytest_cache
+
+# GCP credentials
+gcp*.json

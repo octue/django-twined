@@ -20,7 +20,9 @@ class Command(BaseCommand):
 
     help = (
         "Syncs files and their metadata from stores (defined in SETTINGS) into queryable records in the database."
-        " Use in development for repopulating an empty database with the contents of the store(s)."
+        "Use in development for repopulating an empty database with the contents of the store(s),"
+        "or use in production if a migration is applied to metadata stored in the database and you need to"
+        "propagate that to the store"
     )
 
     def add_arguments(self, parser):
@@ -31,6 +33,13 @@ class Command(BaseCommand):
             dest="source_keys",
             default=None,
             help="Specify the data store keys. If none, all keys specified in settings.TWINED_DATA_STORES will be used.",
+        )
+        parser.add_argument(
+            "--db-to-store",
+            required=False,
+            dest="source_keys",
+            default=None,
+            help="By default, metadata is synced from store to db. To do the other way arou",
         )
 
     def handle(self, *args, source_keys=None, **options):
@@ -45,7 +54,7 @@ class Command(BaseCommand):
 
         # Loop through the data sources
         for key, store in stores.items():
-            logger.info(f"Synchronizing store -> database for {key}")
+            logger.info("Synchronizing store -> database for %s", key)
 
             # Get model class and the storage instance used for its datafiles
             Model = apps.get_model(*store["model"].split("."))

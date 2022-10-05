@@ -1,5 +1,3 @@
-name: release
-
 on:
   pull_request:
     types: [closed]
@@ -20,6 +18,7 @@ jobs:
         uses: JRubics/poetry-publish@v1.9
         with:
           python_version: "3.9"
+          poetry_version: "==1.1.15"
           pypi_token: ${{ secrets.TEST_PYPI_TOKEN }}
           repository_name: "testpypi"
           repository_url: "https://test.pypi.org/legacy/"
@@ -28,7 +27,7 @@ jobs:
         uses: JRubics/poetry-publish@v1.9
         with:
           python_version: "3.9"
-          poetry_version: "==1.1.12" # (PIP version specifier syntax)
+          poetry_version: "==1.1.15" # (PIP version specifier syntax)
           pypi_token: ${{ secrets.PYPI_TOKEN }}
           ignore_dev_requirements: "yes"
 

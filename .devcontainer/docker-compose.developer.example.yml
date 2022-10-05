@@ -1,0 +1,11 @@
+version: "3.8"
+# Uncomment to map in the gcloud SDK config folder and a credentials variable
+# services:
+# web:
+# volumes:
+#   - ..:/workspace:cached
+#   - $HOME/.config/gcloud:/gcp/config
+
+# environment:
+#   - CLOUDSDK_CONFIG=/gcp/config
+#   - GOOGLE_APPLICATION_CREDENTIALS=/gcp/config/your-credentials.json

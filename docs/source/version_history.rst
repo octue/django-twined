@@ -13,31 +13,20 @@ connecting digital twins and data services.
 As you do when you're a bootstrapped startup, we build our MVP as a massive monolithic django app, but wanted to reuse
 parts of it in applications for clients. Copying/pasting code never makes sense, so here we are!
 
-A huge thank you to :ref:`Wind Pioneers<https://www.wind-pioneers.com/>`_ whose business made this refactor possible,
+A huge thank you to `Wind Pioneers <https://www.wind-pioneers.com/>`_ whose business made the initial refactor possible,
 and who now get to use twined to build the most kick-ass Wind Energy Resource Assessment applications in the world!
 
 ..ATTENTION::
 
-   **django-twined** will be completely unstable in 0.0.x versions. Consider every version to be breaking!
+   **django-twined** will be unstable in 0.x versions. Consider every semiver increment to be breaking!
 
+.. _releases:
 
-.. _version_0.0.x:
+Releases
+========
 
-0.0.x
-=====
+We create release notes automatically using
+our `conventional commits tools <https://github/octue/conventional-commits>`_
+for completely automating code versions, release numbering and release history.
 
-Initial library framework - development version. Highly unstable! Let's see what happens...
-
-New Features
-------------
-#. Initial documentation (scant, you'll probably have to dig in)
-#. Initial implementation
-#. Tests with Codecov integration (>=95% coverage)
-
-Backward Incompatible API Changes
----------------------------------
-#. n/a (Initial release)
-
-Bug Fixes & Minor Changes
--------------------------
-#. n/a (Initial Release)
+So for a full version history, check our `releases page <https://github/octue/django-twined/releases>`_.

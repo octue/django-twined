@@ -1,0 +1,3 @@
+# Prettier screws up jinja2 and django templating...
+*templates*
+*templatetags*

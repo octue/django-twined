@@ -1,7 +1,9 @@
 import json
 import logging
 import uuid
+import warnings
 from django.db import models
+from django_twined.exceptions import ConsistencyError
 from octue.resources import Datafile
 from octue.utils.encoders import OctueJSONEncoder
 
@@ -51,22 +53,70 @@ class AbstractSynchronisedDatastore(models.Model):
 
     @property
     def project_name(self):
+        warnings.warn(
+            "'project_name' property accessed on datastore object. This shouldn't be used and instead accessed directly from the storage class",
+            DeprecationWarning,
+        )
+
         return self._storage.project_id
 
     @property
     def datafile(self):
-        """The octue datafile associated with this instance"""
+        """This instance as an octue datafile, constructed without accessing the store
 
-        if self._state.adding:
-            # TODO Once https://github.com/octue/octue-sdk-python/issues/200 is resolved, we will be able to
-            # Retun datafiles from the cloud prior to calling () save on a new instantiated model.
-            return None
+        The metadata on this file is set from the instance, NOT from the store, so may not be fresh.
+
+        Use `to_datafile(update_from_store=True) to ensure metadata on the datafile is fresh, although this will involve
+        a call to the store so will take a long time for many datafiles.
+
+        """
+        return self.to_datafile(update_from_store=False)
+
+    def to_datafile(self, update_from_store=True, allow_no_location=False):
+        """Create an octue datafile instance corresponding to this datastore instance
+        :param bool update_from_store: Fetch the latest metadata from the store. This can be an expensive operation because
+        it requires an API call to the store; but is set default True to ensure that metadata reutrned is always fresh.
+        Set this value to false to instead populate metadata directly from the instance, resulting in a much quicker operation.
+        Generally the best approach is to set this value to false, and put in place a process to ensure your metadata is
+        correctly synced from the datalake files.
+        :param bool allow_no_location: Allow creation of a datafile even if the instance has no field file value set. This
+        can happen on instance creation (e.g. if a data blob is being used to create an object, and therefore doesn't have a name).
+        In this case, the datafile itself will be useless in the sense that data cannot be retrieved, but creating it allows
+        manipulation of metadata in a way consistent with a datafile. The main use of this is to allow creation of octue metadata
+        before a file is in the store, allowing use of custom storage but providing metadata on creation of the object to prevent
+        repeated calls.
+
+        :return octue.Datafile:
+        """
 
         # Handle event of instance has unset file or file not yet in store
         if self._location is None:
-            raise ValueError("Instance has no file field set, cannot create Datafile")
+            if allow_no_location:
+                path = "unknown"
+            else:
+                raise ValueError(
+                    "Instance has no file field set, cannot create Datafile. Try saving the instance first, or if you're operating on an unsaved instance see the `allow_no_location` option."
+                )
 
-        return Datafile(self.gs_path, project_name=self._storage.project_id)
+        else:
+            path = self.gs_path
+
+        if update_from_store:
+            df = Datafile(path)
+        else:
+            df = Datafile(
+                path,
+                ignore_stored_metadata=False,
+                tags=self.get_tags_from_instance(),
+                labels=self.get_labels_from_instance(),
+            )
+
+        if df.id != str(self.id):
+            raise ConsistencyError(
+                f"Datafile at {self.gs_path} has bound id {df.id} but that does not match this instance id {str(self.id)}. Re-sync your database to the store."
+            )
+
+        return df
 
     @classmethod
     def from_datafile(cls, datafile, create_if_missing=True, update_db_metadata=True):
@@ -80,7 +130,7 @@ class AbstractSynchronisedDatastore(models.Model):
         :type datafile: octue.Datafile
         :param create_if_missing: Create a database entry for this file and its metadata if it's not present
         :type create_if_missing: bool
-        :param update_db_metadata: If database entry for this file is found, ensure the metadata in that row is up to date with metadata from the cloud store
+        :param update_db_metadata: If database entry for this file is found, ensure the metadata in that row is up to date with metadata from the cloud store. If false, the instance returned may be dirty (i.e. be set with values from teh store that do not correspond to the database)
         :type update_db_metadata: bool
         :return: Instance of db model
         :rtype: AbstractSynchronisedDatastore
@@ -89,9 +139,9 @@ class AbstractSynchronisedDatastore(models.Model):
         created = False
         try:
             instance = cls.objects.get(id=datafile.id)
+            instance.update_instance_from_tags(datafile.tags)
+            instance.update_instance_from_labels(datafile.labels)
             if update_db_metadata:
-                instance.update_instance_from_tags(datafile.tags)
-                instance.update_instance_from_labels(datafile.labels)
                 instance.save()
 
         except cls.DoesNotExist:
@@ -99,14 +149,8 @@ class AbstractSynchronisedDatastore(models.Model):
             instance.update_instance_from_tags(datafile.tags)
             instance.update_instance_from_labels(datafile.labels)
 
-            # TODO see https://github.com/octue/octue-sdk-python/issues/204 - once closed, a better way of doing this will be accessible
-            if datafile.path.startswith("gs://"):
-                path_in_bucket = datafile.path.replace("gs://", "").split("/", 1)[1]
-            else:
-                path_in_bucket = datafile.path.lstrip("/")
-
             # Set the file field .name attribute directly to path (https://stackoverflow.com/a/10906037/3556110)
-            getattr(instance, cls.__FILE_FIELD__).name = path_in_bucket
+            getattr(instance, cls.__FILE_FIELD__).name = datafile.path_in_bucket
 
             if create_if_missing:
                 instance.save()
@@ -176,19 +220,23 @@ class AbstractSynchronisedDatastore(models.Model):
 
     @property
     def _location(self):
-        if self._storage.location != "":
-            return self._storage.location
-        elif self._file_field.name != "":
+        """The location within the bucket of the file, including name and extension, eg 'folder/subfolder/file_name.txt'
+        Note that this path may not yet actually exist within the bucket, if the instance is not yet added this is what
+        *will* be saved (or, at least, what will be attempted)
+        """
+        if getattr(self._file_field, "name", "") != "":
             return self._file_field.name
         else:
             return None
 
     @property
     def gs_path(self):
-        """Return the qualified pathway of this object on GCS."""
-        return f"gs://{self._storage.bucket_name}/{self._location}"
+        """The qualified pathway of this object on GCS, or None if the blob has no name attribute"""
+        loc = self._location
+        if loc is not None:
+            return f"gs://{self._storage.bucket_name}/{loc}"
 
-    def _todo_expose_on_sdk(self, metadata):
+    def _serialise_metadata(self, metadata):
         """Encode metadata as a dictionary of JSON strings."""
         if not isinstance(metadata, dict):
             raise TypeError(f"Metadata for Google Cloud storage should be a dictionary; received {metadata!r}")
@@ -196,25 +244,12 @@ class AbstractSynchronisedDatastore(models.Model):
         return {key: json.dumps(value, cls=OctueJSONEncoder) for key, value in metadata.items()}
 
     def save(self, *args, **kwargs):
-        """Override the save method to synchronize metadata to the cloud store"""
+        """Override the save method to add metadata to the object saved to the cloud store"""
 
         # Create a hypothetical (doesn't care if it's remote or local, or never existing)
         #  datafile instance simply to generate octue-compliant metadata
-        datafile = Datafile(
-            self._location,
-            id=self.id,
-            tags=self.get_tags_from_instance(),
-            labels=self.get_labels_from_instance(),
-            hypothetical=True,
-        )
-        metadata = self._todo_expose_on_sdk(datafile.metadata())
+        datafile = self.to_datafile(update_from_store=False, allow_no_location=True)
 
-        # Only commit to saving if saving the metadata works correctly too
-        self.file.file.metadata = metadata
+        # Attach metadata to the file object before saving it
+        self.file.file.metadata = self._serialise_metadata(datafile.metadata())
         super().save(*args, **kwargs)
-
-        # Update the metadata that we added (id, tags, labels) above
-        datafile = self.datafile
-        datafile.tags = self.get_tags_from_instance()
-        datafile.labels = self.get_labels_from_instance()
-        datafile.update_cloud_metadata()

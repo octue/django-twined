@@ -17,7 +17,7 @@ services:
 
     environment:
       - DATABASE_URL=postgres://postgres_user:postgres_password@localhost/postgres_db
-      - DJANGO_SETTINGS_MODULE=tests.test_server.settings
+      - DJANGO_SETTINGS_MODULE=tests.server.settings
 
     # Map the current directory containing code
     volumes:

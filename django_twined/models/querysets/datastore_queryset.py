@@ -2,7 +2,7 @@ import logging
 from django.db import transaction
 from django.db.models.query import QuerySet
 from django.db.utils import IntegrityError
-from octue.resources.datafile import Datafile
+from octue.resources import Datafile, Dataset
 
 
 logger = logging.getLogger(__name__)
@@ -52,6 +52,10 @@ class StoreComparison:
 
 
 class DatastoreQuerySetMixin:
+    """A queryset mixin enabling use of django querysets as Datasets for Octue.
+    Either use DatastoreQueryset directly, or use this to mix in additional queryset methods.
+    """
+
     def delete_files(self, include_rows=True):
         """Delete the files corresponding to the rows in this query from the datalake"""
         # Get a list of filenames to delete
@@ -70,31 +74,23 @@ class DatastoreQuerySetMixin:
         self.store_comparison = store_comparison
         super().__init__(*args, **kwargs)
 
-    def get_dataset_tags(self):
-        """Subclass this DatastoreManager in order to provide tags to datasets created with the get_dataset() method"""
-        return None
+    def get_dataset(self, name, queryset, **kwargs):
+        """Turn a django queryset into a dataset
+        The queryset must be from a model that inherits from AbstractSynchronisedDatastore
 
-    def get_dataset(self, name=None, id=None, **kwargs):
-        """Turn a queryset into a dataset
-        :param name:
-        :type name:
-        :param id:
-        :type id:
-        :param kwargs:
-        :type kwargs:
-        :return:
-        :rtype:
+        Note that this method does evaluate the full queryset with Queryset.all(), rather than yielding entries.
+
+        :param name: The name of the dataset
+        :type name: string
+        :param kwargs: Optional additional keyword arguments to the octue.Dataset() constructor, e.g. {'id': '<uuid>'}
+        :type kwargs: dict
+        :return: The created dataset
+        :rtype: octue.resources.Dataset
         """
-
-        # tags = self.get_dataset_tags()
-        # ds = Dataset(name=name, id=id, tags=tags, logger=None, **kwargs)
-        # for row in self.all():
-        #     ic(row)
-        # return ds
-        raise Exception("Not Implemented Yet")
+        return Dataset(name=name, files=[*queryset.all()], **kwargs)
 
     def compare_store(self, cloud_paths=None):
-        """Compares the contents of the store  the store for files whose presence is not recorded in the database and imports them.
+        """Compares the contents of the store for files whose presence is not recorded in the database and imports them.
 
         Ignores the queryset; this method operates identically irrespective of whether called on a filtered queryset or not.
 
@@ -124,7 +120,7 @@ class DatastoreQuerySetMixin:
             # TODO This is not scalable. It will become untenable for hundreds of objects,
             # because it fetches metadata individually so generates N requests to the store.
             # Figure out whether we can list_blobs with their metadata in one request.
-            datafile = Datafile(gs_path, project_name=storage.project_id)
+            datafile = Datafile(gs_path)
 
             # Note - datafile.id is a UUID, not the
             # same as blob.id which is a weird form of google path string

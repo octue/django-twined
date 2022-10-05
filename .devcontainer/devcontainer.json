@@ -3,17 +3,19 @@
 {
   "name": "Django Twined",
 
-  "dockerComposeFile": ["docker-compose.yml"],
+  "dockerComposeFile": ["docker-compose.yml", "docker-compose.developer.yml"],
   "service": "web",
   "workspaceFolder": "/workspace",
-
   // Set *default* container specific settings.json values on container create.
   "settings": {
     "austin.mode": "Wall time",
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
+    "esbonio.server.enabled": true,
+    "esbonio.sphinx.confDir": "${workspaceFolder}/docs/source",
     "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
     "prettier.prettierPath": "/usr/local/prettier",
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
     "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
     "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
     "python.formatting.provider": "black",
@@ -32,12 +34,18 @@
     //  - Disable invalid-name (C0103) because pylint thinks that eg 'x', 'df', 'np' are invalid due to their lengths
     "python.linting.pylintArgs": [
       "--max-line-length=120",
-      "--disable=missing-module-docstring,invalid-name"
+      "--disable=missing-module-docstring,invalid-name",
+      "--load-plugins",
+      "pylint_django",
+      "--django-settings-module",
+      "tests.settings"
     ],
     "python.linting.pylintEnabled": true,
     "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
-    "python.pythonPath": "/usr/local/bin/python",
-    "restructuredtext.confPath": "${workspaceFolder}/docs/source",
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestPath": "/usr/local/bin/pytest",
+    "python.testing.pytestArgs": [],
+    "python.testing.cwd": "/workspace",
     // Scrolling the editor is a nice idea but it doesn't work, always out of sync and impossible to manage
     "restructuredtext.preview.scrollEditorWithPreview": false,
     "restructuredtext.preview.scrollPreviewWithEditor": false,

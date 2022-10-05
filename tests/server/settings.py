@@ -7,10 +7,8 @@ def get_db_conf():
     variable. Defaults to SQlite.
     This method is used to let tests run against different database backends.
     """
-    database_engine = os.environ.get("DATABASE_ENGINE", "sqlite")
-    if database_engine == "sqlite":
-        return {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
-    elif database_engine == "postgres":
+    database_engine = os.environ.get("DATABASE_ENGINE", "postgres")
+    if database_engine == "postgres":
         return {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
             "NAME": "postgres_db",
@@ -19,12 +17,18 @@ def get_db_conf():
             "HOST": "localhost",
             "PORT": "5432",
         }
+    # elif database_engine == "sqlite":
+    #     return {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
+    else:
+        raise ValueError(
+            "Sqlite or other databases not supported for testing - see https://github.com/octue/django-twined/issues/24"
+        )
 
 
 DEBUG = True
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = PROJECT_DIR
 
 INSTALLED_APPS = [
     "django.contrib.auth",
@@ -34,8 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "channels",
+    "django_extensions",  # Gives us shell_plus and reset_db for manipulating the test server
+    "modelclone",  # Allows us to duplicate questions
     "django_twined",
-    "tests",
+    "tests.server.example",
 ]
 
 MIDDLEWARE = [
@@ -66,7 +72,7 @@ TEMPLATES = [
 
 DATABASES = {"default": get_db_conf()}
 
-ROOT_URLCONF = "tests.test_server.urls"
+ROOT_URLCONF = "tests.server.urls"
 
 STATIC_URL = "static_test/"
 
@@ -78,23 +84,38 @@ USE_TZ = True
 
 SECRET_KEY = "secretkey"
 
-ASGI_APPLICATION = "tests.test_server.asgi.application"
+ASGI_APPLICATION = "tests.server.asgi.application"
+
+GCP_STORAGE_EXTRA_STORES = {"django-twined-concrete-store": {"bucket_name": "test-django-twined"}}
+
+# MEDIA FILES
+DEFAULT_FILE_STORAGE = "django_gcp.storage.GoogleCloudMediaStorage"
+GCP_STORAGE_MEDIA = {"bucket_name": "example-media-assets"}
+MEDIA_URL = f"https://storage.googleapis.com/{GCP_STORAGE_MEDIA['bucket_name']}/"
+MEDIA_ROOT = "/media/"
+
+# STATIC FILES
+STATICFILES_STORAGE = "django_gcp.storage.GoogleCloudStaticStorage"
+GCP_STORAGE_STATIC = {"bucket_name": "example-static-assets"}
+STATIC_URL = f"https://storage.googleapis.com/{GCP_STORAGE_STATIC['bucket_name']}/"
+STATIC_ROOT = "/static/"
 
 
 # DJANGO TWINED
+TWINED_BASE_URL = "https://my-server.com"
+
+TWINED_DEFAULT_NAMESPACE = "test-default-namespace"
+TWINED_DEFAULT_PROJECT_NAME = "test-default-project-name"
+TWINED_DEFAULT_TAG = "test-default-tag"
 
 TWINED_DATA_STORES = {
-    # "mast-timeseries": {
-    # "model": "myapp.MyDatalakeModel",
-    # "storage": "settings._storages.GoogleCloudWithMetaStorage",
-    # "storage_settings": {
-    #     "bucket_name": "test-my-datalake",
-    #     "credentials": GS_CREDENTIALS,
-    #     "project_id": GS_PROJECT_ID,
-    #     "file_overwrite": True,
-    # },
-    # }
+    "django-twined-concrete-store": {
+        "model": "tests.server.example.ConcreteSynchronisedDatastore",
+        "storage": "django_gcp.storage.GoogleCloudStorage",
+        "storage_settings": {
+            "bucket_name": "test-django-twined-concrete-store",
+            "project_id": "twined-314619",
+            "file_overwrite": True,
+        },
+    }
 }
-
-
-TWINED_SERVICES = [{"service_name": "my-service", "topic_id": "a02e5e86-5aea-4cd5-80f0-d48ef1fbfba3"}]
