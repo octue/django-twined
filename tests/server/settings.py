@@ -8,9 +8,7 @@ def get_db_conf():
     This method is used to let tests run against different database backends.
     """
     database_engine = os.environ.get("DATABASE_ENGINE", "postgres")
-    if database_engine == "sqlite":
-        return {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
-    elif database_engine == "postgres":
+    if database_engine == "postgres":
         return {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
             "NAME": "postgres_db",
@@ -19,6 +17,12 @@ def get_db_conf():
             "HOST": "localhost",
             "PORT": "5432",
         }
+    # elif database_engine == "sqlite":
+    #     return {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
+    else:
+        raise ValueError(
+            "Sqlite or other databases not supported for testing - see https://github.com/octue/django-twined/issues/24"
+        )
 
 
 DEBUG = True
