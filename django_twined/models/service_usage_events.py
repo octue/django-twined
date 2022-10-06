@@ -61,7 +61,7 @@ class ServiceUsageEvent(AbstractEvent):
         null=False,
         blank=False,
         related_name="service_usage_events",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         editable=False,
     )
 
