@@ -2,7 +2,8 @@
 # pylint: disable=missing-docstring
 # pylint: disable=protected-access
 # pylint: disable=too-many-public-methods
-
+import os
+from unittest import skipIf
 from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
@@ -10,6 +11,9 @@ from django_twined.models import Question, ServiceRevision
 
 from tests.server.example.models import QuestionWithValuesDatabaseStorage
 from .factories import SuperUserFactory
+
+
+SKIP_INTEGRATION_TESTS = not os.environ.get("RUN_INTEGRATION_TESTS", False)
 
 
 class QuestionTestCase(TestCase):
@@ -60,6 +64,10 @@ class QuestionTestCase(TestCase):
         self.assertEqual(duplicate.apple_name, "greenround")
         self.assertEqual(duplicate.banana_name, "chiquita")
 
+    @skipIf(
+        SKIP_INTEGRATION_TESTS,
+        "Skipping integration test - Accessing the admin requires staticfiles storage from django-gcp to have valid store and credentials",
+    )
     def test_admin_duplicate(self):
         """Ensures that duplication in the admin creates a new question"""
         sr = ServiceRevision.objects.create(name="test-service")
