@@ -395,7 +395,7 @@ watch = ["watchdog", "watchdog-gevent"]
 name = "factory-boy"
 version = "3.2.1"
 description = "A versatile test fixtures replacement based on thoughtbot's factory_bot for Ruby."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -410,7 +410,7 @@ doc = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-spelling"]
 name = "Faker"
 version = "15.1.0"
 description = "Faker is a Python package that generates fake data for you."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -1762,7 +1762,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "c329a2a1f84bc6f99d997d3f0428c8d3d3dc57885d3ea7f3d18398b85c87598f"
+content-hash = "961471ca6248e147db81d33525d94bf15df678e666d7f7101572ad9d33b8d610"
 
 [metadata.files]
 alabaster = [
