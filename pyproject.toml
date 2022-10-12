@@ -28,7 +28,7 @@ pika = "^1.2.0"
 django-gcp = "^0.7.3"
 django-jsoneditor = "^0.2.2"
 django-model-utils = "^4.2.0"
-django-modelclone = "^0.7.1"
+factory-boy = "^3.2.1"
 
 [tool.poetry.dev-dependencies]
 channels = ">=3.0,<=4.0"
