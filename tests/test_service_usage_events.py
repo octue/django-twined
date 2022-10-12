@@ -42,7 +42,7 @@ class ServiceUsageEventTestCase(TestCase):
             )
 
             q = QuestionWithValuesDatabaseStorage.objects.create(service_revision=sr)
-            _, push_url = q.ask()
+            _, push_url, _ = q.ask()
 
             return sr, q, push_url
 
