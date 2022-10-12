@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "channels",
     "django_extensions",  # Gives us shell_plus and reset_db for manipulating the test server
-    "modelclone",  # Allows us to duplicate questions
     "django_twined",
     "tests.server.example",
 ]

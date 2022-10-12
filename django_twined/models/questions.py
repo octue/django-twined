@@ -13,10 +13,11 @@ logger = logging.getLogger(__name__)
 class AbstractQuestion(models.Model):
     """Abstract Base Class for a Question model to store questions asked to octue services"""
 
+    duplicate_fields = ()
+
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     asked = models.DateTimeField(null=True, blank=True, editable=False, help_text="When the question was asked")
     answered = models.DateTimeField(null=True, blank=True, editable=False, help_text="When the question was answered")
-    # status = models.JSONField(blank=False, null=False, help_text="Store or cache status data here on the question")
 
     class Meta:
         """Metaclass for AbstractQuestion"""
@@ -30,6 +31,18 @@ class AbstractQuestion(models.Model):
 
     def __repr__(self):
         return f"{self.__class__.__name__} ({self.id})"
+
+    def get_duplicate(self, save=True):
+        """Duplicate the question instance and optionally save to the database"""
+        kwargs = {}
+        for field in self.duplicate_fields:
+            kwargs[field] = getattr(self, field)
+        # Always override the asked and answered attributes of the duplicate
+        overrides = {"asked": None, "answered": None}
+        duplicate = self.__class__(**kwargs, **overrides)
+        if save:
+            duplicate.save()
+        return duplicate
 
     def get_input_values(self):
         """Get the input values from wherever they're stored (or compute them)
