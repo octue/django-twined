@@ -92,7 +92,7 @@ class AbstractQuestion(models.Model):
         if save:
             self.save()
 
-        return subscription, push_url
+        return subscription, push_url, service_revision
 
 
 class Question(AbstractQuestion):
