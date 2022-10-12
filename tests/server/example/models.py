@@ -49,12 +49,18 @@ class QuestionWithValuesDatabaseStorage(QuestionValuesDatabaseStorageMixin, Ques
     A Question subclass with implemented input values for testing
     """
 
-    # objects = InheritanceManager()
+    duplicate_fields = ("apple_name",)
+
+    apple_name = CharField(help_text="Apple name", null=False, blank=False, default="macintosh", max_length=32)
+    banana_name = CharField(help_text="Banana name", null=False, blank=False, default="chiquita", max_length=32)
 
     class Meta:
         """Metaclass for the test app model"""
 
         app_label = "example"
+
+    def get_input_values(self):
+        return self.input_values
 
     def get_input_manifest(self):
         """Not testing with manifests for now (better solution required)"""

@@ -16,7 +16,22 @@ class ConcreteSynchronisedDatastoreAdmin(admin.ModelAdmin):
 
 @admin.register(QuestionWithValuesDatabaseStorage)
 class QuestionWithValuesDatabaseStorageAdmin(QuestionAdmin):
-    pass
+
+    readonly_fields = ("id", "asked", "answered")
+    fieldsets = (
+        (
+            "Twined",
+            {
+                "fields": (
+                    "id",
+                    "service_revision",
+                    "asked",
+                    "answered",
+                )
+            },
+        ),
+        ("Fruit", {"fields": ("apple_name", "banana_name")}),
+    )
 
 
 class CustomServiceUsageEventAdmin(ServiceUsageEventAdmin):

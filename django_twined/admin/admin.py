@@ -1,12 +1,13 @@
 from django.contrib import admin
+from django.shortcuts import redirect
+from django.urls import reverse
 from django_twined.models import Question, ServiceRevision, ServiceUsageEvent
-from modelclone import ClonableModelAdmin
 
 from .fieldsets import question_basic_fieldset
 from .mixins import CreatableFieldsMixin
 
 
-class QuestionAdmin(ClonableModelAdmin):
+class QuestionAdmin(admin.ModelAdmin):
     """Subclass this QuestionAdmin to get started administering your question subclasses"""
 
     change_form_template = "django_twined/question_changeform.html"
@@ -56,25 +57,42 @@ class QuestionAdmin(ClonableModelAdmin):
             return False
         return True
 
-    def has_delete_permission(self, request, obj=None):
-        """Prevent people from deleting questions after they've been asked"""
-        return self._question_is_not_asked(obj)
-
     def has_change_permission(self, request, obj=None):
         """Prevent people from changing questions after they've been asked"""
         return self._question_is_not_asked(obj)
 
+    def has_delete_permission(self, request, obj=None):
+        """Prevent people from deleting questions after they've been asked"""
+        return self._question_is_not_asked(obj)
+
+    def has_duplicate_permission(self, request, obj=None):
+        """Override to prevent people from duplicating questions.
+        Defaults to the same as has_add_permission
+        """
+        return self.has_add_permission(request)
+
     def render_change_form(self, request, context, *args, obj=None, **kwargs):
         """Override the change form to show question ask options"""
-        kwargs["add"] = True  # Work around https://github.com/RealGeeks/django-modelclone/issues/41
-        # Note that during clone, obj is None because there's no instance yet, so handle that...
+
+        # If the URL was hit with a ?duplicate=True parameter, then duplicate the object and redirect to edit the new one
+        duplicate = request.GET.get("duplicate", False)
+        if duplicate:
+            duplicate = obj.get_duplicate()
+            self.message_user(request, "Duplicated question to new ID, editing the new one")
+
+            return redirect(
+                reverse(f"admin:{duplicate._meta.app_label}_{duplicate._meta.model_name}_change", args=[duplicate.id])
+            )
+
         context.update(
             {
-                "show_save": obj is None or obj.asked is None,
-                "show_save_and_continue": False,
-                "show_save_and_add_another": False,
+                "has_duplicate_permission": self.has_duplicate_permission(request, obj),
                 "show_delete": obj is not None and obj.asked is None,
+                "show_duplicate": obj is not None and self.has_duplicate_permission(request, obj),
+                "show_save": obj is None or obj.asked is None,
+                "show_save_and_add_another": False,
                 "show_save_and_ask": obj is None or obj.asked is None,
+                "show_save_and_continue": False,
             }
         )
         return super().render_change_form(request, context, *args, obj=obj, **kwargs)

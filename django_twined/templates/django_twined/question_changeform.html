@@ -1,10 +1,9 @@
 {% extends 'admin/change_form.html' %}
 {% load question_ask_row %}
 
-<!-- Comes from https://github.com/RealGeeks/django-modelclone/blob/master/modelclone/templates/modelclone/change_form.html -->
 {% block object-tools-items %}
-    {% if include_clone_link %}
-        <li><a href="clone/">{{ clone_verbose_name }}</a></li>
+    {% if show_duplicate %}
+        <li><a href="?duplicate=True">Duplicate</a></li>
     {% endif %}
     {{ block.super }}
 {% endblock %}
