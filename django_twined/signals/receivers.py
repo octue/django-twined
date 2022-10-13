@@ -5,6 +5,7 @@ from django_gcp.events.utils import decode_pubsub_message
 from django_twined.models import QUESTION_ASKED, QUESTION_RESPONSE_UPDATED, ServiceUsageEvent
 from django_twined.signals.senders import (
     delivery_acknowledgement_received,
+    exception_received,
     heartbeat_received,
     log_record_received,
     monitor_message_received,
@@ -52,6 +53,9 @@ def receive_event(sender, event_kind, event_reference, event_payload, event_para
 
         if data_type == "delivery_acknowledgement":
             delivery_acknowledgement_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
+
+        if data_type == "exception":
+            exception_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
         elif data_type == "heartbeat":
             heartbeat_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
