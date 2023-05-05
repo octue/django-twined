@@ -1399,17 +1399,6 @@ lint = ["docutils-stubs", "flake8 (>=3.5.0)", "isort", "mypy (>=0.931)", "types-
 test = ["cython", "html5lib", "pytest", "pytest-cov", "typed-ast"]
 
 [[package]]
-name = "sphinx-charts"
-version = "0.1.2"
-description = "Interactive charts, graphs and figures for Sphinx HTML docs."
-category = "dev"
-optional = false
-python-versions = ">=3.7,<4.0"
-
-[package.dependencies]
-Sphinx = ">3,<5"
-
-[[package]]
 name = "sphinx-rtd-theme"
 version = "1.0.0"
 description = "Read the Docs theme for Sphinx"
@@ -1790,7 +1779,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "5b9a55c3ffc9b13b7c3b0c56a5eccd95e990c73495d739b081cc4e3bd0ba1966"
+content-hash = "013487f9182c08e18f47674f7633077d62e88a7863ef5531433ac29511671615"
 
 [metadata.files]
 alabaster = [
@@ -2661,10 +2650,6 @@ snowballstemmer = [
 Sphinx = [
     {file = "Sphinx-4.5.0-py3-none-any.whl", hash = "sha256:ebf612653238bcc8f4359627a9b7ce44ede6fdd75d9d30f68255c7383d3a6226"},
     {file = "Sphinx-4.5.0.tar.gz", hash = "sha256:7bf8ca9637a4ee15af412d1a1d9689fec70523a68ca9bb9127c2f3eeb344e2e6"},
-]
-sphinx-charts = [
-    {file = "sphinx-charts-0.1.2.tar.gz", hash = "sha256:18992663217b1677213a53fcb551e6c71ea10194aeba4777dea995b3a2cfe11f"},
-    {file = "sphinx_charts-0.1.2-py3-none-any.whl", hash = "sha256:e440553fea46e2fd90501cb94a247090f7211cf1eb153624efaf8b381b0c408e"},
 ]
 sphinx-rtd-theme = [
     {file = "sphinx_rtd_theme-1.0.0-py2.py3-none-any.whl", hash = "sha256:4d35a56f4508cfee4c4fb604373ede6feae2a306731d533f409ef5c3496fdbd8"},
