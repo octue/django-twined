@@ -3,7 +3,6 @@ import logging
 import uuid
 import warnings
 from django.db import models
-from django_twined.exceptions import ConsistencyError
 from octue.resources import Datafile
 from octue.utils.encoders import OctueJSONEncoder
 
@@ -112,8 +111,11 @@ class AbstractSynchronisedDatastore(models.Model):
             )
 
         if df.id != str(self.id):
-            raise ConsistencyError(
-                f"Datafile at {self.gs_path} has bound id {df.id} but that does not match this instance id {str(self.id)}. Re-sync your database to the store."
+            logger.warning(
+                "Datafile at %s has bound id %s but that does not match this instance id %s. Re-sync your database to the store.",
+                self.gs_path,
+                df.id,
+                str(self.id),
             )
 
         return df
