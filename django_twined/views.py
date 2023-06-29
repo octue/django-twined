@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django_twined.models import ServiceRevision
 
@@ -42,13 +44,21 @@ def service_revision(request, namespace, name, revision_tag=None):
         )
 
     if request.method == "POST":
-        if not revision_tag:
+        body = json.loads(request.body)
+
+        if "revision_tag" not in body:
             return JsonResponse(
                 {"success": False, "error": "A revision tag must be included when registering a new service revision"},
                 status=400,
             )
 
-        ServiceRevision.objects.create(namespace=namespace, name=name, tag=revision_tag)
+        ServiceRevision.objects.create(
+            namespace=namespace,
+            name=name,
+            tag=body["revision_tag"],
+            is_default=body.get("is_default", False),
+        )
+
         return JsonResponse({"success": True}, status=201)
 
     return JsonResponse({"success": False, "error": "Invalid request method."}, status=405)

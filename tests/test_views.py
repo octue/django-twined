@@ -62,8 +62,13 @@ class TestServiceRevision(TestCase):
         """Test that an error response is returned if attempting to register a service revision without providing a
         revision tag.
         """
-        service_revision = {"namespace": "octue", "name": "new-service"}
-        response = self.client.post(reverse("service-revisions", kwargs=service_revision))
+        namespace = "octue"
+        name = "new-service"
+        response = self.client.post(
+            reverse("service-revisions", kwargs={"namespace": namespace, "name": name}),
+            data={},
+            content_type="application/json",
+        )
 
         self.assertEqual(
             response.json(),
@@ -72,15 +77,15 @@ class TestServiceRevision(TestCase):
 
     def test_register_service_revision(self):
         """Test registering a service revision works and returns a success response."""
-        service_revision = {"namespace": "octue", "name": "new-service", "revision_tag": "3.9.9"}
-        response = self.client.post(reverse("service-revisions", kwargs=service_revision))
+        namespace = "octue"
+        name = "new-service"
+        revision_tag = "3.9.9"
+
+        response = self.client.post(
+            reverse("service-revisions", kwargs={"namespace": namespace, "name": name}),
+            data={"revision_tag": revision_tag, "is_default": True},
+            content_type="application/json",
+        )
 
         self.assertEqual(response.json(), {"success": True})
-
-        self.assertTrue(
-            ServiceRevision.objects.filter(
-                namespace=service_revision["namespace"],
-                name=service_revision["name"],
-                tag=service_revision["revision_tag"],
-            ).exists()
-        )
+        self.assertTrue(ServiceRevision.objects.get(namespace=namespace, name=name, tag=revision_tag).is_default)
