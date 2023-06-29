@@ -4,17 +4,19 @@ from django.http import JsonResponse
 from django_twined.models import ServiceRevision
 
 
-def service_revision(request, namespace, name, revision_tag=None):
+def service_revision(request, namespace, name):
     """Get or create a service revision. If, when getting a service revision, the revision tag isn't provided, the
     latest revision for that service is returned.
 
     :param django.core.handlers.wsgi.WSGIRequest request:
     :param str namespace: the namespace of the service
     :param str name: the name of the service
-    :param str|None revision_tag: the revision tag of the service
     :return django.http.response.JsonResponse:
     """
     if request.method == "GET":
+        # TODO: We can add support for version ranges here later.
+        revision_tag = request.GET.get("revision_tag")
+
         try:
             if revision_tag:
                 service_revision = ServiceRevision.objects.get(namespace=namespace, name=name, tag=revision_tag)

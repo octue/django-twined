@@ -6,12 +6,15 @@ from django_twined.models import ServiceRevision
 class TestServiceRevision(TestCase):
     def test_invalid_http_method_causes_error_response(self):
         """Test that an error response is returned if using an invalid HTTP method with the endpoint."""
-        response = self.client.patch(reverse("service-revisions", args=["a", "b", "c"]))
+        response = self.client.patch(reverse("service-revisions", args=["some", "service"]))
         self.assertEqual(response.json(), {"success": False, "error": "Invalid request method."})
 
     def test_getting_nonexistent_service_revision_causes_error_response(self):
         """Test that an error response is returned if trying to get a non-existent service."""
-        response = self.client.get(reverse("service-revisions", args=["non-existent", "service", "latest"]))
+        response = self.client.get(
+            reverse("service-revisions", args=["non-existent", "service"]),
+            data={"revision_tag": "latest"},
+        )
         self.assertEqual(response.json(), {"success": False, "error": "Service revision not found."})
 
     def test_get_service_revision_with_revision_tag(self):
@@ -21,8 +24,9 @@ class TestServiceRevision(TestCase):
         response = self.client.get(
             reverse(
                 "service-revisions",
-                args=[service_revision.namespace, service_revision.name, service_revision.tag],
+                args=[service_revision.namespace, service_revision.name],
             ),
+            data={"revision_tag": service_revision.tag},
         )
 
         self.assertEqual(
