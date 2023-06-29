@@ -32,11 +32,10 @@ def service_revision(request, namespace, name):
                 )
 
         except ServiceRevision.DoesNotExist:
-            return JsonResponse({"success": False, "error": "Service revision not found."}, status=404)
+            return JsonResponse({"error": "Service revision not found."}, status=404)
 
         return JsonResponse(
             {
-                "success": True,
                 "namespace": namespace,
                 "name": name,
                 "revision_tag": service_revision.tag,
@@ -50,7 +49,7 @@ def service_revision(request, namespace, name):
 
         if "revision_tag" not in body:
             return JsonResponse(
-                {"success": False, "error": "A revision tag must be included when registering a new service revision"},
+                {"error": "A revision tag must be included when registering a new service revision"},
                 status=400,
             )
 
@@ -61,6 +60,6 @@ def service_revision(request, namespace, name):
             is_default=body.get("is_default", False),
         )
 
-        return JsonResponse({"success": True}, status=201)
+        return JsonResponse({}, status=201)
 
-    return JsonResponse({"success": False, "error": "Invalid request method."}, status=405)
+    return JsonResponse({"error": "Invalid request method."}, status=405)
