@@ -43,7 +43,19 @@ repos:
       - id: check-branch-name
         args:
           - "^main$"
-          - "^([a-z][a-z0-9#]*)(-[a-z0-9#]+)*$"
+          - "^development$"
+          - "^devops/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^doc/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^feature/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^enhancement/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^fix/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^hotfix/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^review/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^refactor/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^test/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^style/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^deprecation/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+          - "^dependencies/([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
 
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: "v2.2.1"
@@ -57,11 +69,9 @@ repos:
         stages: [commit-msg]
 
   - repo: https://github.com/thclark/pre-commit-sphinx
-    rev: 0.0.1
+    rev: 0.0.3
     hooks:
       - id: build-docs
         language_version: python3
-        # Use dev dependencies to install sphinx and related libraries
-        # as well as installing the root module (required for autodoc)
         additional_dependencies:
-          - "django_twined@file://localhost/workspace#egg=django_twined"
+          - "git+https://github.com/octue/django-twined.git@main"
