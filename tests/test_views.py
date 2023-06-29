@@ -46,6 +46,18 @@ class TestServiceRevision(TestCase):
             {"namespace": namespace, "name": name, "revision_tag": latest_service_revision.tag, "success": True},
         )
 
+    def test_register_service_revision_without_revision_tag_causes_error_response(self):
+        """Test that an error response is returned if attempting to register a service revision without providing a
+        revision tag.
+        """
+        service_revision = {"namespace": "octue", "name": "new-service"}
+        response = self.client.post(reverse("service-revisions", kwargs=service_revision))
+
+        self.assertEqual(
+            response.json(),
+            {"success": False, "error": "A revision tag must be included when registering a new service revision"},
+        )
+
     def test_register_service_revision(self):
         """Test registering a service revision works and returns a success response."""
         service_revision = {"namespace": "octue", "name": "new-service", "revision_tag": "3.9.9"}

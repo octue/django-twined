@@ -28,7 +28,7 @@ def service_revision(request, namespace, name, revision_tag=None):
                 )
 
         except ServiceRevision.DoesNotExist:
-            return JsonResponse({"success": False, "error": "Service revision not found."}, status=200)
+            return JsonResponse({"success": False, "error": "Service revision not found."}, status=404)
 
         return JsonResponse(
             {"success": True, "namespace": namespace, "name": name, "revision_tag": service_revision.tag},
@@ -36,6 +36,12 @@ def service_revision(request, namespace, name, revision_tag=None):
         )
 
     if request.method == "POST":
+        if not revision_tag:
+            return JsonResponse(
+                {"success": False, "error": "A revision tag must be included when registering a new service revision"},
+                status=400,
+            )
+
         ServiceRevision.objects.create(namespace=namespace, name=name, tag=revision_tag)
         return JsonResponse({"success": True}, status=201)
 
