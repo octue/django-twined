@@ -1,4 +1,5 @@
 import logging
+
 from django.conf import settings
 from django.db import models, transaction
 from django_gcp.events.utils import get_event_url

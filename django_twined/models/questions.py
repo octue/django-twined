@@ -1,6 +1,7 @@
 import logging
 import uuid
 from datetime import datetime, timezone
+
 from django.db import models
 from model_utils.managers import InheritanceManager
 

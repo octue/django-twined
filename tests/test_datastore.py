@@ -2,6 +2,7 @@
 # pylint: disable=missing-docstring
 
 from unittest import skipIf
+
 from django.test import TestCase as BaseTestCase
 
 

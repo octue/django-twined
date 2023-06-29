@@ -3,6 +3,7 @@
 
 from datetime import datetime
 from unittest.mock import patch
+
 from django.test import TestCase
 from django_gcp.events.utils import make_pubsub_message
 from django_twined.models import QUESTION_RESPONSE_UPDATED, ServiceRevision, ServiceUsageEvent

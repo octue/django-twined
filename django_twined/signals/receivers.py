@@ -1,4 +1,5 @@
 import logging
+
 from django.dispatch import receiver
 from django_gcp.events.signals import event_received
 from django_gcp.events.utils import decode_pubsub_message

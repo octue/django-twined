@@ -1,4 +1,5 @@
 import logging
+
 from django.db import transaction
 from django.db.models.query import QuerySet
 from django.db.utils import IntegrityError
