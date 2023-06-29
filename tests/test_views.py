@@ -4,6 +4,16 @@ from django_twined.models import ServiceRevision
 
 
 class TestServiceRevision(TestCase):
+    def test_invalid_http_method_causes_error_response(self):
+        """Test that an error response is returned if using an invalid HTTP method with the endpoint."""
+        response = self.client.patch(reverse("service-revisions", args=["a", "b", "c"]))
+        self.assertEqual(response.json(), {"success": False, "error": "Invalid request method."})
+
+    def test_getting_nonexistent_service_revision_causes_error_response(self):
+        """Test that an error response is returned if trying to get a non-existent service."""
+        response = self.client.get(reverse("service-revisions", args=["non-existent", "service", "latest"]))
+        self.assertEqual(response.json(), {"success": False, "error": "Service revision not found."})
+
     def test_get_service_revision_with_revision_tag(self):
         """Test getting a service revision when the revision tag is supplied."""
         service_revision = ServiceRevision.objects.create(namespace="my-org", name="my-service", tag="1.0.0")
@@ -34,4 +44,19 @@ class TestServiceRevision(TestCase):
         self.assertEqual(
             response.json(),
             {"namespace": namespace, "name": name, "revision_tag": latest_service_revision.tag, "success": True},
+        )
+
+    def test_register_service_revision(self):
+        """Test registering a service revision works and returns a success response."""
+        service_revision = {"namespace": "octue", "name": "new-service", "revision_tag": "3.9.9"}
+        response = self.client.post(reverse("service-revisions", kwargs=service_revision))
+
+        self.assertEqual(response.json(), {"success": True})
+
+        self.assertTrue(
+            ServiceRevision.objects.filter(
+                namespace=service_revision["namespace"],
+                name=service_revision["name"],
+                tag=service_revision["revision_tag"],
+            ).exists()
         )
