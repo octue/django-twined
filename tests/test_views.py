@@ -27,7 +27,13 @@ class TestServiceRevision(TestCase):
 
         self.assertEqual(
             response.json(),
-            {"namespace": "my-org", "name": "my-service", "revision_tag": "1.0.0", "success": True},
+            {
+                "success": True,
+                "namespace": "my-org",
+                "name": "my-service",
+                "revision_tag": "1.0.0",
+                "is_default": False,
+            },
         )
 
     def test_get_service_revision_without_revision_tag(self):
@@ -43,7 +49,13 @@ class TestServiceRevision(TestCase):
 
         self.assertEqual(
             response.json(),
-            {"namespace": namespace, "name": name, "revision_tag": latest_service_revision.tag, "success": True},
+            {
+                "success": True,
+                "namespace": namespace,
+                "name": name,
+                "revision_tag": latest_service_revision.tag,
+                "is_default": False,
+            },
         )
 
     def test_register_service_revision_without_revision_tag_causes_error_response(self):

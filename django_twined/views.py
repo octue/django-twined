@@ -31,7 +31,13 @@ def service_revision(request, namespace, name, revision_tag=None):
             return JsonResponse({"success": False, "error": "Service revision not found."}, status=404)
 
         return JsonResponse(
-            {"success": True, "namespace": namespace, "name": name, "revision_tag": service_revision.tag},
+            {
+                "success": True,
+                "namespace": namespace,
+                "name": name,
+                "revision_tag": service_revision.tag,
+                "is_default": service_revision.is_default,
+            },
             status=200,
         )
 
