@@ -1,8 +1,16 @@
 import json
 
+from django.conf import settings
 from django.http import JsonResponse
 from django_twined.models import ServiceRevision
 from django_twined.utils.versions import select_latest_service_revision_by_semantic_version
+
+
+SERVICE_REVISION_SELECTION_HANDLER = getattr(
+    settings,
+    "TWINED_SERVICE_REVISION_SELECTION_CALLBACK",
+    select_latest_service_revision_by_semantic_version,
+)
 
 
 def service_revision(request, namespace, name):
@@ -22,7 +30,7 @@ def service_revision(request, namespace, name):
             if revision_tag:
                 service_revision = ServiceRevision.objects.get(namespace=namespace, name=name, tag=revision_tag)
             else:
-                service_revision = select_latest_service_revision_by_semantic_version(namespace=namespace, name=name)
+                service_revision = SERVICE_REVISION_SELECTION_HANDLER(namespace=namespace, name=name)
 
         except ServiceRevision.DoesNotExist:
             return JsonResponse({"error": "Service revision not found."}, status=404)
