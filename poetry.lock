@@ -145,18 +145,6 @@ files = [
 ]
 
 [[package]]
-name = "blinker"
-version = "1.6.2"
-description = "Fast, simple object-to-object and broadcast signaling"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "blinker-1.6.2-py3-none-any.whl", hash = "sha256:c3d739772abb7bc2860abf5f2ec284223d9ad5c76da018234f6f50d6f31ab1f0"},
-    {file = "blinker-1.6.2.tar.gz", hash = "sha256:4afd3de66ef3a9f8067559fb7a1cbe555c17dcbe15971b05d1b625c3e7abe213"},
-]
-
-[[package]]
 name = "cachetools"
 version = "5.3.1"
 description = "Extensible memoizing collections and decorators"
@@ -579,14 +567,14 @@ files = [
 
 [[package]]
 name = "django"
-version = "3.2.19"
+version = "3.2.20"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "Django-3.2.19-py3-none-any.whl", hash = "sha256:21cc991466245d659ab79cb01204f9515690f8dae00e5eabde307f14d24d4d7d"},
-    {file = "Django-3.2.19.tar.gz", hash = "sha256:031365bae96814da19c10706218c44dff3b654cc4de20a98bd2d29b9bde469f0"},
+    {file = "Django-3.2.20-py3-none-any.whl", hash = "sha256:a477ab326ae7d8807dc25c186b951ab8c7648a3a23f9497763c37307a2b5ef87"},
+    {file = "Django-3.2.20.tar.gz", hash = "sha256:dec2a116787b8e14962014bf78e120bba454135108e1af9e9b91ade7b2964c40"},
 ]
 
 [package.dependencies]
@@ -753,14 +741,14 @@ watch = ["watchdog", "watchdog-gevent"]
 
 [[package]]
 name = "exceptiongroup"
-version = "1.1.1"
+version = "1.1.2"
 description = "Backport of PEP 654 (exception groups)"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "exceptiongroup-1.1.1-py3-none-any.whl", hash = "sha256:232c37c63e4f682982c8b6459f33a8981039e5fb8756b2074364e5055c498c9e"},
-    {file = "exceptiongroup-1.1.1.tar.gz", hash = "sha256:d484c3090ba2889ae2928419117447a14daf3c1231d5e30d0aae34f354f01785"},
+    {file = "exceptiongroup-1.1.2-py3-none-any.whl", hash = "sha256:e346e69d186172ca7cf029c8c1d16235aa0e04035e5750b4b95039e65204328f"},
+    {file = "exceptiongroup-1.1.2.tar.gz", hash = "sha256:12c3e887d6485d16943a309616de20ae5582633e0a2eda17f4e10fd61c1e8af5"},
 ]
 
 [package.extras]
@@ -833,23 +821,21 @@ testing = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "diff-cover (>=7.5)", "p
 
 [[package]]
 name = "flask"
-version = "2.3.2"
+version = "2.0.3"
 description = "A simple framework for building complex web applications."
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.6"
 files = [
-    {file = "Flask-2.3.2-py3-none-any.whl", hash = "sha256:77fd4e1249d8c9923de34907236b747ced06e5467ecac1a7bb7115ae0e9670b0"},
-    {file = "Flask-2.3.2.tar.gz", hash = "sha256:8c2f9abd47a9e8df7f0c3f091ce9497d011dc3b31effcf4c85a6e2b50f4114ef"},
+    {file = "Flask-2.0.3-py3-none-any.whl", hash = "sha256:59da8a3170004800a2837844bfa84d49b022550616070f7cb1a659682b2e7c9f"},
+    {file = "Flask-2.0.3.tar.gz", hash = "sha256:e1120c228ca2f553b470df4a5fa927ab66258467526069981b3eb0a91902687d"},
 ]
 
 [package.dependencies]
-blinker = ">=1.6.2"
-click = ">=8.1.3"
-importlib-metadata = {version = ">=3.6.0", markers = "python_version < \"3.10\""}
-itsdangerous = ">=2.1.2"
-Jinja2 = ">=3.1.2"
-Werkzeug = ">=2.3.3"
+click = ">=7.1.2"
+itsdangerous = ">=2.0"
+Jinja2 = ">=3.0"
+Werkzeug = ">=2.0"
 
 [package.extras]
 async = ["asgiref (>=3.2)"]
@@ -912,14 +898,14 @@ grpcio-gcp = ["grpcio-gcp (>=0.2.2,<1.0.dev0)"]
 
 [[package]]
 name = "google-api-python-client"
-version = "2.90.0"
+version = "2.91.0"
 description = "Google API Client Library for Python"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "google-api-python-client-2.90.0.tar.gz", hash = "sha256:cbcb3ba8be37c6806676a49df16ac412077e5e5dc7fa967941eff977b31fba03"},
-    {file = "google_api_python_client-2.90.0-py2.py3-none-any.whl", hash = "sha256:4a41ffb7797d4f28e44635fb1e7076240b741c6493e7c3233c0e4421cec7c913"},
+    {file = "google-api-python-client-2.91.0.tar.gz", hash = "sha256:d9385ad6e7f95eecd40f7c81e3abfe4b6ad3a84f2c16bcdb66fb7b8dd814ed56"},
+    {file = "google_api_python_client-2.91.0-py2.py3-none-any.whl", hash = "sha256:6959d21d4b20c0f65c69662ca7b6a8a02fc08f3e7f72d70b28ae3e6e3a5f9ab2"},
 ]
 
 [package.dependencies]
@@ -1484,7 +1470,7 @@ files = [
 name = "importlib-metadata"
 version = "6.7.0"
 description = "Read metadata from Python packages"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1579,14 +1565,14 @@ files = [
 
 [[package]]
 name = "jinja2"
-version = "3.1.2"
+version = "3.0.3"
 description = "A very fast and expressive template engine."
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.6"
 files = [
-    {file = "Jinja2-3.1.2-py3-none-any.whl", hash = "sha256:6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"},
-    {file = "Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
+    {file = "Jinja2-3.0.3-py3-none-any.whl", hash = "sha256:077ce6014f7b40d03b47d1f1ca4b0fc8328a692bd284016f806ed0eaca390ad8"},
+    {file = "Jinja2-3.0.3.tar.gz", hash = "sha256:611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7"},
 ]
 
 [package.dependencies]
@@ -1750,20 +1736,20 @@ setuptools = "*"
 
 [[package]]
 name = "octue"
-version = "0.46.3"
+version = "0.39.0"
 description = "A package providing template applications for data services, and a python SDK to the Octue API."
 category = "main"
 optional = false
 python-versions = ">=3.7.1,<4.0.0"
 files = [
-    {file = "octue-0.46.3-py3-none-any.whl", hash = "sha256:9dc685554e19dc0cd97e1e4a8b1efcf1bad41db9bd05193606117210dd86430a"},
-    {file = "octue-0.46.3.tar.gz", hash = "sha256:c47bbacb1d58cbd57de2a6de9e0b2a944e23e4260add58fe84a727ff7f59e17d"},
+    {file = "octue-0.39.0-py3-none-any.whl", hash = "sha256:ba42b164a639cfbc1fe6e480ec1bd6cf5c53abd98449928d5ea573c9057825cf"},
+    {file = "octue-0.39.0.tar.gz", hash = "sha256:c4f8a7f00bba5ac7e664e48d7eca5a95ed99299ad17cc1157d6e8df6aa9e494f"},
 ]
 
 [package.dependencies]
 click = ">=7,<9"
 coolname = ">=1.1,<2.0"
-Flask = ">=2.2.5,<3"
+Flask = "2.0.3"
 google-auth = ">=1.27.0,<3"
 google-cloud-pubsub = ">=2.5,<3.0"
 google-cloud-secret-manager = ">=2.3,<3.0"
@@ -2523,24 +2509,25 @@ dev = ["bump2version", "sphinxcontrib-httpdomain", "transifex-client", "wheel"]
 
 [[package]]
 name = "sphinx-tabs"
-version = "3.3.1"
+version = "3.4.0"
 description = "Tabbed views for Sphinx"
 category = "dev"
 optional = false
-python-versions = "~=3.6"
+python-versions = "~=3.7"
 files = [
-    {file = "sphinx-tabs-3.3.1.tar.gz", hash = "sha256:d10dd7fb2700329b8e5948ab9f8e3ef54fff30f79d2e42cfd1b0089ae26e8c5e"},
-    {file = "sphinx_tabs-3.3.1-py3-none-any.whl", hash = "sha256:73209aa769246501f6de9e33051cfd2d54f5900e0cc28a63367d8e4af4c0db5d"},
+    {file = "sphinx-tabs-3.4.0.tar.gz", hash = "sha256:75e97ce10b74700deaf87b662539a293c8afc9dfa9d21f126b860118064cb0c5"},
+    {file = "sphinx_tabs-3.4.0-py3-none-any.whl", hash = "sha256:31dbe7594b5ef4cfa76a7960448d4607dca167ff21467000213920572c302072"},
 ]
 
 [package.dependencies]
 docutils = ">=0.17.0,<0.18.0"
+jinja2 = "<3.1.0"
 pygments = "*"
-sphinx = ">=2,<5"
+sphinx = ">=2,<6"
 
 [package.extras]
 code-style = ["pre-commit (==2.13.0)"]
-testing = ["bs4", "coverage", "pygments", "pytest (>=3.6,<4)", "pytest-cov", "pytest-regressions", "rinohtype", "sphinx-testing"]
+testing = ["bs4", "coverage", "pygments", "pytest (>=7.1,<8)", "pytest-cov", "pytest-regressions", "rinohtype", "sphinx-testing"]
 
 [[package]]
 name = "sphinxcontrib-applehelp"
@@ -2903,14 +2890,14 @@ twisted = ["twisted (>=20.3.0)", "zope.interface (>=5.2.0)"]
 
 [[package]]
 name = "typing-extensions"
-version = "4.7.0"
+version = "4.7.1"
 description = "Backported and Experimental Type Hints for Python 3.7+"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "typing_extensions-4.7.0-py3-none-any.whl", hash = "sha256:5d8c9dac95c27d20df12fb1d97b9793ab8b2af8a3a525e68c80e21060c161771"},
-    {file = "typing_extensions-4.7.0.tar.gz", hash = "sha256:935ccf31549830cda708b42289d44b6f74084d616a00be651601a4f968e77c82"},
+    {file = "typing_extensions-4.7.1-py3-none-any.whl", hash = "sha256:440d5dd3af93b060174bf433bccd69b0babc3b15b1a8dca43789fd7f61514b36"},
+    {file = "typing_extensions-4.7.1.tar.gz", hash = "sha256:b75ddc264f0ba5615db7ba217daeb99701ad295353c45f9e95963337ceeeffb2"},
 ]
 
 [[package]]
@@ -3070,7 +3057,7 @@ files = [
 name = "zipp"
 version = "3.15.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -3133,4 +3120,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.11"
-content-hash = "2221b051d633abc39de6680abe4d8b9498515d185559ee540b335d7d63fe5a7f"
+content-hash = "e26422b9b80e0f155adcda1fb1464f9a944332defc85434e0c30dc2123b0dd8f"
