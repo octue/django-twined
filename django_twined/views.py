@@ -2,6 +2,7 @@ import json
 
 from django.http import JsonResponse
 from django_twined.models import ServiceRevision
+from django_twined.utils.versions import select_latest_service_revision_by_semantic_version
 
 
 def service_revision(request, namespace, name):
@@ -20,16 +21,8 @@ def service_revision(request, namespace, name):
         try:
             if revision_tag:
                 service_revision = ServiceRevision.objects.get(namespace=namespace, name=name, tag=revision_tag)
-
             else:
-                service_revision = (
-                    ServiceRevision.objects.filter(
-                        namespace=namespace,
-                        name=name,
-                    )
-                    .order_by("tag")
-                    .last()
-                )
+                service_revision = select_latest_service_revision_by_semantic_version(namespace=namespace, name=name)
 
         except ServiceRevision.DoesNotExist:
             return JsonResponse({"error": "Service revision not found."}, status=404)
