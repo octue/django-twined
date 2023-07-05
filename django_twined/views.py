@@ -1,7 +1,15 @@
 import json
 
+from django.conf import settings
 from django.http import JsonResponse
-from django_twined.models import ServiceRevision
+from django_twined.models.service_revisions import ServiceRevision, service_revision_is_latest_semantic_version
+
+
+SERVICE_REVISION_IS_DEFAULT_CALLBACK = getattr(
+    settings,
+    "TWINED_SERVICE_REVISION_IS_DEFAULT_CALLBACK",
+    service_revision_is_latest_semantic_version,
+)
 
 
 def service_revision(request, namespace, name):
@@ -45,13 +53,17 @@ def service_revision(request, namespace, name):
                 status=400,
             )
 
-        ServiceRevision.objects.create(
+        service_revision = ServiceRevision(
             namespace=namespace,
             name=name,
             tag=body["revision_tag"],
             is_default=body.get("is_default", False),
         )
 
+        if SERVICE_REVISION_IS_DEFAULT_CALLBACK is not None:
+            service_revision.is_default = SERVICE_REVISION_IS_DEFAULT_CALLBACK(service_revision)
+
+        service_revision.save()
         return JsonResponse({}, status=201)
 
     return JsonResponse({"error": "Invalid request method."}, status=405)

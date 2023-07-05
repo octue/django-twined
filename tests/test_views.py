@@ -43,8 +43,13 @@ class TestServiceRevision(TestCase):
     def test_get_service_revision_without_revision_tag(self):
         """Test that the latest service revision is returned when the revision tag isn't supplied."""
         ServiceRevision.objects.create(namespace=NAMESPACE, name=NAME, tag="0.1.0")
-        ServiceRevision.objects.create(namespace=NAMESPACE, name=NAME, tag="1.0.0")
-        latest_service_revision = ServiceRevision.objects.create(namespace=NAMESPACE, name=NAME, tag="1.0.1")
+        ServiceRevision.objects.create(namespace=NAMESPACE, name=NAME, tag="2.0.0")
+        latest_service_revision = ServiceRevision.objects.create(
+            namespace=NAMESPACE,
+            name=NAME,
+            tag="11.0.1",
+            is_default=True,
+        )
 
         response = self.client.get(reverse("service-revisions", kwargs={"namespace": NAMESPACE, "name": NAME}))
 
@@ -54,7 +59,7 @@ class TestServiceRevision(TestCase):
                 "namespace": NAMESPACE,
                 "name": NAME,
                 "revision_tag": latest_service_revision.tag,
-                "is_default": False,
+                "is_default": True,
             },
         )
 

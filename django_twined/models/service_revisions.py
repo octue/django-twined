@@ -1,5 +1,6 @@
 import logging
 
+import packaging.version
 from django.conf import settings
 from django.db import models, transaction
 from django_gcp.events.utils import get_event_url
@@ -12,6 +13,23 @@ from .service_usage_events import QUESTION_RESPONSE_UPDATED
 logger = logging.getLogger(__name__)
 
 QUESTION_ASK_TIMEOUT_SECONDS = 60
+
+
+def service_revision_is_latest_semantic_version(service_revision):
+    """Determine if a service revision is the latest semantic version based on its revision tag.
+
+    :param django_twined.models.service_revision.ServiceRevision namespace: the service revision to heck
+    :return bool: `True` if the service revision is the latest semantic version according to its revision tag
+    """
+    sorted_service_revisions = sorted(
+        [
+            *ServiceRevision.objects.filter(namespace=service_revision.namespace, name=service_revision.name),
+            service_revision,
+        ],
+        key=lambda revision: packaging.version.parse(revision.tag),
+    )
+
+    return sorted_service_revisions[-1] == service_revision
 
 
 def get_default_namespace():
@@ -184,15 +202,19 @@ class AbstractServiceRevision(models.Model):
         return f"Service Revision ({self.sruid})"
 
     def save(self, *args, **kwargs):
-        """Override save method to ensure that there can be only one default service revision"""
+        """Override save method to ensure that there can be only one default service revision."""
         with transaction.atomic():
             if self.is_default:
                 previous_default = ServiceRevision.objects.filter(
-                    namespace=self.namespace, name=self.name, is_default=True
+                    namespace=self.namespace,
+                    name=self.name,
+                    is_default=True,
                 ).first()
+
                 if previous_default is not None:
                     previous_default.is_default = False
                     previous_default.save()
+
             super().save(*args, **kwargs)
 
 
