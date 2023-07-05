@@ -84,7 +84,7 @@ class TestServiceRevision(TestCase):
 
         response = self.client.post(
             reverse("service-revisions", kwargs={"namespace": NAMESPACE, "name": NAME}),
-            data={"revision_tag": revision_tag, "is_default": True},
+            data={"revision_tag": revision_tag},
             content_type="application/json",
         )
 
