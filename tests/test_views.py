@@ -19,6 +19,7 @@ class TestServiceRevision(TestCase):
             reverse("services", kwargs={"name": "non-existent", "namespace": "service"}),
             data={"revision_tag": "latest"},
         )
+
         self.assertEqual(response.json(), {"error": "Service revision not found."})
 
     def test_get_service_revision_with_revision_tag(self):
@@ -44,6 +45,7 @@ class TestServiceRevision(TestCase):
         """Test that the latest service revision is returned when the revision tag isn't supplied."""
         ServiceRevision.objects.create(namespace=NAMESPACE, name=NAME, tag="0.1.0")
         ServiceRevision.objects.create(namespace=NAMESPACE, name=NAME, tag="2.0.0")
+
         latest_service_revision = ServiceRevision.objects.create(
             namespace=NAMESPACE,
             name=NAME,
