@@ -28,3 +28,6 @@ Settings
    * - ``TWINED_DATA_STORES``
      - dict
      - A dictionary defining one or more Data Stores, which map a database table (django Model) to a bucket on GCP, syncing metadata between the files in the bucket and filterable / searchable columns in teh DB table.
+   * - ``TWINED_SERVICE_REVISION_SELECTION_CALLBACK``
+     - callable
+     - A function that takes two positional arguments (the namespace and name of a service) and returns a service revision. The function is used to select the service revision returned by the services endpoint. Defaults to returning the service revision with the latest semantic version tag.
