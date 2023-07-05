@@ -57,6 +57,7 @@ Contents
    self
    installation
    quick_start
+   service_revisions
    settings
    examples
    license

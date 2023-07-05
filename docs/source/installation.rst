@@ -32,8 +32,10 @@ You'll need to install ``django_twined``, ``django_gcp`` and ``jsoneditor`` as a
 .. tip::
     You can use `django-gcp <https://django-gcp.readthedocs.io/en/latest/>`_ for your media/static storage, event handlers and task queues too!
 
-Add the service revision endpoint
----------------------------------
+.. _adding_services_endpoint:
+
+Add the services endpoint
+-------------------------
 Include the django-twined URLs in your ``your_app/urls.py``:
 
 .. code-block:: python
