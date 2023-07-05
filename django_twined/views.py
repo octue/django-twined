@@ -1,22 +1,12 @@
 import json
 
-from django.conf import settings
 from django.http import JsonResponse
 from django_twined.models import ServiceRevision
-from django_twined.utils.versions import select_latest_service_revision_by_semantic_version
-
-
-SERVICE_REVISION_SELECTION_HANDLER = getattr(
-    settings,
-    "TWINED_SERVICE_REVISION_SELECTION_CALLBACK",
-    select_latest_service_revision_by_semantic_version,
-)
 
 
 def service_revision(request, namespace, name):
-    """Get or create a service revision. If, when getting a service revision, the revision tag isn't provided, the
-    service revision determined by the `TWINED_SERVICE_REVISION_SELECTION_CALLBACK` setting is returned (this defaults
-    to the service revision with the latest semantic version revision tag).
+    """Get or create a service revision. If the revision tag isn't provided when getting a service revision, the default
+    service revision is returned. This is the service revision with the latest semantic version revision tag by default.
 
     :param django.core.handlers.wsgi.WSGIRequest request:
     :param str namespace: the namespace of the service
@@ -31,7 +21,7 @@ def service_revision(request, namespace, name):
             if revision_tag:
                 service_revision = ServiceRevision.objects.get(namespace=namespace, name=name, tag=revision_tag)
             else:
-                service_revision = SERVICE_REVISION_SELECTION_HANDLER(namespace=namespace, name=name)
+                service_revision = ServiceRevision.objects.get(namespace=namespace, name=name, is_default=True)
 
         except ServiceRevision.DoesNotExist:
             return JsonResponse({"error": "Service revision not found."}, status=404)
