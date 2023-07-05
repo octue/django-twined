@@ -16,7 +16,7 @@ To register a service revision:
 
     response = requests.post(
         "<base_url>/<chosen_path_for_django_twined_urls>/services/<namespace>/<name>",
-        json={"revision_tag": "<revision_tag>", "is_default": True},
+        json={"revision_tag": "<revision_tag>"},
     )
 
 For example, if your base URL is ``myapp.org/api``, you've registered the ``django-twined`` URLs under
@@ -29,13 +29,13 @@ be:
 
     response = requests.post(
         "https://myapp.org/api/integrations/octue/services/my-org/my-service",
-        json={"revision_tag": "1.2.9", "is_default": True},
+        json={"revision_tag": "1.2.9"},
     )
 
-Getting the latest service revision
-===================================
-This request is the same as above except the revision tag is omitted. By default, the service revision with the latest
-semantic version revision tag will be returned.
+Getting the default service revision
+====================================
+You can request the default service revision by not specifying a revision tag. By default, the service revision with the
+latest semantic version revision tag will be returned.
 
 .. code-block:: python
 
@@ -78,18 +78,20 @@ semantic version revision tag will be returned.
     Later, more useful information will be returned (eg how to send a question to that specific service revision and
     access tokens to do so).
 
-Controlling which service revision is returned by default
-=========================================================
-The ``TWINED_SERVICE_REVISION_SELECTION_CALLBACK`` setting can be set to a user-defined callable to control which
-service revision is returned when a service is requested but the revision tag isn't specified. This callable must take
-two keyword arguments: ``namespace`` and ``name`` and must return a single instance of the ``ServiceRevision`` model.
+
+Controlling whether a service revision is set as the default at registration
+============================================================================
+The ``TWINED_SERVICE_REVISION_IS_DEFAULT_CALLBACK`` setting can be set to a user-defined callable to control whether a
+service revision is set as the default for its service during registration. The callable must take one argument,
+``service_revision`` (an instance of the ``ServiceRevision`` model), and return a boolean indicating whether the
+revision should be set as the default. The default callable sets the service revision as the default if its revision
+tag is the latest semantic version for the service.
 
 Examples of how this feature can be used include:
 
 - A/B testing
-- Returning certain service revisions based on the request or the requester
 - Controlling the availability of beta versions of services
-- Other custom routing of questions to services
+- Other custom selection of service revisions
 
-`Click here <https://github.com/octue/django-twined/blob/main/django_twined/utils/versions.py#L5>`_ to see the default
-callable as an example.
+`Click here <https://github.com/octue/django-twined/blob/main/django_twined/models/service_revisions.py#L18>`_ to see
+the default callable as an example.
