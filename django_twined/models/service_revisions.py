@@ -18,7 +18,7 @@ QUESTION_ASK_TIMEOUT_SECONDS = 60
 def service_revision_is_latest_semantic_version(service_revision):
     """Determine if a service revision is the latest semantic version based on its revision tag.
 
-    :param django_twined.models.service_revision.ServiceRevision namespace: the service revision to heck
+    :param django_twined.models.service_revision.ServiceRevision service_revision: the service revision to check
     :return bool: `True` if the service revision is the latest semantic version according to its revision tag
     """
     sorted_service_revisions = sorted(
