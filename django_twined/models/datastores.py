@@ -2,6 +2,7 @@ import json
 import logging
 import uuid
 import warnings
+
 from django.db import models
 from octue.resources import Datafile
 from octue.utils.encoders import OctueJSONEncoder

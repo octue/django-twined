@@ -2,6 +2,7 @@
 # pylint: disable=missing-docstring
 
 import uuid
+
 import django.db.models.deletion
 import django_twined.models.service_revisions
 from django.db import migrations, models
