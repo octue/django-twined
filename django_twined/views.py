@@ -51,7 +51,7 @@ def service_revision(request, namespace, name):
 
         if "revision_tag" not in body:
             return JsonResponse(
-                {"error": "A revision tag must be included when registering a new service revision"},
+                {"error": "A revision tag must be included when registering a new service revision."},
                 status=400,
             )
 
