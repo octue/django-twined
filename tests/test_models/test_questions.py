@@ -10,9 +10,8 @@ from django.test import TestCase
 from django.urls import reverse
 from django_twined.models import Question, ServiceRevision
 
+from tests.factories import SuperUserFactory
 from tests.server.example.models import QuestionWithValuesDatabaseStorage
-
-from .factories import SuperUserFactory
 
 
 SKIP_INTEGRATION_TESTS = not os.environ.get("RUN_INTEGRATION_TESTS", False)
