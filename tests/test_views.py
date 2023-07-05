@@ -10,13 +10,13 @@ NAME = "my-service"
 class TestServiceRevision(TestCase):
     def test_invalid_http_method_causes_error_response(self):
         """Test that an error response is returned if using an invalid HTTP method with the endpoint."""
-        response = self.client.patch(reverse("service-revisions", kwargs={"name": "some", "namespace": "service"}))
+        response = self.client.patch(reverse("services", kwargs={"name": "some", "namespace": "service"}))
         self.assertEqual(response.json(), {"error": "Invalid request method."})
 
     def test_getting_nonexistent_service_revision_causes_error_response(self):
         """Test that an error response is returned if trying to get a non-existent service."""
         response = self.client.get(
-            reverse("service-revisions", kwargs={"name": "non-existent", "namespace": "service"}),
+            reverse("services", kwargs={"name": "non-existent", "namespace": "service"}),
             data={"revision_tag": "latest"},
         )
         self.assertEqual(response.json(), {"error": "Service revision not found."})
@@ -26,7 +26,7 @@ class TestServiceRevision(TestCase):
         service_revision = ServiceRevision.objects.create(namespace=NAMESPACE, name=NAME, tag="1.0.0")
 
         response = self.client.get(
-            reverse("service-revisions", kwargs={"namespace": NAMESPACE, "name": NAME}),
+            reverse("services", kwargs={"namespace": NAMESPACE, "name": NAME}),
             data={"revision_tag": service_revision.tag},
         )
 
@@ -51,7 +51,7 @@ class TestServiceRevision(TestCase):
             is_default=True,
         )
 
-        response = self.client.get(reverse("service-revisions", kwargs={"namespace": NAMESPACE, "name": NAME}))
+        response = self.client.get(reverse("services", kwargs={"namespace": NAMESPACE, "name": NAME}))
 
         self.assertEqual(
             response.json(),
@@ -68,7 +68,7 @@ class TestServiceRevision(TestCase):
         revision tag.
         """
         response = self.client.post(
-            reverse("service-revisions", kwargs={"namespace": NAMESPACE, "name": NAME}),
+            reverse("services", kwargs={"namespace": NAMESPACE, "name": NAME}),
             data={},
             content_type="application/json",
         )
@@ -83,7 +83,7 @@ class TestServiceRevision(TestCase):
         revision_tag = "3.9.9"
 
         response = self.client.post(
-            reverse("service-revisions", kwargs={"namespace": NAMESPACE, "name": NAME}),
+            reverse("services", kwargs={"namespace": NAMESPACE, "name": NAME}),
             data={"revision_tag": revision_tag},
             content_type="application/json",
         )
