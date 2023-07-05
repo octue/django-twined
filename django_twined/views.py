@@ -15,7 +15,8 @@ SERVICE_REVISION_SELECTION_HANDLER = getattr(
 
 def service_revision(request, namespace, name):
     """Get or create a service revision. If, when getting a service revision, the revision tag isn't provided, the
-    latest revision for that service is returned.
+    service revision determined by the `TWINED_SERVICE_REVISION_SELECTION_CALLBACK` setting is returned (this defaults
+    to the service revision with the latest semantic version revision tag).
 
     :param django.core.handlers.wsgi.WSGIRequest request:
     :param str namespace: the namespace of the service
