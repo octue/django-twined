@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django_gcp.events.utils import get_event_url
 from octue.cloud.pub_sub.service import Service
+from octue.cloud.service_id import convert_service_id_to_pub_sub_form
 from octue.resources.service_backends import get_backend
 
 from .service_usage_events import QUESTION_RESPONSE_UPDATED
@@ -64,6 +65,8 @@ class AbstractServiceRevision(models.Model):
     namespace = models.SlugField(
         max_length=80,
         default=get_default_namespace,
+        blank=False,
+        null=False,
         help_text="The organisation namespace, eg 'octue'",
     )
 
@@ -75,6 +78,7 @@ class AbstractServiceRevision(models.Model):
         max_length=80,
         default=get_default_tag,
         blank=False,
+        null=False,
         help_text="The service revision tag that helps to identify the unique deployment",
     )
 
@@ -97,51 +101,34 @@ class AbstractServiceRevision(models.Model):
         ]
 
     @property
-    def has_tag(self):
-        """Return true if the instance has a tag"""
-        return (self.tag is not None) and (len(self.tag) > 0)
-
-    @property
-    def has_namespace(self):
-        """Return true if the instance has a namespace"""
-        return (self.namespace is not None) and (len(self.namespace) > 0)
-
-    @property
     def sruid(self):
         """Return the Service Revision Unique Identifier
 
-        Comprises the namespace, name, version, and tag parameters that
-        together uniquely identify a revision (e.g. for the purposes of
-        addressing).
+        Comprises the namespace, name, version, and tag parameters that together uniquely identify a revision (e.g. for
+        the purposes of addressing).
 
-        Using docker image labeling as inspiration, this looks like
-        octue/example-service:0.1.2 or octue/example-service:my-branch
-        or octue/example-service:0.1.2-r1 enabling both routing to specific
-        revisions and things like branches for review
+        Using docker image labeling as inspiration, this looks like octue/example-service:0.1.2 or
+        octue/example-service:my-branch or octue/example-service:0.1.2-r1 enabling both routing to specific revisions
+        and things like branches for review.
         """
-        tag = f":{self.tag}" if self.has_tag else ""
-
-        namespace = f"{self.namespace}/" if self.has_namespace else ""
-
-        return f"{namespace}{self.name}{tag}"
-
-    @property
-    def _partial_topic(self):
-        """TODO replace this once the service id has been properly sorted out on the octue side
-        currently this is used to botch the service_id value so that it comes out with the correct topic name format"""
-        tag = f".{self.tag.replace('.', '-')}" if self.has_tag else ""
-        namespace = f"{self.namespace}." if self.has_namespace else ""
-        return f"{namespace}{self.name}{tag}"
+        return f"{self.namespace}/{self.name}:{self.tag}"
 
     @property
     def topic(self):
-        """Return the octue GCP topic address string"""
-        tag = f".{self.tag}" if self.has_tag else ""
-        namespace = f"{self.namespace}." if self.has_namespace else ""
-        return f"octue.services.{namespace}{self.name}{tag}"
+        """Return the octue GCP topic address string.
+
+        :return str:
+        """
+        return "octue.services." + convert_service_id_to_pub_sub_form(self.sruid)
 
     def ask(
-        self, question_id, input_values=None, input_manifest=None, push_url=None, asker_name="django-twined", **kwargs
+        self,
+        question_id,
+        input_values=None,
+        input_manifest=None,
+        push_url=None,
+        asker_name="django-twined",
+        **kwargs,
     ):
         """Ask a question of this service revision
 
@@ -166,7 +153,6 @@ class AbstractServiceRevision(models.Model):
         ```
 
         """
-
         if push_url is None:
             push_url = get_event_url(
                 event_kind=QUESTION_RESPONSE_UPDATED,
@@ -178,13 +164,11 @@ class AbstractServiceRevision(models.Model):
                 base_url=settings.TWINED_BASE_URL,
             )
 
-        backend = get_backend()(
-            project_name=self.project_name,
-        )
+        backend = get_backend()(project_name=self.project_name)
+        asker = Service(backend=backend, name=asker_name)
 
-        asker = Service(backend, name=asker_name)
         subscription, _ = asker.ask(
-            service_id=self._partial_topic,  # TODO REFACTOR REQUEST Tidy up in newer versions of octue to give to correct topic name
+            service_id=self.sruid,
             question_uuid=str(question_id),
             input_values=input_values,
             input_manifest=input_manifest,
