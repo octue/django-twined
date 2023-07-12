@@ -66,6 +66,7 @@ class AbstractServiceRevision(models.Model):
         max_length=80,
         default=get_default_namespace,
         blank=False,
+        null=False,
         help_text="The organisation namespace, eg 'octue'",
     )
 
@@ -77,6 +78,7 @@ class AbstractServiceRevision(models.Model):
         max_length=80,
         default=get_default_tag,
         blank=False,
+        null=False,
         help_text="The service revision tag that helps to identify the unique deployment",
     )
 
