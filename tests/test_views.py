@@ -17,7 +17,7 @@ class TestServiceRevision(TestCase):
         """Test that an error response is returned if trying to get a non-existent service."""
         response = self.client.get(
             reverse("services", kwargs={"name": "non-existent", "namespace": "service"}),
-            data={"revision_tag": "latest"},
+            data={"revision_tag": "1.3.9"},
         )
 
         self.assertEqual(response.json(), {"error": "Service revision not found."})

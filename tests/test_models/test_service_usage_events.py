@@ -39,7 +39,7 @@ class ServiceUsageEventTestCase(TestCase):
             mock.return_value = ("subscription", "push_url")
 
             sr = ServiceRevision.objects.create(
-                project_name="gargantuan-gibbons", namespace="large-gibbons", name="gibbon-analyser", tag="latest"
+                project_name="gargantuan-gibbons", namespace="large-gibbons", name="gibbon-analyser", tag="1.0.0"
             )
 
             q = QuestionWithValuesDatabaseStorage.objects.create(service_revision=sr)
@@ -54,7 +54,7 @@ class ServiceUsageEventTestCase(TestCase):
         self.assertTrue(
             push_url.startswith(f"https://my-server.com/gcp/events/{QUESTION_RESPONSE_UPDATED}/{str(q.id)}")
         )
-        self.assertTrue("sruid=large-gibbons%2Fgibbon-analyser%3Alatest" in push_url)
+        self.assertTrue("sruid=large-gibbons%2Fgibbon-analyser%3A1.0.0" in push_url)
         self.assertTrue(f"srid={str(sr.id)}" in push_url)
 
         local_url = push_url.replace("https://my-server.com", "")

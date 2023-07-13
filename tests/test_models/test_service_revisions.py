@@ -9,16 +9,6 @@ class TestServiceRevisionIsLatestSemanticVersion(TestCase):
     NAMESPACE = "my-org"
     NAME = "my-service"
 
-    def test_revision_with_non_semantic_version_tag_not_found_to_be_latest_version(self):
-        """Test that a service revisions with a tag that isn't a semantic versions is not found to be the latest
-        version.
-        """
-        ServiceRevision.objects.create(namespace=self.NAMESPACE, name=self.NAME, tag="0.1.0")
-        ServiceRevision.objects.create(namespace=self.NAMESPACE, name=self.NAME, tag="2.1.0", is_default=True)
-
-        new_revision = ServiceRevision(namespace=self.NAMESPACE, name=self.NAME, tag="hello")
-        self.assertFalse(service_revision_is_latest_semantic_version(new_revision))
-
     def test_revision_with_larger_semantic_version_found_to_be_latest_version(self):
         """Test that a service revision with a semantic version that is naturally/semantically, but not alphabetically,
         larger than the version of the default revision is not found to be the latest version.
@@ -69,10 +59,10 @@ class ServiceRevisionTestCase(TestCase):
             project_name="gargantuan-gibbons",
             namespace="large-gibbons",
             name="gibbon-analyser",
-            tag="latest",
+            tag="1.0.0",
         )
 
-        self.assertEqual(sr.topic, "octue.services.large-gibbons.gibbon-analyser.latest")
+        self.assertEqual(sr.topic, "octue.services.large-gibbons.gibbon-analyser.1-0-0")
 
     def test_create_with_defaults(self):
         """Ensure that default settings are read for creating default entries in the db"""
