@@ -50,6 +50,12 @@ Include the django-twined URLs in your ``your_app/urls.py``:
 
 Using ``python manage.py show_urls`` you can now see the endpoint for registering and getting service revisions appear in your app.
 
+.. warning::
+
+    The registry URLs are CSRF-exempt by default to allow automatic service revision registration from, for example,
+    GitHub Actions. If you don't want this behaviour, you can import the view at ``django_twined.views.service_revision``
+    and use it in your URL patterns as you like.
+
 Run migrations
 --------------
 Then run ``python manage.py migrate django_twined`` to add the models used for managing services, events and questions to your database.
