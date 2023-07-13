@@ -69,10 +69,10 @@ class ServiceRevisionTestCase(TestCase):
             project_name="gargantuan-gibbons",
             namespace="large-gibbons",
             name="gibbon-analyser",
-            tag="latest",
+            tag="1.0.0",
         )
 
-        self.assertEqual(sr.topic, "octue.services.large-gibbons.gibbon-analyser.latest")
+        self.assertEqual(sr.topic, "octue.services.large-gibbons.gibbon-analyser.1-0-0")
 
     def test_create_with_defaults(self):
         """Ensure that default settings are read for creating default entries in the db"""
