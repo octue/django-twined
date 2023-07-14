@@ -32,6 +32,11 @@ be:
         json={"revision_tag": "1.2.9"},
     )
 
+.. tip::
+
+    To override the registry deciding if the service revision being registered should be set as the default (see below),
+    add the ``"is_default"`` key to the request body and set it to either ``True`` or ``False``.
+
 Getting the default service revision
 ====================================
 You can request the default service revision by not specifying a revision tag. By default, the service revision with the
