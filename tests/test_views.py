@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.test.testcases import TestCase
 from django.urls import reverse
 from django_twined.models import ServiceRevision
@@ -7,7 +9,7 @@ NAMESPACE = "my-org"
 NAME = "my-service"
 
 
-class TestServiceRevision(TestCase):
+class TestGetServiceRevision(TestCase):
     def test_invalid_http_method_causes_error_response(self):
         """Test that an error response is returned if using an invalid HTTP method with the endpoint."""
         response = self.client.patch(reverse("services", kwargs={"name": "some", "namespace": "service"}))
@@ -65,6 +67,8 @@ class TestServiceRevision(TestCase):
             },
         )
 
+
+class TestRegisterServiceRevision(TestCase):
     def test_register_service_revision_without_revision_tag_causes_error_response(self):
         """Test that an error response is returned if attempting to register a service revision without providing a
         revision tag.
@@ -89,6 +93,40 @@ class TestServiceRevision(TestCase):
             data={"revision_tag": revision_tag},
             content_type="application/json",
         )
+
+        self.assertEqual(response.json(), {})
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(ServiceRevision.objects.get(namespace=NAMESPACE, name=NAME, tag=revision_tag).is_default)
+
+    def test_register_service_revision_with_is_default_specified_as_false(self):
+        """Test that the `is_default` field is respected when registering a service revision when `is_default=False`,
+        even when the `SERVICE_REVISION_IS_DEFAULT_CALLBACK` returns `True` for the revision.
+        """
+        revision_tag = "3.9.9"
+
+        with patch("django_twined.views.SERVICE_REVISION_IS_DEFAULT_CALLBACK", return_value=True):
+            response = self.client.post(
+                reverse("services", kwargs={"namespace": NAMESPACE, "name": NAME}),
+                data={"revision_tag": revision_tag, "is_default": False},
+                content_type="application/json",
+            )
+
+        self.assertEqual(response.json(), {})
+        self.assertEqual(response.status_code, 201)
+        self.assertFalse(ServiceRevision.objects.get(namespace=NAMESPACE, name=NAME, tag=revision_tag).is_default)
+
+    def test_register_service_revision_with_is_default_specified_as_true(self):
+        """Test that the `is_default` field is respected when registering a service revision when `is_default=True`,
+        even when the `SERVICE_REVISION_IS_DEFAULT_CALLBACK` returns `False` for the revision.
+        """
+        revision_tag = "3.9.9"
+
+        with patch("django_twined.views.SERVICE_REVISION_IS_DEFAULT_CALLBACK", return_value=False):
+            response = self.client.post(
+                reverse("services", kwargs={"namespace": NAMESPACE, "name": NAME}),
+                data={"revision_tag": revision_tag, "is_default": True},
+                content_type="application/json",
+            )
 
         self.assertEqual(response.json(), {})
         self.assertEqual(response.status_code, 201)

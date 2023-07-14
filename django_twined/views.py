@@ -55,7 +55,9 @@ def service_revision(request, namespace, name):
 
         service_revision = ServiceRevision(namespace=namespace, name=name, tag=body["revision_tag"])
 
-        if SERVICE_REVISION_IS_DEFAULT_CALLBACK is not None:
+        if "is_default" in body:
+            service_revision.is_default = body["is_default"]
+        elif SERVICE_REVISION_IS_DEFAULT_CALLBACK is not None:
             service_revision.is_default = SERVICE_REVISION_IS_DEFAULT_CALLBACK(service_revision)
 
         service_revision.save()
