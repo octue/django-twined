@@ -1,6 +1,7 @@
 import logging
 
 from django.db import models
+from django.db.models import Q
 
 
 logger = logging.getLogger(__name__)
@@ -31,7 +32,11 @@ class AbstractEvent(models.Model):
     data = models.JSONField(blank=False, null=False, editable=False, help_text="Event payload")
 
     kind = models.CharField(
-        max_length=20, null=False, blank=False, help_text="Event kind", choices=SERVICE_USAGE_EVENT_KINDS_CHOICES
+        max_length=20,
+        null=False,
+        blank=False,
+        help_text="Event kind",
+        choices=SERVICE_USAGE_EVENT_KINDS_CHOICES,
     )
 
     publish_time = models.DateTimeField(null=False, blank=False, help_text="Event timestamp")
@@ -80,3 +85,69 @@ class ServiceUsageEvent(AbstractEvent):
 
     def __repr__(self):
         return f"Service Usage Event {self.kind}"
+
+
+class QuestionEventsMixin:
+    """A mixin for Question subclass providing helpers for retrieval of specific message kinds"""
+
+    @property
+    def delivery_acknowledgement(self):
+        try:
+            return self.service_usage_events.get(
+                Q(data__type="delivery_acknowledgement") | Q(data__kind="delivery_acknowledgement")
+            )
+        except ServiceUsageEvent.DoesNotExist:
+            return None
+        except ServiceUsageEvent.MultipleObjectsReturned:
+            logger.warning(
+                "MultipleObjectsReturned detected for delivery_acknowledgement ServiceUsageEvent on question %s",
+                self.id,
+            )
+            return self.service_usage_events.filter(
+                Q(data__type="delivery_acknowledgement") | Q(data__kind="delivery_acknowledgement")
+            ).first()
+
+    @property
+    def exceptions(self):
+        return (
+            self.service_usage_events.order_by("publish_time")
+            .filter(Q(data__type="exception") | Q(data__kind="exception"))
+            .all()
+        )
+
+    @property
+    def result(self):
+        try:
+            return self.service_usage_events.get(Q(data__type="result") | Q(data__kind="result"))
+        except ServiceUsageEvent.DoesNotExist:
+            return None
+        except ServiceUsageEvent.MultipleObjectsReturned:
+            logger.warning(
+                "MultipleObjectsReturned detected for result ServiceUsageEvent on question %s",
+                self.id,
+            )
+            return self.service_usage_events.filter(Q(data__type="result") | Q(data__kind="result")).first()
+
+    @property
+    def log_records(self):
+        return (
+            self.service_usage_events.order_by("publish_time")
+            .filter(Q(data__type="log_record") | Q(data__kind="log_record"))
+            .all()
+        )
+
+    @property
+    def monitor_messages(self):
+        return (
+            self.service_usage_events.order_by("publish_time")
+            .filter(Q(data__type="monitor_message") | Q(data__kind="monitor_message"))
+            .all()
+        )
+
+    @property
+    def latest_heartbeat(self):
+        return (
+            self.service_usage_events.order_by("-publish_time")
+            .filter(Q(data__type="heartbeat") | Q(data__kind="heartbeat"))
+            .first()
+        )
