@@ -50,28 +50,28 @@ def receive_event(sender, event_kind, event_reference, event_payload, event_para
             service_revision_id=event_parameters["srid"],
         )
 
-        data_type = decoded["data"].get("type", None)
+        event_kind = decoded["data"].get("kind", None)
 
-        if data_type == "delivery_acknowledgement":
+        if event_kind == "delivery_acknowledgement":
             delivery_acknowledgement_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
-        if data_type == "exception":
+        if event_kind == "exception":
             exception_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
-        elif data_type == "heartbeat":
+        elif event_kind == "heartbeat":
             heartbeat_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
-        elif data_type == "log_record":
+        elif event_kind == "log_record":
             log_record_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
-        elif data_type == "monitor_message":
+        elif event_kind == "monitor_message":
             monitor_message_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
-        elif data_type == "result":
+        elif event_kind == "result":
             result_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
         elif event_kind == QUESTION_ASKED:
             question_asked.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
         else:
-            logger.warning("Unknown event kind:type (%s) for ServiceUsageEvent %s", data_type, sue.id)
+            logger.warning("Unknown event kind: (%s) for ServiceUsageEvent %s", event_kind, sue.id)
