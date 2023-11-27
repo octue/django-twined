@@ -11,10 +11,9 @@ class QuestionAdmin(admin.ModelAdmin):
 
     change_form_template = "django_twined/question_changeform.html"
     search_fields = ["id", "service_revision__name"]
-    list_display = ("id", "asked", "answered", "service_revision", "calculation_status")
+    list_display = ("id", "asked", "answered", "service_revision")
     list_filter = (
         "asked",
-        "calculation_status",
         "service_revision__namespace",
         "service_revision__name",
         "service_revision__tag",
@@ -25,7 +24,6 @@ class QuestionAdmin(admin.ModelAdmin):
     readonly_fields = (
         "answered",
         "asked",
-        "calculation_status",
         "id",
         "log_records",
         "monitor_messages",
@@ -45,7 +43,6 @@ class QuestionAdmin(admin.ModelAdmin):
                     "asked",
                     "answered",
                     "created",
-                    "calculation_status",
                     "latest_heartbeat",
                 )
             },
