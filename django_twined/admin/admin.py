@@ -26,7 +26,6 @@ class QuestionAdmin(admin.ModelAdmin):
         "answered",
         "asked",
         "calculation_status",
-        "created",
         "id",
         "log_records",
         "monitor_messages",
