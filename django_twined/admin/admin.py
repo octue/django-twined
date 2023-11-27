@@ -51,6 +51,8 @@ class QuestionAdmin(admin.ModelAdmin):
                 )
             },
         ),
+        ("Inputs", {"classes": ("collapse",), "fields": ("input_values",)}),
+        ("Outputs", {"classes": ("collapse",), "fields": ("output_values",)}),
         ("Delivery Acknowledgement", {"classes": ("collapse",), "fields": ("delivery_acknowledgement",)}),
         ("Log Records", {"classes": ("collapse",), "fields": ("log_records",)}),
         ("Monitor Messages", {"classes": ("collapse",), "fields": ("monitor_messages",)}),
