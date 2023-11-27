@@ -42,7 +42,6 @@ class QuestionAdmin(admin.ModelAdmin):
                     "service_revision",
                     "asked",
                     "answered",
-                    "created",
                     "latest_heartbeat",
                 )
             },
