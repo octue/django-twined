@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime, timezone
 
 from django.db import models
+from django_twined.models.service_usage_events import QuestionEventsMixin
 from model_utils.managers import InheritanceManager
 
 from ..fields import ManifestField, ValuesField
@@ -96,7 +97,7 @@ class AbstractQuestion(models.Model):
         return subscription, push_url, service_revision
 
 
-class Question(AbstractQuestion):
+class Question(AbstractQuestion, QuestionEventsMixin):
     """Stores questions asked to octue services
 
     This concrete model is here to link questions to the service revisions
