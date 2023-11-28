@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Python ${{ matrix.python }}
         uses: actions/setup-python@v2
@@ -78,3 +78,6 @@ jobs:
         with:
           files: coverage.xml
           fail_ci_if_error: true
+          # Token is not required for public repos, but see:
+          # https://community.codecov.com/t/upload-issues-unable-to-locate-build-via-github-actions-api/3954
+          token: ${{ secrets.CODECOV_TOKEN }}
