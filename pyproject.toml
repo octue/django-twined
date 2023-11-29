@@ -25,7 +25,7 @@ django = ">=3.0,<4.0"
 channels = ">=3.0,<4.0"
 octue = {git = "https://github.com/octue/octue-sdk-python.git", rev = "publish-answers-to-question-topic-2"}
 pika = "^1.2.0"
-django-gcp = ">=0.7.3,<0.11"
+django-gcp = ">=0.7.3,<0.12"
 django-jsoneditor = "^0.2.2"
 django-model-utils = "^4.2.0"
 
