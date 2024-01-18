@@ -67,6 +67,13 @@ class QuestionAdmin(admin.ModelAdmin):
     )
 
     @staticmethod
+    def input_values(obj):
+        try:
+            return obj.input_values.data
+        except AttributeError:
+            return None
+
+    @staticmethod
     def delivery_acknowledgement(obj):
         """Show the datetime the question was acknowledged by the child service.
 
