@@ -88,10 +88,17 @@ class ServiceUsageEvent(AbstractEvent):
 
 
 class QuestionEventsMixin:
-    """A mixin for Question subclass providing helpers for retrieval of specific message kinds"""
+    """A mixin for the `Question` subclass providing helpers for retrieval of specific message kinds. These methods are
+    backwards compatible with database entries created before the breaking change in version `0.7.0` was introduced,
+    allowing the new and old formats of JSON data stored in the events to be accessed.
+    """
 
     @property
     def delivery_acknowledgement(self):
+        """Get the delivery acknowledgement for the question.
+
+        :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
+        """
         try:
             return self.service_usage_events.get(
                 Q(data__type="delivery_acknowledgement") | Q(data__kind="delivery_acknowledgement")
@@ -109,6 +116,10 @@ class QuestionEventsMixin:
 
     @property
     def exceptions(self):
+        """Get any exceptions raised by the child service during processing of the question.
+
+        :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
+        """
         return (
             self.service_usage_events.order_by("publish_time")
             .filter(Q(data__type="exception") | Q(data__kind="exception"))
@@ -117,6 +128,10 @@ class QuestionEventsMixin:
 
     @property
     def result(self):
+        """Get the result produced by the child service in response to the question.
+
+        :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
+        """
         try:
             return self.service_usage_events.get(Q(data__type="result") | Q(data__kind="result"))
         except ServiceUsageEvent.DoesNotExist:
@@ -130,6 +145,10 @@ class QuestionEventsMixin:
 
     @property
     def log_records(self):
+        """Get any log records produced by the child service processing the question.
+
+        :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
+        """
         return (
             self.service_usage_events.order_by("publish_time")
             .filter(Q(data__type="log_record") | Q(data__kind="log_record"))
@@ -138,6 +157,10 @@ class QuestionEventsMixin:
 
     @property
     def monitor_messages(self):
+        """Get any monitor messages produced by the child service processing the question.
+
+        :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
+        """
         return (
             self.service_usage_events.order_by("publish_time")
             .filter(Q(data__type="monitor_message") | Q(data__kind="monitor_message"))
@@ -146,6 +169,10 @@ class QuestionEventsMixin:
 
     @property
     def latest_heartbeat(self):
+        """Get the latest heartbeat of the child service processing the question.
+
+        :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
+        """
         return (
             self.service_usage_events.order_by("-publish_time")
             .filter(Q(data__type="heartbeat") | Q(data__kind="heartbeat"))

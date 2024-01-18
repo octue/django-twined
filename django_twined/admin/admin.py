@@ -109,7 +109,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
     @staticmethod
     def result(obj):
-        """Show the results produced by the child service in response to the question.
+        """Show the result produced by the child service in response to the question.
 
         :return dict:
         """
