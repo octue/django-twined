@@ -57,21 +57,34 @@ class QuestionAdmin(admin.ModelAdmin):
 
     @staticmethod
     def delivery_acknowledgement(obj):
-        """Show the delivery acknowledgement entry"""
+        """Show the datetime the question was acknowledged by the child service.
+
+        :return dict:
+        """
         return obj.delivery_acknowledgement.data
 
     @staticmethod
     def exceptions(obj):
-        """Show concatenated series of exceptions"""
+        """Show any exceptions raised by the child service during processing of the question.
+
+        :return list(dict):
+        """
         return [event.data for event in obj.exceptions]
 
     @staticmethod
     def latest_heartbeat(obj):
+        """Show the datetime of the latest heartbeat of the child service processing the question.
+
+        :return dict:
+        """
         return obj.latest_heartbeat.data
 
     @staticmethod
     def log_records(obj):
-        """Show concatenated series of log records"""
+        """Show any log records produced by the child service processing the question.
+
+        :return str:
+        """
         logstream = ""
         for event in obj.log_records:
             record = event.data["log_record"]
@@ -80,12 +93,18 @@ class QuestionAdmin(admin.ModelAdmin):
 
     @staticmethod
     def monitor_messages(obj):
-        """Show concatenated series of monitor_messages"""
+        """Show any monitor messages produced by the child service processing the question.
+
+        :return list(dict):
+        """
         return [event.data for event in obj.monitor_messages]
 
     @staticmethod
     def result(obj):
-        """Show concatenated series of monitor_messages"""
+        """Show the results produced by the child service in response to the question.
+
+        :return dict:
+        """
         return obj.result.data
 
     def ask_question(self, obj):
