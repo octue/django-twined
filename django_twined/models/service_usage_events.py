@@ -100,9 +100,7 @@ class QuestionEventsMixin:
         :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
         """
         try:
-            return self.service_usage_events.get(
-                Q(data__type="delivery_acknowledgement") | Q(data__kind="delivery_acknowledgement")
-            )
+            return self.service_usage_events.get(self._get_event_filter("delivery_acknowledgement"))
         except ServiceUsageEvent.DoesNotExist:
             return None
         except ServiceUsageEvent.MultipleObjectsReturned:
@@ -110,9 +108,7 @@ class QuestionEventsMixin:
                 "MultipleObjectsReturned detected for delivery_acknowledgement ServiceUsageEvent on question %s",
                 self.id,
             )
-            return self.service_usage_events.filter(
-                Q(data__type="delivery_acknowledgement") | Q(data__kind="delivery_acknowledgement")
-            ).first()
+            return self.service_usage_events.filter(self._get_event_filter("delivery_acknowledgement")).first()
 
     @property
     def exceptions(self):
@@ -133,15 +129,12 @@ class QuestionEventsMixin:
         :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
         """
         try:
-            return self.service_usage_events.get(Q(data__type="result") | Q(data__kind="result"))
+            return self.service_usage_events.get(self._get_event_filter("result"))
         except ServiceUsageEvent.DoesNotExist:
             return None
         except ServiceUsageEvent.MultipleObjectsReturned:
-            logger.warning(
-                "MultipleObjectsReturned detected for result ServiceUsageEvent on question %s",
-                self.id,
-            )
-            return self.service_usage_events.filter(Q(data__type="result") | Q(data__kind="result")).first()
+            logger.warning("MultipleObjectsReturned detected for result ServiceUsageEvent on question %s", self.id)
+            return self.service_usage_events.filter(self._get_event_filter("result")).first()
 
     @property
     def log_records(self):
@@ -149,11 +142,7 @@ class QuestionEventsMixin:
 
         :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
         """
-        return (
-            self.service_usage_events.order_by("publish_time")
-            .filter(Q(data__type="log_record") | Q(data__kind="log_record"))
-            .all()
-        )
+        return self.service_usage_events.order_by("publish_time").filter(self._get_event_filter("log_record")).all()
 
     @property
     def monitor_messages(self):
@@ -162,9 +151,7 @@ class QuestionEventsMixin:
         :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
         """
         return (
-            self.service_usage_events.order_by("publish_time")
-            .filter(Q(data__type="monitor_message") | Q(data__kind="monitor_message"))
-            .all()
+            self.service_usage_events.order_by("publish_time").filter(self._get_event_filter("monitor_message")).all()
         )
 
     @property
@@ -173,8 +160,15 @@ class QuestionEventsMixin:
 
         :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
         """
-        return (
-            self.service_usage_events.order_by("-publish_time")
-            .filter(Q(data__type="heartbeat") | Q(data__kind="heartbeat"))
-            .first()
-        )
+        return self.service_usage_events.order_by("-publish_time").filter(self._get_event_filter("heartbeat")).first()
+
+    def _get_event_filter(self, data_type_or_kind):
+        """Get a filter for `ServiceUsageEvent` model instances that filters the JSON data of the `data` field for the
+        given event kind using either the old `type` key or the new `kind` key. This maintains backwards compatibility
+        with service usage events created before the breaking change in version `0.7.0` was introduced, allowing the new
+        and old formats of the JSON data stored in the events to be accessed.
+
+        :param str data_type_or_kind: the name of the event type/kind to filter for
+        :return django.db.models.query_utils.Q:
+        """
+        return Q(data__type=data_type_or_kind) | Q(data__kind=data_type_or_kind)
