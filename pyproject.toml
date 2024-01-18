@@ -2,7 +2,7 @@
 name = "django-twined"
 version = "0.7.0"
 description = "A django app to manage octue services"
-authors = ["Tom Clark <tom@octue.com>"]
+authors = ["Tom Clark <tom@octue.com>", "Marcus Lugg <marcus@octue.com>"]
 license = "MIT"
 readme = "README.md"
 classifiers = [
@@ -23,7 +23,7 @@ packages = [{ include = "django_twined" },]
 python = ">=3.9,<3.11"
 django = ">=3.0,<4.0"
 channels = ">=3.0,<4.0"
-octue = {git = "https://github.com/octue/octue-sdk-python.git", rev = "publish-answers-to-question-topic-2"}
+octue = ">=0.51.0,<1"
 pika = "^1.2.0"
 django-gcp = ">=0.7.3,<0.12"
 django-jsoneditor = "^0.2.2"
