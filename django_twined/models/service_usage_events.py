@@ -116,11 +116,7 @@ class QuestionEventsMixin:
 
         :return django_twined.models.querysets.datastore_queryset.DatastoreQueryset:
         """
-        return (
-            self.service_usage_events.order_by("publish_time")
-            .filter(Q(data__type="exception") | Q(data__kind="exception"))
-            .all()
-        )
+        return self.service_usage_events.order_by("publish_time").filter(self._get_event_filter("exception")).all()
 
     @property
     def result(self):
