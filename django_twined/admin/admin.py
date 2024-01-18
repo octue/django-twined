@@ -1,9 +1,15 @@
+import logging
+
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django_twined.models import Question, ServiceRevision, ServiceUsageEvent
+from octue.log_handlers import LOG_RECORD_ATTRIBUTES_WITH_TIMESTAMP, create_octue_formatter
 
 from .mixins import CreatableFieldsMixin
+
+
+log_formatter = create_octue_formatter(LOG_RECORD_ATTRIBUTES_WITH_TIMESTAMP, include_line_number=True, use_colour=False)
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -85,11 +91,13 @@ class QuestionAdmin(admin.ModelAdmin):
 
         :return str:
         """
-        logstream = ""
+        records = []
+
         for event in obj.log_records:
-            record = event.data["log_record"]
-            logstream += f"{record['levelname']} {record['filename']}:{record['lineno']} {record['msg']}\n"
-        return logstream
+            record = logging.makeLogRecord(event.data["log_record"])
+            records.append(log_formatter.format(record))
+
+        return "\n".join(records)
 
     @staticmethod
     def monitor_messages(obj):
