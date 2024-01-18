@@ -3,7 +3,9 @@ import logging
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
+from django_twined.fields import ValuesField
 from django_twined.models import Question, ServiceRevision, ServiceUsageEvent
+from jsoneditor.forms import JSONEditor
 from octue.log_handlers import LOG_RECORD_ATTRIBUTES_WITH_TIMESTAMP, create_octue_formatter
 
 from .mixins import CreatableFieldsMixin
@@ -26,6 +28,10 @@ class QuestionAdmin(admin.ModelAdmin):
     )
     actions = ["_launch_ask_question"]
     date_hierarchy = "asked"
+
+    formfield_overrides = {
+        ValuesField: {"widget": JSONEditor},
+    }
 
     readonly_fields = (
         "answered",
