@@ -65,9 +65,9 @@ class QuestionAdmin(admin.ModelAdmin):
     def delivery_acknowledgement(obj):
         """Show the datetime the question was acknowledged by the child service.
 
-        :return dict:
+        :return str:
         """
-        return obj.delivery_acknowledgement.data
+        return obj.delivery_acknowledgement.data["datetime"]
 
     @staticmethod
     def exceptions(obj):
@@ -81,9 +81,9 @@ class QuestionAdmin(admin.ModelAdmin):
     def latest_heartbeat(obj):
         """Show the datetime of the latest heartbeat of the child service processing the question.
 
-        :return dict:
+        :return str:
         """
-        return obj.latest_heartbeat.data
+        return obj.latest_heartbeat.data["datetime"]
 
     @staticmethod
     def log_records(obj):
