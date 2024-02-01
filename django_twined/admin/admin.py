@@ -75,11 +75,14 @@ class QuestionAdmin(admin.ModelAdmin):
 
     @staticmethod
     def delivery_acknowledgement(obj):
-        """Show the datetime the question was acknowledged by the child service.
+        """Show the datetime the question was acknowledged by the child service. This method is backwards compatible
+        with the old name of this field from `octue` <= 0.50.1.
 
-        :return str:
+        :return str|None:
         """
-        return obj.delivery_acknowledgement.data["datetime"]
+        return obj.delivery_acknowledgement.data.get("datetime") or obj.delivery_acknowledgement.data.get(
+            "delivery_time"
+        )
 
     @staticmethod
     def exceptions(obj):
@@ -91,11 +94,12 @@ class QuestionAdmin(admin.ModelAdmin):
 
     @staticmethod
     def latest_heartbeat(obj):
-        """Show the datetime of the latest heartbeat of the child service processing the question.
+        """Show the datetime of the latest heartbeat of the child service processing the question. This method is
+        backwards compatible with the old name of this field from `octue` <= 0.50.1.
 
-        :return str:
+        :return str|None:
         """
-        return obj.latest_heartbeat.data["datetime"]
+        return obj.latest_heartbeat.data.get("datetime") or obj.latest_heartbeat.data.get("time")
 
     @staticmethod
     def log_records(obj):
