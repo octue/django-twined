@@ -3,12 +3,30 @@ import uuid
 from datetime import datetime, timezone
 
 from django.db import models
+from django_twined.models.service_usage_events import QuestionEventsMixin
 from model_utils.managers import InheritanceManager
-
-from ..fields import ManifestField, ValuesField
 
 
 logger = logging.getLogger(__name__)
+
+
+NO_STATUS = -100
+BAD_INPUT_STATUS = -3
+TIMEOUT_STATUS = -2
+ERROR_STATUS = -1
+IN_PROGRESS_STATUS = 0
+SUCCESS_STATUS = 1
+
+STATUS_MESSAGE_MAP = {
+    NO_STATUS: "No status",
+    BAD_INPUT_STATUS: "Failed (invalid inputs)",
+    TIMEOUT_STATUS: "Failed (timeout)",
+    ERROR_STATUS: "Failed (error)",
+    IN_PROGRESS_STATUS: "In progress",
+    SUCCESS_STATUS: "Complete",
+}
+
+STATUS_CHOICES = tuple((k, v) for k, v in STATUS_MESSAGE_MAP.items())
 
 
 class AbstractQuestion(models.Model):
@@ -19,6 +37,7 @@ class AbstractQuestion(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     asked = models.DateTimeField(null=True, blank=True, editable=False, help_text="When the question was asked")
     answered = models.DateTimeField(null=True, blank=True, editable=False, help_text="When the question was answered")
+    status = models.IntegerField(default=-100, choices=STATUS_CHOICES)
 
     class Meta:
         """Metaclass for AbstractQuestion"""
@@ -32,6 +51,14 @@ class AbstractQuestion(models.Model):
 
     def __repr__(self):
         return f"{self.__class__.__name__} ({self.id})"
+
+    @property
+    def status_message(self):
+        """Short verbose (human-readable, for display) text indicating status of the question.
+
+        :return str:
+        """
+        return STATUS_MESSAGE_MAP[self.status]
 
     def get_duplicate(self, save=True):
         """Duplicate the question instance and optionally save to the database"""
@@ -56,6 +83,22 @@ class AbstractQuestion(models.Model):
     def get_input_manifest(self):
         """Get the input manifest from wherever it's stored (or compute it)
         This method must be overriden in subclasses of Question
+        """
+        raise NotImplementedError(
+            "You must override the get_input_manifest method for this class (or provide input directly to ask() method)"
+        )
+
+    def get_output_values(self):
+        """Get the output values from wherever they're stored (or compute them) This method must be overriden in
+        subclasses of Question.
+        """
+        raise NotImplementedError(
+            "You must override the get_input_values method for this class (or provide input directly to ask() method)"
+        )
+
+    def get_output_manifest(self):
+        """Get the output manifest from wherever it's stored (or compute it). This method must be overriden in
+        subclasses of Question.
         """
         raise NotImplementedError(
             "You must override the get_input_manifest method for this class (or provide input directly to ask() method)"
@@ -96,7 +139,7 @@ class AbstractQuestion(models.Model):
         return subscription, push_url, service_revision
 
 
-class Question(AbstractQuestion):
+class Question(AbstractQuestion, QuestionEventsMixin):
     """Stores questions asked to octue services
 
     This concrete model is here to link questions to the service revisions
@@ -113,67 +156,5 @@ class Question(AbstractQuestion):
         on_delete=models.PROTECT,
     )
 
-    def get_input_values(self):
-        """Get the input values from wherever they're stored (or compute them)
-        This method must be overriden in subclasses of Question
-        """
-        raise NotImplementedError(
-            "You must override the get_input_values method for this class (or provide input directly to ask() method)"
-        )
-
-    def get_input_manifest(self):
-        """Get the input manifest from wherever it's stored (or compute it)
-        This method must be overriden in subclasses of Question
-        """
-        raise NotImplementedError(
-            "You must override the get_input_manifest method for this class (or provide input directly to ask() method)"
-        )
-
     def get_service_revision(self):
         return self.service_revision
-
-
-class QuestionValuesDatabaseStorageMixin:
-    """DEPRECATED - DO NOT USE
-    Use this mixin to store question-and-answer values data in the actual database
-
-    This will be deprecated as we move to using an event store for question asks and updates,
-    to avoid duplicates.
-
-    Instead, override the get_input_values() and get_output_values() methods to access
-    the event store.
-    """
-
-    input_values = ValuesField(help_text="Contents of the input_values strand")
-
-    output_values = ValuesField(help_text="Contents of the output_values strand")
-
-    def get_input_values(self):
-        """Override the get_input_values abstract class method to return the values from the database store"""
-        return self.input_values
-
-    def get_output_values(self):
-        """Override the get_output_values abstract class method to return the values from the database store"""
-        return self.output_values
-
-
-class QuestionManifestsDatabaseStorageMixin:
-    """DEPRECATED - DO NOT USE
-    Use this mixin to store question-and-answer manifest data in the actual database.
-
-    This will be deprecated as we move to event based processing, to avoid duplicates. Do not change!
-    Instead, use ManyToManyFields to <Subclass>DataStore in your <Subclass>Question, and override
-    the get_input_manifest() and get_output_manifest() methods.
-    """
-
-    input_manifest = ManifestField(help_text="Contents of the input_manifest strand")
-
-    output_manifest = ManifestField(help_text="Contents of the output_manifest strand")
-
-    def get_input_manifest(self):
-        """Override the get_input_manifest abstract class method to return the manifest from the database store"""
-        return self.input_manifest
-
-    def get_output_manifest(self):
-        """Override the get_output_manifest abstract class method to return the manifest from the database store"""
-        return self.output_manifest

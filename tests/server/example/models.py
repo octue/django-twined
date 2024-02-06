@@ -2,8 +2,8 @@
 # pylint: disable=abstract-method
 
 from django.db.models import CharField, DecimalField
-from django_twined.fields import DatafileObjectField
-from django_twined.models import AbstractSynchronisedDatastore, Question, QuestionValuesDatabaseStorageMixin
+from django_twined.fields import DatafileObjectField, ValuesField
+from django_twined.models import AbstractSynchronisedDatastore, Question
 
 
 # from model_utils.managers import InheritanceManager
@@ -44,13 +44,14 @@ class ConcreteSynchronisedDatastore(AbstractSynchronisedDatastore):
         return f"{super(ConcreteSynchronisedDatastore, self).__str__()} ('{self.a_string_tag}')"
 
 
-class QuestionWithValuesDatabaseStorage(QuestionValuesDatabaseStorageMixin, Question):
+class QuestionWithValuesDatabaseStorage(Question):
     """
     A Question subclass with implemented input values for testing
     """
 
     duplicate_fields = ("apple_name",)
 
+    input_values = ValuesField()
     apple_name = CharField(help_text="Apple name", null=False, blank=False, default="macintosh", max_length=32)
     banana_name = CharField(help_text="Banana name", null=False, blank=False, default="chiquita", max_length=32)
 
