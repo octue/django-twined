@@ -66,12 +66,12 @@ class QuestionAdmin(admin.ModelAdmin):
         ("Exceptions", {"classes": ("collapse",), "fields": ("exceptions",)}),
     )
 
-    @staticmethod
-    def input_values(obj):
-        try:
-            return obj.input_values.data
-        except AttributeError:
-            return None
+    # @staticmethod
+    # def input_values(obj):
+    #     try:
+    #         return obj.input_values.data
+    #     except AttributeError:
+    #         return None
 
     @staticmethod
     def delivery_acknowledgement(obj):
