@@ -6,8 +6,6 @@ from django.db import models
 from django_twined.models.service_usage_events import QuestionEventsMixin
 from model_utils.managers import InheritanceManager
 
-from ..fields import ManifestField, ValuesField
-
 
 logger = logging.getLogger(__name__)
 
@@ -132,49 +130,3 @@ class Question(AbstractQuestion, QuestionEventsMixin):
 
     def get_service_revision(self):
         return self.service_revision
-
-
-class QuestionValuesDatabaseStorageMixin:
-    """DEPRECATED - DO NOT USE
-    Use this mixin to store question-and-answer values data in the actual database
-
-    This will be deprecated as we move to using an event store for question asks and updates,
-    to avoid duplicates.
-
-    Instead, override the get_input_values() and get_output_values() methods to access
-    the event store.
-    """
-
-    input_values = ValuesField(help_text="Contents of the input_values strand")
-
-    output_values = ValuesField(help_text="Contents of the output_values strand")
-
-    def get_input_values(self):
-        """Override the get_input_values abstract class method to return the values from the database store"""
-        return self.input_values
-
-    def get_output_values(self):
-        """Override the get_output_values abstract class method to return the values from the database store"""
-        return self.output_values
-
-
-class QuestionManifestsDatabaseStorageMixin:
-    """DEPRECATED - DO NOT USE
-    Use this mixin to store question-and-answer manifest data in the actual database.
-
-    This will be deprecated as we move to event based processing, to avoid duplicates. Do not change!
-    Instead, use ManyToManyFields to <Subclass>DataStore in your <Subclass>Question, and override
-    the get_input_manifest() and get_output_manifest() methods.
-    """
-
-    input_manifest = ManifestField(help_text="Contents of the input_manifest strand")
-
-    output_manifest = ManifestField(help_text="Contents of the output_manifest strand")
-
-    def get_input_manifest(self):
-        """Override the get_input_manifest abstract class method to return the manifest from the database store"""
-        return self.input_manifest
-
-    def get_output_manifest(self):
-        """Override the get_output_manifest abstract class method to return the manifest from the database store"""
-        return self.output_manifest
