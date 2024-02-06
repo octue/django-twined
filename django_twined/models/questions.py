@@ -10,6 +10,25 @@ from model_utils.managers import InheritanceManager
 logger = logging.getLogger(__name__)
 
 
+NO_STATUS = -100
+BAD_INPUT_STATUS = -3
+TIMEOUT_STATUS = -2
+ERROR_STATUS = -1
+IN_PROGRESS_STATUS = 0
+SUCCESS_STATUS = 1
+
+STATUS_MESSAGE_MAP = {
+    NO_STATUS: "No status",
+    BAD_INPUT_STATUS: "Failed (invalid inputs)",
+    TIMEOUT_STATUS: "Failed (timeout)",
+    ERROR_STATUS: "Failed (error)",
+    IN_PROGRESS_STATUS: "In progress",
+    SUCCESS_STATUS: "Complete",
+}
+
+STATUS_CHOICES = tuple((k, v) for k, v in STATUS_MESSAGE_MAP.items())
+
+
 class AbstractQuestion(models.Model):
     """Abstract Base Class for a Question model to store questions asked to octue services"""
 
@@ -18,6 +37,7 @@ class AbstractQuestion(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     asked = models.DateTimeField(null=True, blank=True, editable=False, help_text="When the question was asked")
     answered = models.DateTimeField(null=True, blank=True, editable=False, help_text="When the question was answered")
+    status = models.IntegerField(default=-100, choices=STATUS_CHOICES)
 
     class Meta:
         """Metaclass for AbstractQuestion"""
@@ -31,6 +51,14 @@ class AbstractQuestion(models.Model):
 
     def __repr__(self):
         return f"{self.__class__.__name__} ({self.id})"
+
+    @property
+    def status_message(self):
+        """Short verbose (human-readable, for display) text indicating status of the question.
+
+        :return str:
+        """
+        return STATUS_MESSAGE_MAP[self.status]
 
     def get_duplicate(self, save=True):
         """Duplicate the question instance and optionally save to the database"""
