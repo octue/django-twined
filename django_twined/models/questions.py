@@ -60,6 +60,22 @@ class AbstractQuestion(models.Model):
             "You must override the get_input_manifest method for this class (or provide input directly to ask() method)"
         )
 
+    def get_output_values(self):
+        """Get the output values from wherever they're stored (or compute them) This method must be overriden in
+        subclasses of Question.
+        """
+        raise NotImplementedError(
+            "You must override the get_input_values method for this class (or provide input directly to ask() method)"
+        )
+
+    def get_output_manifest(self):
+        """Get the output manifest from wherever it's stored (or compute it). This method must be overriden in
+        subclasses of Question.
+        """
+        raise NotImplementedError(
+            "You must override the get_input_manifest method for this class (or provide input directly to ask() method)"
+        )
+
     def get_service_revision(self):
         """Get the service revision from wherever it's stored (or otherwise determine it)
         This method must be overriden in subclasses of Question
