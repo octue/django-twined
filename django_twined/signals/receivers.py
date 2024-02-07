@@ -55,7 +55,7 @@ def receive_event(sender, event_kind, event_reference, event_payload, event_para
         if event_kind == "delivery_acknowledgement":
             delivery_acknowledgement_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
-        if event_kind == "exception":
+        elif event_kind == "exception":
             exception_received.send(sender=ServiceUsageEvent, service_usage_event=sue)
 
         elif event_kind == "heartbeat":
