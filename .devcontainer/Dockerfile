@@ -1,16 +1,13 @@
-FROM windpioneers/gdal-python:statutory-crow-gdal-2.4.1-python-3.9-dev
+FROM windpioneers/gdal-python:modest-heron-gdal-2.4.1-python-3.10-dev
 
-# Tell zsh where you want to store history
-#     We leave you to decide, but if you put this into a folder that's been mapped
-#     into the container, then history will persist over container rebuilds :)
-#
-#     !!!IMPORTANT!!!
-#     Make sure your .zsh_history file is NOT committed into your repository, as it can contain
-#     sensitive information. So in this case, you should add
-#         .devcontainer/.zsh_history
-#     to your .gitignore file.
-#
-ENV HISTFILE="/workspace/.devcontainer/.zsh_history"
+# Bust any pre-existing apt cache
+#     Solves: https://askubuntu.com/questions/1388000/failed-to-fetch-deb-debian-org-debian-pool-main-l-linux-linux-libc-dev-5-10-70-1
+# + Overcome the fact that yarn don't bother putting their keys on the ring (required for installing sshd feature)...
+# https://github.com/yarnpkg/yarn/issues/7866#issuecomment-1404052064
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo gpg --dearmour -o "/usr/share/keyrings/yarn-keyring.gpg" & \
+    echo "deb [signed-by=/usr/share/keyrings/yarn-keyring.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list & \
+    gpg --refresh-keys & \
+    apt-get update -y
 
 # Install poetry
 USER vscode
@@ -18,7 +15,6 @@ ENV POETRY_HOME=/home/vscode/.poetry
 RUN curl -sSL https://install.python-poetry.org | python -
 ENV PATH "$POETRY_HOME/bin:$PATH"
 RUN poetry config virtualenvs.create false
-
 
 # Install localtunnel
 RUN npm install -g localtunnel
