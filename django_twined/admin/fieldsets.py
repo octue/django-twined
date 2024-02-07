@@ -8,6 +8,7 @@ question_basic_fieldset = (
             "asked",
             "answered",
             "latest_heartbeat",
+            "duration",
         )
     },
 )
