@@ -8,6 +8,14 @@ from django_twined.models import Question, ServiceRevision, ServiceUsageEvent
 from jsoneditor.forms import JSONEditor
 from octue.log_handlers import LOG_RECORD_ATTRIBUTES_WITH_TIMESTAMP, create_octue_formatter
 
+from .fieldsets import (
+    question_basic_fieldset,
+    question_delivery_ack_fieldset,
+    question_exceptions_fieldset,
+    question_log_records_fieldset,
+    question_monitor_messages_fieldset,
+    question_result_fieldset,
+)
 from .mixins import CreatableFieldsMixin
 
 
@@ -48,25 +56,14 @@ class QuestionAdmin(admin.ModelAdmin):
     )
 
     fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "id",
-                    "status",
-                    "service_revision",
-                    "asked",
-                    "answered",
-                    "latest_heartbeat",
-                )
-            },
-        ),
-        ("Inputs", {"classes": ("collapse",), "fields": ("input_values",)}),
-        ("Delivery Acknowledgement", {"classes": ("collapse",), "fields": ("delivery_acknowledgement",)}),
-        ("Log Records", {"classes": ("collapse",), "fields": ("log_records",)}),
-        ("Monitor Messages", {"classes": ("collapse",), "fields": ("monitor_messages",)}),
-        ("Result", {"classes": ("collapse",), "fields": ("result",)}),
-        ("Exceptions", {"classes": ("collapse",), "fields": ("exceptions",)}),
+        question_basic_fieldset,
+        # question_db_input_values_fieldset,
+        # question_db_output_values_fieldset,
+        question_delivery_ack_fieldset,
+        question_log_records_fieldset,
+        question_monitor_messages_fieldset,
+        question_result_fieldset,
+        question_exceptions_fieldset,
     )
 
     # @staticmethod

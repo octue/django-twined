@@ -1,5 +1,4 @@
-import django_twined.routing
-from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.routing import ProtocolTypeRouter
 from django.core.asgi import get_asgi_application
 
 
@@ -7,6 +6,4 @@ from django.core.asgi import get_asgi_application
 #               The main django application which you're writing an app for will need to set up something similar
 
 
-application = ProtocolTypeRouter(
-    {"http": get_asgi_application(), "websocket": URLRouter(django_twined.routing.websocket_urlpatterns)}
-)
+application = ProtocolTypeRouter({"http": get_asgi_application()})
