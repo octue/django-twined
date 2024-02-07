@@ -27,9 +27,9 @@ def service_revision(request, namespace, name):
 
         try:
             if revision_tag:
-                service_revision = ServiceRevision.objects.get(namespace=namespace, name=name, tag=revision_tag)
+                revision = ServiceRevision.objects.get(namespace=namespace, name=name, tag=revision_tag)
             else:
-                service_revision = ServiceRevision.objects.get(namespace=namespace, name=name, is_default=True)
+                revision = ServiceRevision.objects.get(namespace=namespace, name=name, is_default=True)
 
         except ServiceRevision.DoesNotExist:
             return JsonResponse({"error": "Service revision not found."}, status=404)
@@ -38,8 +38,8 @@ def service_revision(request, namespace, name):
             {
                 "namespace": namespace,
                 "name": name,
-                "revision_tag": service_revision.tag,
-                "is_default": service_revision.is_default,
+                "revision_tag": revision.tag,
+                "is_default": revision.is_default,
             },
             status=200,
         )
@@ -53,14 +53,14 @@ def service_revision(request, namespace, name):
                 status=400,
             )
 
-        service_revision = ServiceRevision(namespace=namespace, name=name, tag=body["revision_tag"])
+        revision = ServiceRevision(namespace=namespace, name=name, tag=body["revision_tag"])
 
         if "is_default" in body:
-            service_revision.is_default = body["is_default"]
+            revision.is_default = body["is_default"]
         elif SERVICE_REVISION_IS_DEFAULT_CALLBACK is not None:
-            service_revision.is_default = SERVICE_REVISION_IS_DEFAULT_CALLBACK(service_revision)
+            revision.is_default = SERVICE_REVISION_IS_DEFAULT_CALLBACK(revision)
 
-        service_revision.save()
+        revision.save()
         return JsonResponse({}, status=201)
 
     return JsonResponse({"error": "Invalid request method."}, status=405)
