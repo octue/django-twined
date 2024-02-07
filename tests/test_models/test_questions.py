@@ -2,7 +2,9 @@
 # pylint: disable=missing-docstring
 # pylint: disable=protected-access
 # pylint: disable=too-many-public-methods
+import datetime
 import os
+import time
 from unittest import skipIf
 from unittest.mock import patch
 
@@ -18,6 +20,12 @@ SKIP_INTEGRATION_TESTS = not os.environ.get("RUN_INTEGRATION_TESTS", False)
 
 
 class QuestionTestCase(TestCase):
+    def test_unasked_question_duration(self):
+        """Test that the duration of an unasked question is `None`."""
+        sr = ServiceRevision.objects.create(name="test-service")
+        q = QuestionWithValuesDatabaseStorage.objects.create(service_revision=sr)
+        self.assertIsNone(q.duration)
+
     @patch("django_twined.models.ServiceRevision.ask", return_value=("subscription", "question_uuid"))
     def test_ask_question(self, mock):
         """Ensures that a question can be asked"""
@@ -31,6 +39,21 @@ class QuestionTestCase(TestCase):
         self.assertIn("input_values", mock.call_args.kwargs)
         self.assertIn("input_manifest", mock.call_args.kwargs)
         self.assertIn("question_attribute", mock.call_args.kwargs["input_values"])
+
+        # Check that the duration is `None` as the question hasn't been answered.
+        self.assertIsNone(q.duration)
+
+    @patch("django_twined.models.ServiceRevision.ask", return_value=("subscription", "question_uuid"))
+    def test_answered_question_duration(self, mock):
+        """Test that the duration of an answered question is a non-zero integer."""
+        sr = ServiceRevision.objects.create(name="test-service")
+        q = QuestionWithValuesDatabaseStorage.objects.create(service_revision=sr)
+        q.input_values = {"question_attribute": "1"}
+        q.ask()
+
+        time.sleep(1)
+        q.answered = datetime.datetime.now(tz=datetime.timezone.utc)
+        self.assertTrue(q.duration > 0)
 
     def test_input_values_get_saved(self):
         """Ensures that input values get saved on the mixin.

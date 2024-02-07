@@ -131,15 +131,6 @@ class QuestionAdmin(admin.ModelAdmin):
         """
         return obj.result.data
 
-    @staticmethod
-    def duration(obj):
-        """Show the time it took to answer the question in seconds.
-
-        :return int|None:
-        """
-        if obj.answered and obj.asked:
-            return (obj.answered - obj.asked).seconds
-
     def ask_question(self, obj):
         """Override this to ask a question using an async task queue or other method. This will ask the question directly."""
         obj.ask()

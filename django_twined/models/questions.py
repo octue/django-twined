@@ -60,6 +60,15 @@ class AbstractQuestion(models.Model):
         """
         return STATUS_MESSAGE_MAP[self.status]
 
+    @property
+    def duration(self):
+        """Show the time it took to answer the question in seconds.
+
+        :return int|None:
+        """
+        if self.answered and self.asked:
+            return (self.answered - self.asked).seconds
+
     def get_duplicate(self, save=True):
         """Duplicate the question instance and optionally save to the database"""
         kwargs = {}
