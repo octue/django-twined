@@ -48,6 +48,14 @@ def get_default_tag():
     return getattr(settings, "TWINED_DEFAULT_TAG", "latest")
 
 
+class ServiceRevisionManager(models.Manager):
+    """A custom manager to allow getting by natural key"""
+
+    def get_by_natural_key(self, namespace, name, tag):
+        """Get models by natural key, allowing flexible model export/import"""
+        return self.get(namespace=namespace, name=name, tag=tag)
+
+
 class AbstractServiceRevision(models.Model):
     """Abstract model to register available services in the system"""
 
@@ -89,6 +97,8 @@ class AbstractServiceRevision(models.Model):
         help_text="The name of the GCP project in which the service resides",
     )
 
+    objects = ServiceRevisionManager()
+
     class Meta:
         """Metaclass for AbstractServiceRevision"""
 
@@ -99,6 +109,10 @@ class AbstractServiceRevision(models.Model):
                 name="unique_identifier",
             ),
         ]
+
+    def natural_key(self):
+        """Return the natural key as a tuple"""
+        return (self.namespace, self.name, self.tag)
 
     @property
     def sruid(self):
