@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-twined"
-version = "0.8.1"
+version = "0.8.2"
 description = "A django app to manage octue services"
 authors = ["Tom Clark <tom@octue.com>", "Marcus Lugg <marcus@octue.com>"]
 license = "MIT"
@@ -12,6 +12,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
 ]
 repository = "https://github.com/octue/django-twined"
@@ -19,18 +20,16 @@ keywords = ["django", "services", "octue", "twined"]
 packages = [{ include = "django_twined" },]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.11"
-django = ">=3.0,<4.0"
-channels = ">=3.0,<4.0"
+python = ">=3.9,<4"
+django = ">=3.0,<5.0"
 octue = ">=0.52.0,<1"
-pika = "^1.2.0"
 django-gcp = ">=0.7.3,<0.12"
 django-jsoneditor = "^0.2.2"
 django-model-utils = "^4.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
-channels = ">=3.0,<=4.0"
+channels = ">=3.0,<5.0"
 coverage = "^6.2"
 django-dramatiq = "^0.10.0"
 django-extensions = "^3.1.5"
