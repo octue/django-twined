@@ -2,12 +2,17 @@ name: semantic
 
 on:
   pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
     branches:
       - main
 
 jobs:
   check-semantic-version:
-    if: "!contains(github.event.head_commit.message, 'skipci')"
+    if: github.event.pull_request.draft == false
     uses: octue/workflows/.github/workflows/check-semantic-version.yml@main
     with:
       path: pyproject.toml
