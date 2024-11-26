@@ -20,10 +20,10 @@ keywords = ["django", "services", "octue", "twined"]
 packages = [{ include = "django_twined" },]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<4"
+python = ">=3.9,<4"
 django = ">=3.0,<5.1"
 octue = ">=0.52.0,<1"
-django-gcp = "^0.13.0"
+django-gcp = ">=0.11.5,<=0.13"
 django-jsoneditor = "^0.2.2"
 django-model-utils = "^4.2.0"
 
