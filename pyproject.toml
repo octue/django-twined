@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-twined"
-version = "0.8.4"
+version = "0.8.5"
 description = "A django app to manage octue services"
 authors = ["Tom Clark <tom@octue.com>", "Marcus Lugg <marcus@octue.com>"]
 license = "MIT"
@@ -23,7 +23,7 @@ packages = [{ include = "django_twined" },]
 python = ">=3.10,<4"
 django = ">=3.0,<5.1"
 octue = ">=0.52.0,<1"
-django-gcp = ">=0.11.5,<=0.13"
+django-gcp = "^0.13.0"
 django-jsoneditor = "^0.2.2"
 django-model-utils = "^4.2.0"
 
