@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -166,7 +167,16 @@ class QuestionAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         """Prevent people from deleting questions after they've been asked"""
-        return self._question_is_not_asked(obj)
+        policy = getattr(settings, "TWINED_ADMIN_QUESTION_DELETE_PERMISSION", "unasked")
+        if policy == "allow":
+            return True
+        if policy == "prevent":
+            return False
+        if policy == "unasked":
+            return self._question_is_not_asked(obj)
+        if callable(policy):
+            return policy(self, request, obj)
+        return False
 
     def has_duplicate_permission(self, request, obj=None):
         """Override to prevent people from duplicating questions.
