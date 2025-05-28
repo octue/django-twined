@@ -85,6 +85,9 @@ jobs:
       id-token: write
       contents: read
 
+    env:
+      DJANGO_SETTINGS_MODULE: tests.server.settings
+
     services:
       postgres:
         image: kartoza/postgis:13.0
