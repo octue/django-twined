@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-twined"
-version = "0.8.11"
+version = "0.8.10"
 description = "A django app to manage octue services"
 authors = ["Tom Clark <tom@octue.com>", "Marcus Lugg <marcus@octue.com>"]
 license = "MIT"
