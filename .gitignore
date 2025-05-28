@@ -146,3 +146,5 @@ docs/doctrees
 
 # GCP credentials
 gcp*.json
+
+.poetry_cache/
