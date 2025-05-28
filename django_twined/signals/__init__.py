@@ -9,7 +9,6 @@ from .senders import (
     result_received,
 )
 
-
 __all__ = (
     "delivery_acknowledgement_received",
     "exception_received",

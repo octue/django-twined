@@ -1,11 +1,11 @@
+from datetime import datetime, timezone
 import logging
 import uuid
-from datetime import datetime, timezone
 
 from django.db import models
-from django_twined.models.service_usage_events import QuestionEventsMixin
 from model_utils.managers import InheritanceManager
 
+from django_twined.models.service_usage_events import QuestionEventsMixin
 
 logger = logging.getLogger(__name__)
 

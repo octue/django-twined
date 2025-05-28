@@ -4,10 +4,11 @@ from django.conf import settings
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
-from django_twined.fields import ValuesField
-from django_twined.models import Question, ServiceRevision, ServiceUsageEvent
 from jsoneditor.forms import JSONEditor
 from octue.log_handlers import LOG_RECORD_ATTRIBUTES_WITH_TIMESTAMP, create_octue_formatter
+
+from django_twined.fields import ValuesField
+from django_twined.models import Question, ServiceRevision, ServiceUsageEvent
 
 from .fieldsets import (
     question_basic_fieldset,
@@ -18,7 +19,6 @@ from .fieldsets import (
     question_result_fieldset,
 )
 from .mixins import CreatableFieldsMixin
-
 
 log_formatter = create_octue_formatter(LOG_RECORD_ATTRIBUTES_WITH_TIMESTAMP, include_line_number=True, use_colour=False)
 

@@ -3,9 +3,10 @@
 
 import uuid
 
-import django.db.models.deletion
-import django_twined.models.service_revisions
 from django.db import migrations, models
+import django.db.models.deletion
+
+import django_twined.models.service_revisions
 
 
 class Migration(migrations.Migration):

@@ -2,9 +2,9 @@
 # pylint: disable=abstract-method
 
 from django.db.models import CharField, DecimalField
+
 from django_twined.fields import DatafileObjectField, ValuesField
 from django_twined.models import AbstractSynchronisedDatastore, Question
-
 
 # from model_utils.managers import InheritanceManager
 

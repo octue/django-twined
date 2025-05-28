@@ -2,8 +2,8 @@ from unittest.mock import patch
 
 from django.test.testcases import TestCase
 from django.urls import reverse
-from django_twined.models import ServiceRevision
 
+from django_twined.models import ServiceRevision
 
 NAMESPACE = "my-org"
 NAME = "my-service"

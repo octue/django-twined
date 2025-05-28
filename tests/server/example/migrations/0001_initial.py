@@ -2,9 +2,10 @@
 
 import uuid
 
-import django.db.models.deletion
-import django_twined.fields
 from django.db import migrations, models
+import django.db.models.deletion
+
+import django_twined.fields
 
 
 class Migration(migrations.Migration):

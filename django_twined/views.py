@@ -2,8 +2,8 @@ import json
 
 from django.conf import settings
 from django.http import JsonResponse
-from django_twined.models.service_revisions import ServiceRevision, service_revision_is_latest_semantic_version
 
+from django_twined.models.service_revisions import ServiceRevision, service_revision_is_latest_semantic_version
 
 SERVICE_REVISION_IS_DEFAULT_CALLBACK = getattr(
     settings,

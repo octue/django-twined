@@ -1,15 +1,14 @@
 import logging
 
-import packaging.version
 from django.conf import settings
 from django.db import models, transaction
 from django_gcp.events.utils import get_event_url
 from octue.cloud.pub_sub.service import Service
 from octue.cloud.service_id import convert_service_id_to_pub_sub_form
 from octue.resources.service_backends import get_backend
+import packaging.version
 
 from .service_usage_events import QUESTION_RESPONSE_UPDATED
-
 
 logger = logging.getLogger(__name__)
 
