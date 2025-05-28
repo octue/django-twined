@@ -1,6 +1,5 @@
 from django.dispatch import Signal
 
-
 delivery_acknowledgement_received = Signal()
 exception_received = Signal()
 heartbeat_received = Signal()

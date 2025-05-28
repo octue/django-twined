@@ -9,7 +9,6 @@ from octue.utils.encoders import OctueJSONEncoder
 
 from .querysets import DatastoreQueryset
 
-
 logger = logging.getLogger(__name__)
 
 

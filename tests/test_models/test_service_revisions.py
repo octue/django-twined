@@ -2,6 +2,7 @@
 # pylint: disable=missing-docstring
 
 from django.test import TestCase
+
 from django_twined.models.service_revisions import ServiceRevision, service_revision_is_latest_semantic_version
 
 

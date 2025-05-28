@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("django_twined", "0011_remove_servicerevision_topic_id"),
     ]

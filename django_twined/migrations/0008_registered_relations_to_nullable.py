@@ -1,12 +1,11 @@
 # Disable for migrations:
 # pylint: disable=missing-docstring
 
-import django.db.models.deletion
 from django.db import migrations, models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("django_twined", "0007_registered_to_revision"),
     ]

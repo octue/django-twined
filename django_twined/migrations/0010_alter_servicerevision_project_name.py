@@ -1,12 +1,12 @@
 # Disable for migrations:
 # pylint: disable=missing-docstring
 
-import django_twined.models.service_revisions
 from django.db import migrations, models
+
+import django_twined.models.service_revisions
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("django_twined", "0009_remove_registered_services"),
     ]

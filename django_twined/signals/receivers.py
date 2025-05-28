@@ -3,6 +3,7 @@ import logging
 from django.dispatch import receiver
 from django_gcp.events.signals import event_received
 from django_gcp.events.utils import decode_pubsub_message
+
 from django_twined.models import QUESTION_ASKED, QUESTION_RESPONSE_UPDATED, ServiceUsageEvent
 from django_twined.signals.senders import (
     delivery_acknowledgement_received,
@@ -13,7 +14,6 @@ from django_twined.signals.senders import (
     question_asked,
     result_received,
 )
-
 
 logger = logging.getLogger(__name__)
 

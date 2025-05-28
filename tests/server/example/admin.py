@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.db.models import JSONField
-from django_twined.admin import QuestionAdmin, ServiceUsageEventAdmin
 from jsoneditor.forms import JSONEditor
+
+from django_twined.admin import QuestionAdmin, ServiceUsageEventAdmin
 
 from .models import ConcreteSynchronisedDatastore, QuestionWithValuesDatabaseStorage
 
@@ -16,7 +17,6 @@ class ConcreteSynchronisedDatastoreAdmin(admin.ModelAdmin):
 
 @admin.register(QuestionWithValuesDatabaseStorage)
 class QuestionWithValuesDatabaseStorageAdmin(QuestionAdmin):
-
     readonly_fields = ("id", "asked", "answered")
     fieldsets = (
         (

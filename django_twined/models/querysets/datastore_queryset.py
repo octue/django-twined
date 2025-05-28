@@ -5,7 +5,6 @@ from django.db.models.query import QuerySet
 from django.db.utils import IntegrityError
 from octue.resources import Datafile, Dataset
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -35,7 +34,6 @@ class StoreComparison:
         self.ids_failed_to_sync = ids_failed_to_sync
 
     def __str__(self):
-
         out = ""
         for symbol in [
             "datafiles_in_store",
@@ -48,7 +46,7 @@ class StoreComparison:
             "ids_synced",
             "ids_failed_to_sync",
         ]:
-            out += f"{symbol}: {getattr(self,symbol)}\n"
+            out += f"{symbol}: {getattr(self, symbol)}\n"
         return out
 
 

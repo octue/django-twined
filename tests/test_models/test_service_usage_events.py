@@ -6,10 +6,9 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django_gcp.events.utils import make_pubsub_message
+
 from django_twined.models import QUESTION_RESPONSE_UPDATED, ServiceRevision, ServiceUsageEvent
-
 from tests.server.example.models import QuestionWithValuesDatabaseStorage
-
 
 # TODO test the following
 # from django_twined.models import (
@@ -35,7 +34,6 @@ class ServiceUsageEventTestCase(TestCase):
         """Use a patched octue Service to avoid need for credentials"""
 
         with patch("django_twined.models.service_revisions.Service", new=MockService) as mock:
-
             mock.return_value = ("subscription", "push_url")
 
             sr = ServiceRevision.objects.create(

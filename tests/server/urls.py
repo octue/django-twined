@@ -1,8 +1,8 @@
-import django_gcp.urls
-import django_twined.urls
 from django.contrib import admin
 from django.urls import include, re_path
+import django_gcp.urls
 
+import django_twined.urls
 
 admin.autodiscover()
 
