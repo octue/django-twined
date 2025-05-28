@@ -32,7 +32,6 @@ def reverse(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("django_twined", "0006_service_revisions_and_events"),
     ]

@@ -35,7 +35,6 @@ class StoreComparison:
         self.ids_failed_to_sync = ids_failed_to_sync
 
     def __str__(self):
-
         out = ""
         for symbol in [
             "datafiles_in_store",

@@ -44,7 +44,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, source_keys=None, **options):
-
         # Ensure we respect the --verbosity command option
         verbosity = int(options["verbosity"])
         logger.setLevel(VERBOSITY_MAP[verbosity])

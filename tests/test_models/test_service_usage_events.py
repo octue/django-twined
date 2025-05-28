@@ -35,7 +35,6 @@ class ServiceUsageEventTestCase(TestCase):
         """Use a patched octue Service to avoid need for credentials"""
 
         with patch("django_twined.models.service_revisions.Service", new=MockService) as mock:
-
             mock.return_value = ("subscription", "push_url")
 
             sr = ServiceRevision.objects.create(

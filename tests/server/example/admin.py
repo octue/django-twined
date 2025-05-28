@@ -16,7 +16,6 @@ class ConcreteSynchronisedDatastoreAdmin(admin.ModelAdmin):
 
 @admin.register(QuestionWithValuesDatabaseStorage)
 class QuestionWithValuesDatabaseStorageAdmin(QuestionAdmin):
-
     readonly_fields = ("id", "asked", "answered")
     fieldsets = (
         (
