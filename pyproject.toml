@@ -58,7 +58,7 @@ license = "MIT"
 name = "django-twined"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.8.13"
+version = "0.8.14"
 
 [project.urls]
 Changelog = "https://github.com/octue/django-twined/releases"
