@@ -58,7 +58,7 @@ license = "MIT"
 name = "django-twined"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.8.14"
+version = "0.8.15"
 
 [project.urls]
 Changelog = "https://github.com/octue/django-twined/releases"
@@ -95,7 +95,15 @@ section-order = ["future", "standard-library", "third-party", "first-party", "lo
 
 [tool.setuptools]
 packages = [
-  "django_twined"
+  "django_twined",
+  "django_twined.admin",
+  "django_twined.management",
+  "django_twined.management.commands",
+  "django_twined.migrations",
+  "django_twined.models",
+  "django_twined.models.querysets",
+  "django_twined.signals",
+  "django_twined.templatetags"
 ]
 
 [tool.setuptools.package-data]
