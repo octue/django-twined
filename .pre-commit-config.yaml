@@ -41,6 +41,11 @@ repos:
           - "^main$"
           - "^([a-z][a-z0-9#]*)(-[a-z0-9#]+)*$"
 
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.7.7
+    hooks:
+      - id: uv-lock
+
   # TODO Check for https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/252
   # and avoid sorting the project key halfway down the file.
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
