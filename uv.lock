@@ -489,7 +489,7 @@ wheels = [
 
 [[package]]
 name = "django-twined"
-version = "0.8.13"
+version = "0.8.14"
 source = { editable = "." }
 dependencies = [
     { name = "django" },
