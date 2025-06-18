@@ -1,10 +1,5 @@
 #!/bin/zsh
 
-
-# Install dependencies to a cache that persists across devcontainer builds
-# poetry config cache-dir /workspace/.poetry_cache
-# poetry install
-
 # Sync the project into a new environment, asserting the lockfile is up to date
 uv sync  --locked
 
