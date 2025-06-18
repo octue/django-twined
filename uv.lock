@@ -529,7 +529,7 @@ requires-dist = [
     { name = "django-gcp", specifier = ">=0.11.5,<0.20" },
     { name = "django-jsoneditor", specifier = ">=0.2.2,<0.3" },
     { name = "django-model-utils", specifier = ">4.2.0,<6" },
-    { name = "octue", specifier = ">=0.52.0,<1" },
+    { name = "octue", specifier = ">=0.52.0,<0.64.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -570,7 +570,7 @@ name = "exceptiongroup"
 version = "1.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/0b/9f/a65090624ecf468cdca03533906e7c69ed7588582240cfe7cc9e770b50eb/exceptiongroup-1.3.0.tar.gz", hash = "sha256:b241f5885f560bc56a59ee63ca4c6a8bfa46ae4ad651af316d4e81817bb9fd88", size = 29749, upload-time = "2025-05-10T17:42:51.123Z" }
 wheels = [
@@ -1186,7 +1186,7 @@ wheels = [
 
 [[package]]
 name = "octue"
-version = "0.65.0"
+version = "0.63.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -1204,9 +1204,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "twined" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/81/70/530922770f702705ecaeb7296d9f934f56eddb7e8b5e0382815cd0aa70fa/octue-0.65.0.tar.gz", hash = "sha256:f512e8671e5b765d47ced90aa32ecb0ed646172025dcf555cac142db3df4a957", size = 116043, upload-time = "2025-05-30T13:13:55.867Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ae/93/f7e256e8e3bca2f627684ea8e0caef1dfa386d943340f3e8da66ecd00e03/octue-0.63.0.tar.gz", hash = "sha256:7330016bab324caf4273cb4d052aa57f0a75b09e5789b3feda913e5462b8a7c4", size = 116144, upload-time = "2025-05-12T16:44:07.056Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/81/fc/3f17031c2f4bc1324fd85a8c0671ec66790d5cf6c5888e0699efb242a111/octue-0.65.0-py3-none-any.whl", hash = "sha256:3d4542e2efa9d03f090e60ecf3b02b3dd12054a25e5d7cac89c8f8fbfb4325a0", size = 167949, upload-time = "2025-05-30T13:13:53.706Z" },
+    { url = "https://files.pythonhosted.org/packages/34/47/c089848e046725c310cbab7ca0b7f46b3d06bb069e35c40009cda3326602/octue-0.63.0-py3-none-any.whl", hash = "sha256:bbb226e3af6bc9d1e2b23a2cd04da4f8aeecf77477228062988d0b0e9b795632", size = 166125, upload-time = "2025-05-12T16:44:04.683Z" },
 ]
 
 [[package]]
@@ -1979,15 +1979,15 @@ wheels = [
 
 [[package]]
 name = "twined"
-version = "0.7.0"
+version = "0.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jsonschema" },
     { name = "python-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/81/e2/02c14be219457150c5bf0387db333a822ef3968648f23da4f7db0dbf7f88/twined-0.7.0.tar.gz", hash = "sha256:402c5bda416e8feb031ab9d32b468dcfab84cc6f03b1fd6779057d1016f2655f", size = 355295, upload-time = "2025-05-13T15:56:44.188Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/05/39/3e73b2edd979d21490bf609c8d8616d89666c6c9dc322fce271b18fbfce0/twined-0.6.0.tar.gz", hash = "sha256:d7709a760f14f29946651a3a69abc28ae312f865cbe7d937d0afc427de34664a", size = 355670, upload-time = "2024-12-13T15:31:37.167Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/96/96/71b9a8d179232e1d1660f446c69be93c026193dbbf1c4f1e540ad5e2fece/twined-0.7.0-py3-none-any.whl", hash = "sha256:7b582aa8a517c15faa49f453986a245a4119901aa8ce60bf2b1fae30656777ff", size = 358674, upload-time = "2025-05-13T15:56:42.297Z" },
+    { url = "https://files.pythonhosted.org/packages/0e/3f/43aa86e5e6a24f23ec02d8c67a81aa57f8db61550ad3d883062eebcd9b4a/twined-0.6.0-py3-none-any.whl", hash = "sha256:5f9d29c02bdeae7bb7ead80aafc1c650eb642fc864375fab529045ed53067aa1", size = 358694, upload-time = "2024-12-13T15:31:34.688Z" },
 ]
 
 [[package]]
