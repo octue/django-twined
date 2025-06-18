@@ -15,22 +15,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install poetry
-        uses: snok/install-poetry@v1.4.1
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.7.7" # Match the version in the devcontainer stack - see https://github.com/windpioneers/gdal-python/releases
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+          python-version: ${{ matrix.python-version }}
 
-      - name: Check pyproject.toml file
-        run: poetry check
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
 
       - name: Get package version
-        id: get-package-version
-        run: echo "package_version=$(poetry version -s)" >> $GITHUB_OUTPUT
+        id: version
+        run: |
+          VERSION=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version)
+          echo "package_version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, no need to create your own.
         with:
-          tag_name: ${{ steps.get-package-version.outputs.package_version }}
+          tag_name: ${{ steps.version.outputs.package_version }}
           release_name: ${{ github.event.pull_request.title }}
           body: ${{ github.event.pull_request.body }}
           draft: false
