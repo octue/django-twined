@@ -1,87 +1,102 @@
-[tool.poetry]
-name = "django-twined"
-version = "0.8.10"
-description = "A django app to manage octue services"
-authors = ["Tom Clark <tom@octue.com>", "Marcus Lugg <marcus@octue.com>"]
-license = "MIT"
-readme = "README.md"
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Operating System :: OS Independent",
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61", "wheel"]
+
+[dependency-groups]
+dev = [
+  "channels>=3.0,<5.0",
+  "coverage>7.6,<8",
+  "django-debug-toolbar>5.0.1,<6",
+  "django-extensions>3.2.0,<5",
+  "django-test-migrations>1.2.0,<2",
+  "factory-boy>3.2.1,<4",
+  "pre-commit>2.17.0,<3",
+  "psycopg2-binary>2.9.4,<3",
+  "pytest>8.3.4,<9",
+  "pytest-asyncio",
+  "pytest-cov>6.0.0,<7",
+  "pytest-sugar",
+  "pytest-django>4.10.0,<5",
+  "ruff==0.12.0",
+  "sphinx-rtd-theme>1.0.0,<2",
+  "sphinx-tabs>3.2.0,<4",
+  "Sphinx>4.4.0,<5",
+  "tox>4.23.2,<5",
+  "icecream>2.1.3,<3",
+  "watchdog>2.1.9,<3"
 ]
-repository = "https://github.com/octue/django-twined"
+
+[project]
+authors = [{name = "Tom Clark", email = "tom@octue.com"}, {name = "Marcus Lugg", email = "marcus@octue.com"}]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  'Framework :: Django',
+  'Framework :: Django :: 3.2',
+  'Framework :: Django :: 4.1',
+  'Framework :: Django :: 4.2',
+  'Framework :: Django :: 5.0',
+  'Framework :: Django :: 5.1',
+  'Framework :: Django :: 5.2',
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "django>=3.0,<5.1",
+  "octue>=0.52.0,<1",
+  "django-gcp>=0.11.5,<0.20",
+  "django-jsoneditor>=0.2.2,<0.3",
+  "django-model-utils>4.2.0,<6"
+]
+description = "A django app to manage octue services"
 keywords = ["django", "services", "octue", "twined"]
-packages = [{ include = "django_twined" },]
+license = "MIT"
+name = "django-twined"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.8.11"
 
-[tool.poetry.dependencies]
-python = ">=3.9,<4"
-django = ">=3.0,<5.1"
-octue = ">=0.52.0,<1"
-django-gcp = ">=0.11.5,<0.19"
-django-jsoneditor = "^0.2.2"
-django-model-utils = "^4.2.0"
-
-
-[tool.poetry.group.dev.dependencies]
-channels = ">=3.0,<5.0"
-coverage = "^7.6"
-django-debug-toolbar = "^5.0.1"
-django-extensions = "^3.2.0"
-django-json-widget = "^1.1.1"
-django-test-migrations = "^1.2.0"
-factory-boy = "^3.2.1"
-notebook = "^6.5.3"
-pre-commit = "^2.17.0"
-psycopg2-binary = "^2.9.4"
-pytest = "^8.3.4"
-pytest-asyncio = "^0.25.3"
-pytest-cov = "^6.0.0"
-pytest-sugar = "^1.0.0"
-pytest-django = "^4.10.0"
-ruff = "^0.11.11"
-sphinx-rtd-theme = "^1.0.0"
-sphinx-tabs = "^3.2.0"
-Sphinx = "^4.4.0"
-throttle = "^0.2.2"
-tox = "^4.23.2"
-icecream = "^2.1.3"
-watchdog = "^2.1.9"
-
+[project.urls]
+Changelog = "https://github.com/octue/django-twined/releases"
+Documentation = "https://django-twined.readthedocs.io/"
+Homepage = "https://github.com/octue/django-twined"
+Issues = "https://github.com/octue/django-twined/issues"
+Repository = "https://github.com/octue/django-twined"
 
 [tool.ruff]
 line-length = 120
 
 [tool.ruff.lint]
-# Enable pycodestyle (`E`) and Pyflakes (`F`) codes
-select = ["E", "F"]
 # Ignore E501 line-too-long - see https://docs.astral.sh/ruff/faq/#is-the-ruff-linter-compatible-with-black for why
 ignore = ["F405", "E501", "E203", "E731", "E721", "N818"]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes
+select = ["E", "F"]
 # Disable fix for unused imports (`F401`) which annoyingly removes your work-in-progress on save
 unfixable = ["F401"]
 
 [tool.ruff.lint.isort]
+force-sort-within-sections = true
 known-first-party = ["backend", "server", "django_twined", "settings", "test", "utils"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
-force-sort-within-sections = true
 
 [tool.ruff.lint.per-file-ignores]
-# Allow variables from use of `import *` in settings files
-"backend/settings*" = ["F403", "F405"]
-# Prevent undefined errors when declaring lazy types
-#     LazyUserType = Annotated["UserType", lazy("people.graphql.users.types")]
-"*/types.py" = ["F821"]
+"*/filters.py" = ["F821"]
 "*/mutations.py" = ["F821"]
 "*/queries.py" = ["F821"]
-"*/filters.py" = ["F821"]
+# Prevent undefined errors when declaring lazy types
+# LazyUserType = Annotated["UserType", lazy("people.graphql.users.types")]
+"*/types.py" = ["F821"]
+# Allow variables from use of `import *` in settings files
+"backend/settings*" = ["F403", "F405"]
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.setuptools]
+packages = [
+  "django_twined"
+]
+
+[tool.setuptools.package-data]
+guardian = ["py.typed"]

@@ -20,9 +20,11 @@ services:
       - DJANGO_SETTINGS_MODULE=tests.server.settings
       - DATABASE_ENGINE=postgres
 
-    # Map the current directory containing code
     volumes:
+      # Map the current directory containing code
       - ..:/workspace:cached
+      # Anonymous volume for venv per https://docs.astral.sh/uv/guides/integration/docker/#developing-in-a-container
+      # - /workspace/.venv
 
     # Overrides default command so things don't shut down after the process ends
     command: sleep infinity
