@@ -48,7 +48,7 @@ classifiers = [
 dependencies = [
   "django>=3.0,<5.1",
   "octue>=0.52.0,<0.64.0",
-  "django-gcp>=0.11.5,<0.22",
+  "django-gcp>=0.11.5,<0.23",
   "django-jsoneditor>=0.2.2,<0.3",
   "django-model-utils>4.2.0,<6"
 ]
@@ -58,7 +58,7 @@ license = "MIT"
 name = "django-twined"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.8.16"
+version = "0.8.17"
 
 [project.urls]
 Changelog = "https://github.com/octue/django-twined/releases"
