@@ -11,12 +11,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name="registeredservice",
-            name="abstractregisteredservice_ptr",
-        ),
-        migrations.RemoveField(
             model_name="question",
             name="registered_service",
+        ),
+        migrations.RemoveField(
+            model_name="registeredservice",
+            name="abstractregisteredservice_ptr",
         ),
         migrations.DeleteModel(
             name="AbstractRegisteredService",
