@@ -72,7 +72,7 @@ jobs:
 
     services:
       postgres:
-        image: kartoza/postgis:14-3.5
+        image: kartoza/postgis:14-3.3
         env:
           POSTGRES_DB: postgres_db
           POSTGRES_USER: postgres_user
